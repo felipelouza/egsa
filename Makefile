@@ -63,8 +63,8 @@ erase:
 	rm -Rf $(DIR)partition/*
 	rm -Rf $(DIR)tmp/*
 	
-egsa: $(SRC_DIR)/egsa.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/egsa.c -o egsa 
+egsa: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
+	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa 
 
 ##
 LIBH = $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h

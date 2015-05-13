@@ -3,6 +3,9 @@
 This software is the implementation of egsa \[1\], an external memory algorithm to construct generalized enhanced suffix arrays.
 
 
+Given a collection of K strings, egsa constructs the generalized suffix array enhanced with the LCP-array and the burrows wheeler transform.
+
+
 \[1\] 
 Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). 
 External Memory Generalized Suffix and LCP Arrays Construction. 
@@ -29,7 +32,7 @@ Mode 1 (DNA sequences, each one in a different fasta file):
 make clean
 
 make MODE=1 
-make run DIR=example/fasta/ INPUT=all.in K=5 CHECK=1
+make run DIR=example/fasta/ INPUT=all.in K=5 BWT=1 CHECK=1
 ```
 
 Mode 2 (DNA reads, all in the same fastq file):
@@ -37,7 +40,7 @@ Mode 2 (DNA reads, all in the same fastq file):
 make clean
 
 make MODE=2 
-make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 CHECK=1
+make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 BWT=1 MEMLIMIT=10 CHECK=1
 ```
 
 
@@ -48,6 +51,24 @@ One can choose if egsa outputs the burrows wheeler transform:
 ```sh
 
 make BWT=1
+
+```
+
+In mode 2, one can inform to egsa the maximum available internal memory to be used (in MB):
+
+```sh
+
+make run MEMLIMIT=10
+
+```
+obs: in mode 1, it is requerid that the length of the biggest string fits in internal memory.
+
+
+One can check if the output produced by egsa is correct:
+
+```sh
+
+make run CHECK=1
 
 ```
 
