@@ -9,11 +9,6 @@ Given a collection of K strings, egsa outputs its:
 * Burrows-Wheeler transform.
 
 
---
-
-Currently egsa uses algorithms (located in folder: external) from \[2, 3, 4\]:
-
-
 #run:
 
 We have implemented two different settings to egsa:
@@ -77,6 +72,12 @@ To see a more detailed execution output use:
 make DEBUG=1
 
 ```
+
+#external resources:
+
+Currently egsa uses algorithms (located in folder external) from \[2, 3, 4\] to construct the
+enhanced suffix arrays in phase 1.
+
 
 #references:
 
