@@ -1,6 +1,7 @@
 #egsa tool
 
-This software is an implementation of \[1\] to construct Generalized Suffix, BWT and LCP Arrays in External Memory
+This software is the implementation of egsa \[1\], an external memory generalized enhanced suffix arrays construction algorithm.
+
 
 \[1\] 
 Louza, F.A., Telles, G.P., Ciferri, C.D.A.: External memory generalized 
