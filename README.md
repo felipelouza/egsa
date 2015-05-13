@@ -16,23 +16,23 @@ We have implemented two different settings to egsa:
 * Mode 1: indexing a small collection of large strings (such as DNA sequeces);
 * Mode 2: indexing a large collections of small strings (such as reads);
 
-
-
+--
 
 Mode 1 (DNA sequences, each one in a different fasta file):
 ```sh
 
 make clean
 
-make MODE=1 
+make compile MODE=1 
 make run DIR=example/fasta/ INPUT=all.in K=5 BWT=1 CHECK=1
 ```
+--
 
 Mode 2 (DNA reads, all in the same fastq file):
 ```sh
 make clean
 
-make MODE=2 
+make compile MODE=2 
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 BWT=1 MEMLIMIT=10 CHECK=1
 ```
 
@@ -43,7 +43,7 @@ One can choose if egsa outputs the burrows wheeler transform:
 
 ```sh
 
-make BWT=1
+make compile BWT=1
 
 ```
 
@@ -54,7 +54,6 @@ In mode 2, one can inform to egsa the maximum available internal memory to be us
 make run MEMLIMIT=10
 
 ```
-obs: in mode 1, it is requerid that the length of the biggest string fits in internal memory.
 
 
 One can check if the output produced by egsa is correct:

@@ -45,7 +45,7 @@ MEMLIMIT = 1
 
 ########################################################################
 
-all: egsa
+all: compile
 
 flush:
 	sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
@@ -63,7 +63,7 @@ erase:
 	rm -Rf $(DIR)partition/*
 	rm -Rf $(DIR)tmp/*
 	
-egsa: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
+compile: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
 	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa 
 
 ##
