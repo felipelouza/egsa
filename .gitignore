@@ -1,0 +1,8 @@
+# ignore objects and archives, anywhere in the tree.
+*.[oa]
+egsa
+*.bin
+*.esa
+*.gesa
+*.tmp
+scripts/
