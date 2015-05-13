@@ -2,9 +2,11 @@
 
 This software is the implementation of egsa \[1\], an external memory algorithm to construct generalized enhanced suffix arrays.
 
+Given a collection of K strings, egsa outputs:
 
-Given a collection of K strings, egsa constructs the generalized suffix array enhanced with the LCP-array and the burrows wheeler transform.
-
+* generalized suffix array 
+* LCP-array 
+* Burrows-Wheeler transform.
 
 \[1\] 
 Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). 
