@@ -1,21 +1,17 @@
 #egsa tool
 
-This software is the implementation of egsa \[1\], an external memory algorithm to construct generalized enhanced suffix arrays.
+This software is the implementation of egsa \[1\] (http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20), an external memory algorithm to construct generalized enhanced suffix arrays.
 
-Given a collection of K strings, egsa outputs:
+Given a collection of K strings, egsa outputs its:
 
-* generalized suffix array 
+* Generalized suffix array 
 * LCP-array 
 * Burrows-Wheeler transform.
 
-\[1\] 
-Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). 
-External Memory Generalized Suffix and LCP Arrays Construction. 
-In J. Fischer & P. Sanders (Eds.), 
-Proc. 24th Annual Symposium on Combinatorial Pattern Matching (2013) 
-(Vol. 7922, pp. 201–210). Bad Herrenalb: Springer.
 
-link: http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20
+--
+
+Currently egsa uses algorithms (located in folder: external) from \[2, 3, 4\]:
 
 
 #run:
@@ -84,7 +80,7 @@ make DEBUG=1
 
 #references:
 
-Currently egsa uses algorithms (located in folder: external) from the following articles:
+\[1\] Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201–210).
 
 \[2\] Nong, G., Zhang, S., & Chan, W. H. (2011). Two Efficient Algorithms for Linear Time Suffix Array Construction. IEEE Transactions on Computers, 60(10), 1471–1484. doi:10.1109/TC.2010.188
 
