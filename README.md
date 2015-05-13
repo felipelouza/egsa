@@ -13,12 +13,13 @@ Given a collection of K strings, egsa outputs its:
 
 We have implemented two different settings to egsa:
 
-* Mode 1: indexing a small collection of large strings (such as DNA sequeces);
+* Mode 1: indexing a small collection of large strings (such as DNA sequences);
 * Mode 2: indexing a large collections of small strings (such as reads);
 
 --
 
-Mode 1 (DNA sequences, each one in a different fasta file):
+**Mode 1:**
+
 ```sh
 
 make clean
@@ -26,15 +27,21 @@ make clean
 make compile MODE=1 
 make run DIR=example/fasta/ INPUT=all.in K=5 BWT=1 CHECK=1
 ```
+
+Each string is stored in a different (fasta) file, indicated by all.in file.
+
 --
 
-Mode 2 (DNA reads, all in the same fastq file):
+**Mode 2:**
+
 ```sh
 make clean
 
 make compile MODE=2 
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 BWT=1 MEMLIMIT=10 CHECK=1
 ```
+
+All strings are stored (concatenated) in the same file, e.g. fastq files.
 
 
 #options:
