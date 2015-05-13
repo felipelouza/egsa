@@ -8,19 +8,20 @@ Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013).
 External Memory Generalized Suffix and LCP Arrays Construction. 
 In J. Fischer & P. Sanders (Eds.), 
 Proc. 24th Annual Symposium on Combinatorial Pattern Matching (2013) 
-(Vol. 7922, pp. 201–210). Bad Herrenalb: Springer. doi:10.1007/978-3-642-38905-4_20
+(Vol. 7922, pp. 201–210). Bad Herrenalb: Springer.
 
-article: http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20
+link: http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20
 
 
 #run:
 
-We have implemented two different settings to egsa index:
+We have implemented two different settings to egsa:
 
-* Collection of large strings;
-* Collections of small strings;
+* Mode 1: indexing a small collection of large strings (such as DNA sequeces);
+* Mode 2: indexing a large collections of small strings (such as reads);
 
-To run a test type:
+
+
 
 Mode 1 (DNA sequences, each one in a different fasta file):
 ```sh
@@ -50,7 +51,7 @@ make BWT=1
 
 ```
 
-To see a more detailed execution of egsa use:
+To see a more detailed execution output use:
 
 ```sh
 
@@ -60,7 +61,7 @@ make DEBUG=1
 
 #references:
 
-egsa uses the algorithm implementation (in folder external) from the following articles:
+Currently egsa uses algorithms (located in folder: external) from the following articles:
 
 \[2\] Nong, G., Zhang, S., & Chan, W. H. (2011). Two Efficient Algorithms for Linear Time Suffix Array Construction. IEEE Transactions on Computers, 60(10), 1471–1484. doi:10.1109/TC.2010.188
 
