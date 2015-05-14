@@ -16,7 +16,7 @@ We have implemented two different settings to egsa:
 * Mode 1: indexing a small collection of large strings (such as DNA sequences);
 * Mode 2: indexing a large collections of small strings (such as reads);
 
-**Compile**
+**Compile:**
 
 ```sh
 make compile MODE=1 
@@ -29,25 +29,27 @@ make compile MODE=2
 ```
 
 
-#run
+#run:
 
 **Mode 1:**
+
+Given a collection of K strings, each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
 
 ```sh
 make run DIR=example/fasta/ INPUT=all.in K=5 BWT=1 CHECK=1
 ```
 
-Each string is stored in a different (fasta) file, indicated by all.in file.
 
 --
 
 **Mode 2:**
 
+Given a collection of K strings, all stored (concatenated) in the same (fastq) file INPUT in directory DIR.
+
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 BWT=1 MEMLIMIT=10 CHECK=1
 ```
 
-All strings are stored (concatenated) in the same file, e.g. fastq files.
 
 
 #options:
