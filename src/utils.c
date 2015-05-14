@@ -246,7 +246,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
 				//printf("k = %d\n", k);	
-				printf("LCP media = %zu\nLCP max = %zu\n", lcp_media/length, lcp_max);
+				printf("mean LCP = %zu\nLCP max = %zu\n", lcp_media/length, lcp_max);
 				free(GSA);
 				return 1;
 			}
@@ -312,7 +312,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 		esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	}
 
-printf("LCP media = %zu\n", lcp_media/length);
+printf("mean LCP = %zu\n", lcp_media/length);
 
 return 1; 		
 }
