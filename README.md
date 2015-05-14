@@ -114,7 +114,7 @@ We have included the source codes of the following algorithms:
 
 Please, if you use egsa tool in an academic setting cite the following paper:
 
-	@incollection{
+	@inproceedings{DBLP:conf/cpm/LouzaTC13,
 	  author = {Louza, Felipe A. and Telles, Guilherme P. and Ciferri, Cristina D. A.},
 	  title = {External Memory Generalized Suffix and {LCP} Arrays Construction},
    	  year = {2013},
