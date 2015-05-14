@@ -16,7 +16,15 @@ We have implemented two different settings to egsa:
 * Mode 1: indexing a small collection of large strings (such as DNA sequences);
 * Mode 2: indexing a large collections of small strings (such as reads);
 
-#compile:
+##install:
+
+
+```sh
+git clone https://github.com/felipelouza/egsa.git
+cd egsa
+```
+
+**Compile:**
 
 ```sh
 make compile MODE=1 
@@ -29,7 +37,7 @@ make compile MODE=2
 ```
 
 
-#run:
+##run:
 
 **Mode 1:**
 
@@ -52,7 +60,7 @@ make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 
 
 
-#options:
+##options:
 
 One can choose if egsa outputs the burrows wheeler transform:
 
@@ -87,12 +95,12 @@ make DEBUG=1
 
 ```
 
-#external resources:
+##external resources:
 
 We have included the source codes of \[2, 3, 4\]. 
 
 
-#references:
+##references:
 
 \[1\] Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201–210).
 
