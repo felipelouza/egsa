@@ -59,7 +59,7 @@ make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
 
-## Output:
+##output:
 
 The generalized enhanced suffix array is stored in the same directory DIR in a file called:
 
@@ -110,7 +110,23 @@ We have included the source codes of the following algorithms:
 * sa-is: suffix array construction algorithm\[3\]
 * KLAAP: LCP-array construction algorithm given the suffix array \[4\]
 
+##citation:
 
+Please, if you use egsa tool in an academic setting cite the following paper:
+
+	@incollection{
+	  author = {Louza, Felipe A. and Telles, Guilherme P. and Ciferri, Cristina D. A.},
+	  title = {External Memory Generalized Suffix and {LCP} Arrays Construction},
+   	  year = {2013},
+	  isbn = {978-3-642-38904-7},
+	  booktitle = {Combinatorial Pattern Matching, 24th Annual Symposium, {CPM} 2013,
+               Bad Herrenalb, Germany, June 17-19, 2013. Proceedings},
+	  pages = {201--210},
+	  year = {2013},
+	  series = {Lecture Notes in Computer Science},
+	  volume = {7922},
+	  publisher = {Springer}
+	}
 
 ##references:
 
