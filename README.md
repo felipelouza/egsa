@@ -9,22 +9,31 @@ Given a collection of K strings, egsa outputs its:
 * Burrows-Wheeler transform.
 
 
-#run:
+#settings:
 
 We have implemented two different settings to egsa:
 
 * Mode 1: indexing a small collection of large strings (such as DNA sequences);
 * Mode 2: indexing a large collections of small strings (such as reads);
 
---
+**Compile**
+
+```sh
+make compile MODE=1 
+```
+
+or
+
+```sh
+make compile MODE=2
+```
+
+
+#run
 
 **Mode 1:**
 
 ```sh
-
-make clean
-
-make compile MODE=1 
 make run DIR=example/fasta/ INPUT=all.in K=5 BWT=1 CHECK=1
 ```
 
@@ -35,9 +44,6 @@ Each string is stored in a different (fasta) file, indicated by all.in file.
 **Mode 2:**
 
 ```sh
-make clean
-
-make compile MODE=2 
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000 BWT=1 MEMLIMIT=10 CHECK=1
 ```
 
@@ -81,8 +87,7 @@ make DEBUG=1
 
 #external resources:
 
-We have added implementations of the algorithms from \[2, 3, 4\] to construct the
-enhanced suffix arrays in phase 1.
+We have included the source codes of \[2, 3, 4\]. 
 
 
 #references:
