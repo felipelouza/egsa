@@ -58,9 +58,8 @@ Given a collection of K strings, all strings stored (concatenated) in the same (
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
---
 
-**Output:**
+## Output:
 
 The generalized enhanced suffix array is stored in the same directory DIR in a file called:
 
@@ -108,10 +107,8 @@ make DEBUG=1
 We have included the source codes of the following algorithms: 
 
 * sais-lite-LCP: suffix array and LCP-array construction algorithm \[2\]
-
-* sa-is: linear time suffix array construction algorithm\[3\]
-
-* KLAAP: LCP-array construction given the suffix array \[4\]
+* sa-is: suffix array construction algorithm\[3\]
+* KLAAP: LCP-array construction algorithm given the suffix array \[4\]
 
 
 
