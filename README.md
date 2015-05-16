@@ -77,6 +77,14 @@ make compile BWT=1
 
 ```
 
+To see a more detailed execution output use:
+
+```sh
+
+make compile DEBUG=1
+
+```
+
 In mode 2, one can inform to egsa the maximum available internal memory to be used (in MB):
 
 ```sh
@@ -84,7 +92,6 @@ In mode 2, one can inform to egsa the maximum available internal memory to be us
 make run MEMLIMIT=10
 
 ```
-
 
 One can check if the output produced by egsa is correct:
 
@@ -94,20 +101,12 @@ make run CHECK=1
 
 ```
 
-To see a more detailed execution output use:
-
-```sh
-
-make DEBUG=1
-
-```
-
 ##external resources:
 
 We have included the source codes of the following algorithms: 
 
 * sais-lite-LCP: suffix array and LCP-array construction algorithm \[2\]
-* sa-is: suffix array construction algorithm\[3\]
+* sa-is: suffix array construction algorithm \[3\]
 * KLAAP: LCP-array construction algorithm given the suffix array \[4\]
 
 ##citation:
