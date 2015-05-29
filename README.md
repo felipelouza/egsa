@@ -47,6 +47,7 @@ Given a collection of K strings (DNA sequences), each one stored in a different 
 make run DIR=example/fasta/ INPUT=all.in K=5 
 ```
 
+The largest string must fit in the available memory.
 
 --
 
@@ -58,6 +59,9 @@ Given a collection of K strings (reads), all strings stored (concatenated) in th
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
+The strings are concatenated accordingly to the MEMLIMIT (see OPTIONS)
+
+--
 
 ##output:
 
@@ -101,6 +105,11 @@ make run CHECK=1
 
 ```
 
+##examples:
+
+One could find two examples in _example_ folder, one for each setting mode.
+
+
 ##external resources:
 
 We have included the source codes of the following algorithms: 
@@ -131,7 +140,7 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 \[1\] Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201–210).
 
-\[2\] Fischer, J. (2011). Inducing the LCP-Array. In F. Dehne, J. Iacono, & J.-R. Sack (Eds.), Proc. WADS (pp. 374–385). Springer Berlin Heidelberg.
+\[2\] Fischer, J. (2011). Inducing the LCP-Array. In F. Dehne, J. Iacono, & J.-R. Sack (Eds.), Proc. WADS (pp. 374–385).
 
 \[3\] Nong, G., Zhang, S., & Chan, W. H. (2011). Two Efficient Algorithms for Linear Time Suffix Array Construction. IEEE Transactions on Computers, 60(10), 1471–1484. doi:10.1109/TC.2010.188
 
