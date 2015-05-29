@@ -16,6 +16,13 @@ We have implemented two settings to egsa:
 * Mode 1: indexing a small collection of large strings (DNA sequences);
 * Mode 2: indexing a large collections of small strings (sequencing reads);
 
+
+--
+**Example:**
+
+One could find two examples in example folder, one for each setting mode.
+
+--
 ##install:
 
 
@@ -35,7 +42,6 @@ or
 ```sh
 make compile MODE=2
 ```
-
 
 ##run:
 
@@ -104,11 +110,6 @@ One can check if the output produced by egsa is correct:
 make run CHECK=1
 
 ```
-
-##examples:
-
-One could find two examples in _example_ folder, one for each setting mode.
-
 
 ##external resources:
 
