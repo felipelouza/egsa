@@ -187,7 +187,7 @@ int file_load_fasta(t_TEXT *Text) {
 		//printf("%s", c_aux);
 		
 		#if INPUT_CAT
-		
+		/*
 			#if PROTEIN
 				if(c_aux[0] == '>'){
 					
@@ -195,6 +195,7 @@ int file_load_fasta(t_TEXT *Text) {
 					continue;
 				}
 			#elif READ
+		*/
 				if(c_aux[0] == '+'){
 					
 					Text->c_buffer[j++] = 0;
@@ -203,7 +204,7 @@ int file_load_fasta(t_TEXT *Text) {
 					fgets(c_aux, FILE_READ, Text->f_in);
 					continue;
 				}
-			#endif
+		//	#endif
 			
 		#endif
 		
@@ -429,6 +430,7 @@ int8 map(int8 c_aux){
 		case 84: return 4; break;//T
 		default: return 0; break;//N
 	}
+	/*
 	#elif PROTEIN
 	
 	switch (c_aux) {
@@ -468,7 +470,7 @@ int8 map(int8 c_aux){
 		
 		default: return 0; break;//N
 	}	
-	
+	*/
 	#endif		
 }
 

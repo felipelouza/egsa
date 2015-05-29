@@ -258,7 +258,6 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char 
 			D[ISA[i]] = j + Text->n_start;
 			SA_prime[ISA[i]] = i-offset;
 			
-			//if(SA_prime[ISA[i]]==0) printf("opa\n");
 			
 			if(Text->c_buffer[i] == 0){
 				j++;

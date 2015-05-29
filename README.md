@@ -11,10 +11,10 @@ Given a collection of K strings, egsa outputs its:
 --
 **Settings:**
 
-We have implemented two different settings to egsa:
+We have implemented two settings to egsa:
 
-* Mode 1: indexing a small collection of large strings (such as DNA sequences);
-* Mode 2: indexing a large collections of small strings (such as reads);
+* Mode 1: indexing a small collection of large strings (DNA sequences);
+* Mode 2: indexing a large collections of small strings (sequencing reads);
 
 ##install:
 
@@ -39,9 +39,9 @@ make compile MODE=2
 
 ##run:
 
-**Mode 1:**
+**Mode 1:** _fasta_
 
-Given a collection of K strings, each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
+Given a collection of K strings (DNA sequences), each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
 
 ```sh
 make run DIR=example/fasta/ INPUT=all.in K=5 
@@ -50,9 +50,9 @@ make run DIR=example/fasta/ INPUT=all.in K=5
 
 --
 
-**Mode 2:**
+**Mode 2:** _fastq_
 
-Given a collection of K strings, all strings stored (concatenated) in the same (fastq) file INPUT in directory DIR.
+Given a collection of K strings (reads), all strings stored (concatenated) in the same (fastq) file INPUT in directory DIR.
 
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
