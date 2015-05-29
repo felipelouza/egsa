@@ -20,9 +20,8 @@ We have implemented two settings to egsa:
 --
 **Example:**
 
-One could find two examples in example folder, one for each setting mode.
+One could find two examples in _example_ folder, one for each setting mode.
 
---
 ##install:
 
 
@@ -64,10 +63,6 @@ Given a collection of K strings (reads), all strings stored (concatenated) in th
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
-
-**Obs:** The strings are concatenated accordingly to the MEMLIMIT (see OPTIONS).
-
---
 
 ##output:
 
