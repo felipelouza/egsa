@@ -53,7 +53,7 @@ Given a collection of K strings (DNA sequences), each one stored in a different 
 make run DIR=example/fasta/ INPUT=all.in K=5 
 ```
 
-The largest string must fit in the available memory.
+**Obs:** The largest string must fit in the available memory.
 
 --
 
@@ -65,7 +65,7 @@ Given a collection of K strings (reads), all strings stored (concatenated) in th
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
-The strings are concatenated accordingly to the MEMLIMIT (see OPTIONS)
+**Obs:** The strings are concatenated accordingly to the MEMLIMIT (see OPTIONS).
 
 --
 
