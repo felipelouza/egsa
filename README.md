@@ -52,8 +52,6 @@ Given a collection of K strings (DNA sequences), each one stored in a different 
 make run DIR=example/fasta/ INPUT=all.in K=5 
 ```
 
-**Obs:** The largest string must fit in the available memory.
-
 --
 
 **Mode 2:** _fastq_
@@ -63,8 +61,6 @@ Given a collection of K strings (reads), all strings stored (concatenated) in th
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
-
---
 
 ##output:
 
@@ -79,8 +75,6 @@ Each input file is converted and stored in a binary file called:
 ```sh
 $(INPUT).K.bin
 ```
-
---
 
 ##options:
 
