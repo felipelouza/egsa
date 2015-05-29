@@ -18,7 +18,7 @@ We have implemented two settings to egsa:
 
 
 --
-**Example:**
+**Examples:**
 
 One could find two examples in _example_ folder, one for each setting mode.
 
@@ -64,6 +64,8 @@ Given a collection of K strings (reads), all strings stored (concatenated) in th
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
+--
+
 ##output:
 
 The generalized enhanced suffix array is stored in the same directory DIR in a file called:
@@ -71,6 +73,14 @@ The generalized enhanced suffix array is stored in the same directory DIR in a f
 ```sh
 $(INPUT).K.gesa
 ```
+
+Each input file is converted and stored in a binary file called:
+
+```sh
+$(INPUT).K.bin
+```
+
+--
 
 ##options:
 
