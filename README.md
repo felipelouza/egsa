@@ -107,7 +107,7 @@ make run MEMLIMIT=10
 
 ```
 
-##debug:
+**debug:**
 
 To see a more detailed execution output use:
 
