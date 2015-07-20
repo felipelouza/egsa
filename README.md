@@ -32,17 +32,16 @@ cd egsa
 
 **Compile:**
 
-```sh
-make clean
-```
 
 ```sh
+make clean
 make compile MODE=1  
 ```
 
 or 
 
 ```sh
+make clean
 make compile MODE=2
 ```
 
