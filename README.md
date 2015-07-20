@@ -32,26 +32,21 @@ cd egsa
 
 **Compile:**
 
-_Mode 1_
-
 ```sh
 make clean
-make compile MODE=1 
 ```
 
-_Mode 2_
-
 ```sh
-make clean
-make compile MODE=2
+make compile MODE=1  
 ```
 
 or 
 
 ```sh
-make clean
-make compile MODE=2 PROTEIN=1
+make compile MODE=2
 ```
+
+\*In mode 2, one can add _PROTEIN=1_ if the input is a collection of protein sequences.
 
 ##run:
 

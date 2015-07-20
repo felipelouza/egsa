@@ -56,7 +56,6 @@ flush:
 	sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
 	
 clean:
-
 	rm -f $(SRC_DIR)/*.o
 	rm -f egsa-1.0
 
