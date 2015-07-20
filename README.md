@@ -32,14 +32,25 @@ cd egsa
 
 **Compile:**
 
+_Mode 1_
+
 ```sh
+make clean
 make compile MODE=1 
 ```
 
-or
+_Mode 2_
 
 ```sh
+make clean
 make compile MODE=2
+```
+
+or 
+
+```sh
+make clean
+make compile MODE=2 PROTEIN=1
 ```
 
 ##run:
@@ -48,7 +59,7 @@ make compile MODE=2
 
 Given a collection of K strings (DNA sequences), each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
 
-_fasta_ (genomes)
+_fasta_ (genomes):
 
 ```sh
 make run DIR=example/fasta/ INPUT=all.in K=5 
@@ -60,16 +71,16 @@ make run DIR=example/fasta/ INPUT=all.in K=5
 
 Given a collection of K strings (reads or proteins), all strings stored (concatenated) in the same (fastq or fasta) file INPUT in directory DIR.
 
-_fastq_ (reads)
+_fastq_ (reads):
 
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
-_fasta_ (proteins)
+_fasta_ (proteins):
 
 ```sh
-make run DIR=example/proteins/ INPUT=proteins-5000.fastq K=1000
+make run DIR=example/proteins/ INPUT=proteins-50000.fasta K=1000
 ```
 
 

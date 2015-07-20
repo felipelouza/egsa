@@ -20,10 +20,15 @@ LIBOBJ = external/malloc_count/malloc_count.o\
 
 BWT = 0
 DEBUG = 0
-MODE = 2 #DNA = 1; READ = 2
 
+##
+MODE = 2
+PROTEIN = 0 #1 for protein input, 0 for reads
 
-DEFINES = -DDEBUG=$(DEBUG) -DMODE=$(MODE) -DBWT=$(BWT)
+##
+
+DEFINES = -DDEBUG=$(DEBUG)  -DBWT=$(BWT) -DMODE=$(MODE) -DPROTEIN=$(PROTEIN)
+
 CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 
 ########################################################################

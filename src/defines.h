@@ -34,15 +34,18 @@
 #define INDUCED_SIZE 	2048 		// size of induced buffer (16Mb) 
 
 /**********************************************************************/
-
 #if MODE == 1
 	#define DNA			1
 #endif
 
 #if MODE == 2
-	#define READ			0
-	#define PROTEIN			1
+	#if PROTEIN == 1
+		#define READ		0
+	#else
+		#define READ		1
+	#endif
 #endif
+
 
 #if DNA
 

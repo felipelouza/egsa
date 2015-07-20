@@ -67,7 +67,6 @@ int main(int argc, char **argv) {
 	
 	int_text r = 0;
 	#if INPUT_CAT
-	
 		total = file_get_size(argv[2], argv[3], k);
 		if(!total){
 			perror("error: strings in INPUT < K");

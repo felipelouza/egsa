@@ -108,11 +108,11 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 	fseek(f_out, 0, SEEK_SET);	
 	
 	
-	char c_aux[FILE_NAME];
 	size_t j = 0;
 
 	#if PROTEIN 
-			
+		
+		char c_aux[FILE_NAME];
 		fgets(c_aux, FILE_READ, f_in);
                         
 		while(fgets(c_aux, FILE_READ, f_in)){
@@ -141,6 +141,8 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 		}
 
 	#elif READ	
+
+		char c_aux[FILE_NAME];
 		while(fgets(c_aux, FILE_READ, f_in)){
 		
 			fgets(c_aux, FILE_READ, f_in);
@@ -293,7 +295,7 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 	
 	//int line = 0;
 	int_text i = 0;	
-	int_text j = 0, total = 0;
+	int_text total = 0;
 	for(; i< r && total < k; i++){
 	
 		sprintf(c_in, "%spartition/%d.fasta", c_dir, i);
@@ -306,9 +308,9 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 		fprintf(f_all,"%s\n", c_in);
 		
 		//size_t length = 0;
-		j=0;
 
 		#if PROTEIN
+			int_text j=0;
 			while(fgets(c_aux, FILE_READ, f_in)){
 
 				if(c_aux[0]=='>'){	
@@ -322,6 +324,7 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 			}
 
 		#elif READ	
+			int_text j=0;
 			while(fgets(c_aux, FILE_READ, f_in)){
 						
 				fprintf(f_aux,"%s", c_aux);
