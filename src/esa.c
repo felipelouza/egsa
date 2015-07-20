@@ -358,14 +358,14 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char *c_dir, char* c_file){
 	int_text i = 0;
 	for(; i < k; i++){
 	
-		open_sequence(&Text[i], c_dir, c_file);			//open bin		
-		seek_sequence(Text[i].f_in, 0);					//seek
+		open_sequence(&Text[i], c_dir, c_file);		//open bin		
+		seek_sequence(Text[i].f_in, 0);			//seek
 
 		#if DEBUG
 			printf("T_%d\t%d\n", i, Text[i].length);	
 		#endif
 		
-		load_sequence(&Text[i]);						//load sequence	
+		load_sequence(&Text[i]);			//load sequence	
 		
 		Text[i].key = i;
 		

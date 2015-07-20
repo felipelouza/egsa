@@ -14,13 +14,13 @@ Given a collection of K strings, egsa outputs its:
 We have implemented two settings to egsa:
 
 * Mode 1: indexing a small collection of large strings (DNA sequences);
-* Mode 2: indexing a large collections of small strings (sequencing reads);
+* Mode 2: indexing a large collections of small strings (sequencing reads or protein sequences);
 
 
 --
 **Examples:**
 
-One could find two examples in _example_ folder, one for each setting mode.
+One could find examples in _example_ folder, at least one for each setting mode.
 
 ##install:
 
@@ -44,9 +44,11 @@ make compile MODE=2
 
 ##run:
 
-**Mode 1:** _fasta_
+**Mode 1:**
 
 Given a collection of K strings (DNA sequences), each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
+
+_fasta_ (genomes)
 
 ```sh
 make run DIR=example/fasta/ INPUT=all.in K=5 
@@ -54,13 +56,22 @@ make run DIR=example/fasta/ INPUT=all.in K=5
 
 --
 
-**Mode 2:** _fastq_
+**Mode 2:** 
 
-Given a collection of K strings (reads), all strings stored (concatenated) in the same (fastq) file INPUT in directory DIR.
+Given a collection of K strings (reads or proteins), all strings stored (concatenated) in the same (fastq or fasta) file INPUT in directory DIR.
+
+_fastq_ (reads)
 
 ```sh
 make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 ```
+
+_fasta_ (proteins)
+
+```sh
+make run DIR=example/proteins/ INPUT=proteins-5000.fastq K=1000
+```
+
 
 ##output:
 
@@ -78,19 +89,13 @@ $(INPUT).K.bin
 
 ##options:
 
-One can choose if egsa outputs the burrows wheeler transform:
+One can choose the following options:
+
+Output the burrows wheeler transform:
 
 ```sh
 
 make compile BWT=1
-
-```
-
-To see a more detailed execution output use:
-
-```sh
-
-make compile DEBUG=1
 
 ```
 
@@ -101,6 +106,17 @@ In mode 2, one can inform to egsa the maximum available internal memory to be us
 make run MEMLIMIT=10
 
 ```
+
+##debug:
+
+To see a more detailed execution output use:
+
+```sh
+
+make compile DEBUG=1
+
+```
+
 
 One can check if the output produced by egsa is correct:
 

@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 	//phase 1
 	t_start = time(NULL);
 	c_start =  clock();
-	
+
 	printf("\n### PHASE 1 ###\n");
 	esa_build(Text, k, SIGMA, argv[2], argv[3]);
 

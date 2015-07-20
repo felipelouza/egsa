@@ -110,11 +110,38 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 	
 	char c_aux[FILE_NAME];
 	size_t j = 0;
-	while(fgets(c_aux, FILE_READ, f_in)){
+
+	#if PROTEIN 
+			
+		fgets(c_aux, FILE_READ, f_in);
+                        
+		while(fgets(c_aux, FILE_READ, f_in)){
 		
-		//#if PROTEIN 
-			//cmp = '>';
-		#if READ
+                        int8 tmp;
+			if(c_aux[0]=='>'){                                                      
+	                        tmp = 0;
+        	                fwrite(&tmp, sizeof(int8), 1, f_out);
+				size++;
+
+                        	if(++j >= k) break;
+				continue;
+			}
+
+                        size_t i = 0;
+                        for(; i < strlen(c_aux)-1; i++){
+                        			
+                        	tmp = map(c_aux[i]);
+                        	if(tmp){
+					fwrite(&tmp, sizeof(int8), 1, f_out);
+					size++;
+				}
+                        }
+                        
+	                //size+=strlen(c_aux)-1;
+		}
+
+	#elif READ	
+		while(fgets(c_aux, FILE_READ, f_in)){
 		
 			fgets(c_aux, FILE_READ, f_in);
 			
@@ -123,25 +150,25 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 			for(; i < strlen(c_aux)-1; i++){
 						
 				tmp = map(c_aux[i]);
-				if(tmp)
+                        	if(tmp){
 					fwrite(&tmp, sizeof(int8), 1, f_out);
-					
+					size++;
+				}
 			}
 
 			tmp = 0;
 			fwrite(&tmp, sizeof(int8), 1, f_out);
+			size++;
 			
-			size+=strlen(c_aux)-1;
+			//size+=strlen(c_aux)-1;
 
 			fgets(c_aux, FILE_READ, f_in);
 			fgets(c_aux, FILE_READ, f_in);
-			
 			
 			if(++j >= k) break;
-		
-		#endif
+		}
+	#endif
 
-	}
 	
 	if(j<k){
 		size =0;
@@ -181,30 +208,39 @@ int file_load_fasta(t_TEXT *Text) {
 	
 	size_t j = 0;
 
+	
+	#if INPUT_CAT
+		Text->n_strings=1;
+	#endif
+
 	//read the sequence
 	while(fgets(c_aux, FILE_READ, Text->f_in)){
 		
 		//printf("%s", c_aux);
 		
 		#if INPUT_CAT
-		/*
+		
 			#if PROTEIN
 				if(c_aux[0] == '>'){
 					
 					Text->c_buffer[j++] = 0;
+					
+					Text->n_strings++;
 					continue;
 				}
 			#elif READ
-		*/
+		
 				if(c_aux[0] == '+'){
 					
 					Text->c_buffer[j++] = 0;
 					
 					fgets(c_aux, FILE_READ, Text->f_in);
 					fgets(c_aux, FILE_READ, Text->f_in);
+				
+					Text->n_strings++;
 					continue;
 				}
-		//	#endif
+			#endif
 			
 		#endif
 		
@@ -219,9 +255,6 @@ int file_load_fasta(t_TEXT *Text) {
 				Text->c_buffer[j++] = tmp;				
 		}
 		
-		#if INPUT_CAT
-			Text->n_strings++;
-		#endif
 	}
 	
 	
@@ -229,9 +262,9 @@ int file_load_fasta(t_TEXT *Text) {
 	fclose(Text->f_in);
 	//free(Text->c_file);
 	
-	/*
+	/*	
 	int i = 0;	
-	for(; i < j; i++)
+	for(; i < j+1; i++)
 		printf("%d|", Text->c_buffer[i]);
 	
 	printf("\n");
@@ -272,43 +305,43 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 		sprintf(c_in, "partition/%d.fasta", i);
 		fprintf(f_all,"%s\n", c_in);
 		
-		/*
-		j=0;
-		if(i>0){
-			fprintf(f_aux,"%s", c_tmp);
-			j++;
-		}*/
 		//size_t length = 0;
 		j=0;
-		
-		while(fgets(c_aux, FILE_READ, f_in)){
-			//printf("%d) \t%s", j, c_aux);
-			/*
-			char cmp = ' ';
-			#if PROTEIN 
-				cmp = '>';
-			#elif READ
-				cmp = '+';
-			#endif
-			*/
-						
-			fprintf(f_aux,"%s", c_aux);
-			
-			fgets(c_aux, FILE_READ, f_in);
-			fprintf(f_aux,"%s", c_aux);
-			
-			fgets(c_aux, FILE_READ, f_in);
-			fprintf(f_aux,"%s", c_aux);
-			
-			fgets(c_aux, FILE_READ, f_in);
-			fprintf(f_aux,"%s", c_aux);
-			
-			j++;
-			total++;
-			if(j>k/r || total >= k){
-				break;
+
+		#if PROTEIN
+			while(fgets(c_aux, FILE_READ, f_in)){
+
+				if(c_aux[0]=='>'){	
+					j++;
+					total++;
+					if(j>k/r || total > k){
+						break;
+					}
+				}
+				fprintf(f_aux,"%s", c_aux);
 			}
-		}
+
+		#elif READ	
+			while(fgets(c_aux, FILE_READ, f_in)){
+						
+				fprintf(f_aux,"%s", c_aux);
+			
+				fgets(c_aux, FILE_READ, f_in);
+				fprintf(f_aux,"%s", c_aux);
+			
+				fgets(c_aux, FILE_READ, f_in);
+				fprintf(f_aux,"%s", c_aux);
+			
+				fgets(c_aux, FILE_READ, f_in);
+				fprintf(f_aux,"%s", c_aux);
+			
+				j++;
+				total++;
+				if(j>k/r || total > k){
+					break;
+				}
+			}
+		#endif
 		fclose(f_aux);
 	}	
 	fclose(f_all);
@@ -333,7 +366,7 @@ int open_sequence(t_TEXT *Text, char *c_dir, char *c_file){
 
 	fseek (Text->f_in, 0, SEEK_END);
     
-    Text->length = ftell(Text->f_in);
+    	Text->length = ftell(Text->f_in);
 	Text->length--;// remove #-suffix to be sorted
 	
 return 0;
@@ -430,7 +463,7 @@ int8 map(int8 c_aux){
 		case 84: return 4; break;//T
 		default: return 0; break;//N
 	}
-	/*
+	
 	#elif PROTEIN
 	
 	switch (c_aux) {
@@ -470,7 +503,7 @@ int8 map(int8 c_aux){
 		
 		default: return 0; break;//N
 	}	
-	*/
+	
 	#endif		
 }
 

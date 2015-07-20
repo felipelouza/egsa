@@ -52,32 +52,31 @@ flush:
 	
 clean:
 
-	rm $(SRC_DIR)/*.o
-#	rm external/*.o
-	rm egsa
+	rm -f $(SRC_DIR)/*.o
+	rm -f egsa-1.0
 
 erase:
 	rm $(DIR)*.gesa
 	rm $(DIR)*.bin
 	rm -Rf $(DIR)*.esa
 	rm -Rf $(DIR)partition/*
-	rm -Rf $(DIR)tmp/*
-	
-compile: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa 
+	rm -Rf $(DIR)tmp/*	
 
 ##
 LIBH = $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-esa.o 	: $(LIBH)
-heap.o	: $(LIBH)
-file.o	: $(LIBH)
-utils.o	: $(LIBH)
-lcp.o	: $(LIBH)
+$(SRC_DIR)/esa.o 	: $(LIBH)
+$(SRC_DIR)/heap.o	: $(LIBH)
+$(SRC_DIR)/file.o	: $(LIBH)
+$(SRC_DIR)/utils.o	: $(LIBH)
+$(SRC_DIR)/lcp.o	: $(LIBH)
 
 ##
 
-run: egsa
-	./egsa $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+compile: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
+	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa-1.0
+
+run: egsa-1.0
+	./egsa-1.0 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.0 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
