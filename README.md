@@ -74,7 +74,7 @@ make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
 _fasta_ (proteins):
 
 ```sh
-make run DIR=example/proteins/ INPUT=proteins-50000.fasta K=1000
+make run DIR=example/proteins/ INPUT=proteins-10000.fasta K=1000
 ```
 
 

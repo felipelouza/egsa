@@ -14,8 +14,8 @@
 
 #define BLOCK_ESA_SIZE 	2048 		// (10MB) size of buffer (BLOCK_ESA_SIZE > 0)
 
-#define FILE_NAME	500
-#define FILE_READ	256		// bytes read from disk once
+#define FILE_NAME	512
+#define FILE_READ	512		// bytes read from disk once
 
 /**********************************************************************/
 

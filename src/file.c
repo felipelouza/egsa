@@ -112,7 +112,7 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 
 	#if PROTEIN 
 		
-		char c_aux[FILE_NAME];
+		char c_aux[FILE_READ];
 		fgets(c_aux, FILE_READ, f_in);
                         
 		while(fgets(c_aux, FILE_READ, f_in)){
@@ -211,8 +211,10 @@ int file_load_fasta(t_TEXT *Text) {
 	size_t j = 0;
 
 	
-	#if INPUT_CAT
+	#if PROTEIN
 		Text->n_strings=1;
+	#elif READ		
+		Text->n_strings=0;
 	#endif
 
 	//read the sequence
@@ -311,14 +313,19 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 
 		#if PROTEIN
 			int_text j=0;
+			if(c_aux[0]=='>'){
+				fprintf(f_aux,"%s", c_aux);
+				j=1;
+			}
+
 			while(fgets(c_aux, FILE_READ, f_in)){
 
 				if(c_aux[0]=='>'){	
-					j++;
-					total++;
-					if(j>k/r || total > k){
+					if(j>=k/r || total >= k){
 						break;
 					}
+					j++;
+					total++;
 				}
 				fprintf(f_aux,"%s", c_aux);
 			}
@@ -340,7 +347,7 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 			
 				j++;
 				total++;
-				if(j>k/r || total > k){
+				if(j>k/r || total >= k){
 					break;
 				}
 			}
