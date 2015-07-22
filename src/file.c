@@ -105,13 +105,12 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 
 	FILE* f_out = fopen(c_out, "wb");	
 	if(!f_out) perror ("open_input");
-	fseek(f_out, 0, SEEK_SET);	
-	
-	
-	size_t j = 0;
+	fseek(f_out, 0, SEEK_SET);		
 
 	#if PROTEIN 
 		
+		size_t j = 1;
+
 		char c_aux[FILE_READ];
 		fgets(c_aux, FILE_READ, f_in);
                         
@@ -122,8 +121,10 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 	                        tmp = 0;
         	                fwrite(&tmp, sizeof(int8), 1, f_out);
 				size++;
+				
+                        	if(j >= k) break;	
+				j++;
 
-                        	if(++j >= k) break;
 				continue;
 			}
 
@@ -139,8 +140,14 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
                         
 	                //size+=strlen(c_aux)-1;
 		}
-
+		//j++;
+		if(c_aux[0]!='>'){                                                      
+			int8 tmp = 0;
+			fwrite(&tmp, sizeof(int8), 1, f_out);
+		}
 	#elif READ	
+
+		size_t j = 0;
 
 		char c_aux[FILE_NAME];
 		while(fgets(c_aux, FILE_READ, f_in)){
@@ -171,11 +178,12 @@ int_text file_get_size(char *c_dir, char *c_file, int_text k){
 		}
 	#endif
 
-	
+	#if INPUT_CAT	
 	if(j<k){
 		size =0;
 		remove_file(c_out);
 	}
+	#endif
 	
 	fclose(f_in);
 	fclose(f_out);
@@ -248,13 +256,10 @@ int file_load_fasta(t_TEXT *Text) {
 			
 		#endif
 		
-		
-		//size_t size = 0;
 		size_t i = 0;	
 		for(; i < strlen(c_aux) - 1; i++){
 			
 			int8 tmp = map(c_aux[i]);
-			//printf("%d|", tmp);
 			if(tmp)
 				Text->c_buffer[j++] = tmp;				
 		}
@@ -294,7 +299,7 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 
 	sprintf(c_aux, "%spartition/", c_dir);
 	mkdir(c_aux);
-	
+
 	//int line = 0;
 	int_text i = 0;	
 	int_text total = 0;
@@ -321,11 +326,11 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 			while(fgets(c_aux, FILE_READ, f_in)){
 
 				if(c_aux[0]=='>'){	
-					if(j>=k/r || total >= k){
+					total++;
+					if((j>=(k/r)+(k%r>0)) || (total > k)){
 						break;
 					}
 					j++;
-					total++;
 				}
 				fprintf(f_aux,"%s", c_aux);
 			}
@@ -345,9 +350,9 @@ int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
 				fgets(c_aux, FILE_READ, f_in);
 				fprintf(f_aux,"%s", c_aux);
 			
-				j++;
 				total++;
-				if(j>k/r || total >= k){
+				j++;
+				if((j>=(k/r)+(k%r>0)) || (total >= k)){
 					break;
 				}
 			}
@@ -404,7 +409,7 @@ void load_sequence(t_TEXT *Text) {//load .bin file
 	
 	size_t i =  Text->length+1;
 	for(; i< Text->length+PREFIX_SIZE+1;i++)
-		Text->c_buffer[i] = 9;
+		Text->c_buffer[i] = SIGMA+1;
 	
 	fclose(Text->f_in);
 }

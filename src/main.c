@@ -72,8 +72,12 @@ int main(int argc, char **argv) {
 			perror("error: strings in INPUT < K");
 			return 1;
 		}
-	
-		r = (total*21.0)/MEMLIMIT + 1;		
+
+		#if DNA	
+			r = (total*21.0)/MEMLIMIT + 1;		
+		#elif PROTEIN
+			r = (total*27.0)/MEMLIMIT + 1;		
+		#endif
 		printf("PARTITIONS = %d\n", r);
 	#endif
 
