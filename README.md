@@ -14,9 +14,7 @@ Given a collection of K strings, egsa outputs its:
 We have implemented two settings to egsa:
 
 * Mode 1: indexing a small collection of large strings (DNA sequences);
-* Mode 2: indexing a large collections of small strings:
-  * DNA sequencing reads; or
-  * protein sequences;
+* Mode 2: indexing a large collections of small strings (DNA sequencing reads; or protein sequences);
 
 --
 **Examples:**
