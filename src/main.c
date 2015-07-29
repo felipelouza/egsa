@@ -73,11 +73,12 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 
-		#if DNA	
-			r = (total*21.0)/MEMLIMIT + 1;		
-		#elif PROTEIN
-			r = (total*27.0)/MEMLIMIT + 1;		
+		#if PROTEIN
+			r = (total*27.0)/MEMLIMIT + 1; 
+		#else
+			r = (total*21.0)/MEMLIMIT + 1;          
 		#endif
+
 		printf("PARTITIONS = %d\n", r);
 	#endif
 

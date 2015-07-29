@@ -267,7 +267,12 @@ int file_load_fasta(t_TEXT *Text) {
 	}
 	
 	
-	Text->length = j-1;
+	#if PROTEIN	
+		Text->length = j;
+	#else
+		Text->length = j-1;
+	#endif
+
 	fclose(Text->f_in);
 	//free(Text->c_file);
 	
