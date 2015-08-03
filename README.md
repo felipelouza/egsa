@@ -166,3 +166,7 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 \[4\] Kasai, T., Lee, G., Arimura, H., Arikawa, S., & Park, K. (2001). Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications. In Proc. CPM (pp. 181–192).
 
+##acknowledges:
+
+Thanks to Fabio Garofalo and Giovanna Rosone by helpful suggestions and debugging.
+
