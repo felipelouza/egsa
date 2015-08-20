@@ -42,12 +42,12 @@ return 0;
 
 /**********************************************************************/
 
-inline void esa_seek(FILE *File, size_t pos) {
+void esa_seek(FILE *File, size_t pos) {
 	
 	fseek(File, pos, SEEK_SET);
 }
 
-inline void esa_read(t_ESA *ESA, FILE *File) {
+void esa_read(t_ESA *ESA, FILE *File) {
 
 	fread(ESA, sizeof(t_ESA), BLOCK_ESA_SIZE, File);	
 	
@@ -138,7 +138,7 @@ return 0;
 
 /**********************************************************************/
 
-inline void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
+void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 	
 	#if _OUTPUT_BUFFER
 	
@@ -189,7 +189,7 @@ inline void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) 
 
 #if _INDUCING
 
-inline void induce(heap* h, heap_node *node, int_lcp lcp){
+void induce(heap* h, heap_node *node, int_lcp lcp){
 	
 	#if INDUCED_BUFFER
 	

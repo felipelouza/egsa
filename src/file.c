@@ -392,7 +392,7 @@ int open_sequence(t_TEXT *Text, char *c_dir, char *c_file){
 return 0;
 }
 
-inline void seek_sequence(FILE *File, size_t pos){
+void seek_sequence(FILE *File, size_t pos){
 	
 	fseek (File, pos, SEEK_SET);
 }
@@ -441,7 +441,7 @@ return 0;
 
 /**********************************************************************/
 
-inline void remove_file(char* c_file){
+void remove_file(char* c_file){
 	
 	printf("removing: %s\n", c_file);
 	
@@ -456,7 +456,7 @@ inline void remove_file(char* c_file){
 }
 /**********************************************************************/
 
-inline void mkdir(char* c_file){
+void mkdir(char* c_file){
 	
 	printf("mkdir: %s\n", c_file);
 	

@@ -424,7 +424,7 @@ return h->induced[alfa];
 
 /*******************************************************************************/
 
-inline int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length){
+int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length){
 	
 	//loads buffer (c_buffer)
 	seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa + (size_t) length);

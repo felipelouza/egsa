@@ -80,7 +80,7 @@ int heap_delete_min_last(heap *h);
 int heap_pass_induced(heap *h, t_TEXT *Text, size_t *n, int8 alfa);
 int heap_pass_induced_last(heap *h, t_TEXT *Text, size_t *pos, int8 alfa);
 
-inline int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length);
+int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length);
 int print_node(heap_node *node);
 
 int heap_lcp(heap *h, int i_node);

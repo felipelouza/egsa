@@ -10,10 +10,10 @@ LFLAGS = -lm -ldl
 LIBOBJ = external/malloc_count/malloc_count.o\
 		external/sais-lite-LCP.o\
 		external/sa-is.o\
-		$(SRC_DIR)/heap.o\
 		$(SRC_DIR)/utils.o\
 		$(SRC_DIR)/file.o\
 		$(SRC_DIR)/esa.o\
+		$(SRC_DIR)/heap.o\
 		$(SRC_DIR)/lcp.o\
 
 ##
