@@ -36,8 +36,8 @@ CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 CHECK = 1
 PRE = 1
 
-DIR = example/fastq/
-#DIR = example/fasta/
+DIR = dataset/fastq/
+#DIR = dataset/fasta/
 
 INPUT = reads-10000.fastq
 #INPUT = all.in
