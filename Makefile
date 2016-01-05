@@ -9,7 +9,7 @@ LFLAGS = -lm -ldl
 
 LIBOBJ = external/malloc_count/malloc_count.o\
 		external/sais-lite-LCP.o\
-		external/sa-is.o\
+		external/gsaca-k.o\
 		$(SRC_DIR)/utils.o\
 		$(SRC_DIR)/file.o\
 		$(SRC_DIR)/esa.o\
@@ -57,6 +57,7 @@ flush:
 	
 clean:
 	rm -f $(SRC_DIR)/*.o
+#	rm -f external/*.o
 	rm -f egsa-1.1
 
 erase:

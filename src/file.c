@@ -124,7 +124,6 @@ int_text file_get_size(char *c_file, int_text k){
 	fseek(f_out, 0, SEEK_SET);		
 
 	#if PROTEIN 
-		
 		size_t j = 1;
 
 		char c_aux[FILE_READ];

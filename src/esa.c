@@ -378,26 +378,17 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		int_suff *ISA = NULL;
 		
 		#if INPUT_CAT
-			
-			//dc3(Text[i].c_buffer, SA, Text[i].length, SIGMA);
-			//divsufsort(Text[i].c_buffer, SA, Text[i].length);//Yuta_Mori
-			
-			unsigned j = 0, n_strings = 1;
-			unsigned *str_int = (unsigned*) malloc((Text[i].length+1)*sizeof(unsigned));
-			for(; j < Text[i].length; j++){
-				
-				if(Text[i].c_buffer[j])
-					str_int[j] = Text[i].n_strings + Text[i].c_buffer[j];
-				else
-					str_int[j] = n_strings++;
-			}
-			str_int[j] = 0;
-			
-			
-			SA_IS(str_int, SA, Text[i].length+1, n_strings+SIGMA, sizeof(int), 0);
-			
-			free(str_int);
-			
+			unsigned j = 0;
+
+			//computes gsa in 5n bytes
+			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]++;
+			Text[i].c_buffer[j]=0;
+
+			gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA+2, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
+
+			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
+	
+			//computes lcp in 13n bytes
 			find_inverse(SA, &ISA, Text[i].length+1);
 			lcp_kasai(Text[i].c_buffer, SA, Text[i].length+1, LCP, ISA); // 13n bytes
 			
