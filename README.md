@@ -135,7 +135,7 @@ make run CHECK=1
 We have included the source codes of the following algorithms: 
 
 * sais-lite-LCP: suffix array and LCP-array construction algorithm \[2\]
-* sa-is: suffix array construction algorithm \[3\]
+* gsaca-k: generalized suffix array construction algorithm \[3\]
 * KLAAP: LCP-array construction algorithm given the suffix array \[4\]
 
 ##citation:
@@ -158,15 +158,15 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 ##references:
 
-\[1\] Louza, F. A., Telles, G. P., & Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201–210).
+\[1\] Louza, F. A., Telles, G. P., Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201–210).
 
 \[2\] Fischer, J. (2011). Inducing the LCP-Array. In F. Dehne, J. Iacono, & J.-R. Sack (Eds.), Proc. WADS (pp. 374–385).
 
-\[3\] Nong, G., Zhang, S., & Chan, W. H. (2011). Two Efficient Algorithms for Linear Time Suffix Array Construction. IEEE Transactions on Computers, 60(10), 1471–1484. doi:10.1109/TC.2010.188
+\[3\] Louza, F. A., Gog, S., Telles, G. P.  https://github.com/felipelouza/gsa-is 
 
 \[4\] Kasai, T., Lee, G., Arimura, H., Arikawa, S., & Park, K. (2001). Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications. In Proc. CPM (pp. 181–192).
 
-##acknowledges:
+##thanks:
 
 Thanks to Fabio Garofalo and Giovanna Rosone by helpful suggestions and debugging.
 
