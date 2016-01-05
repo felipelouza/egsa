@@ -1,7 +1,17 @@
-// This is (a modification of) SACA-K algorithm, which can be retrieved at:
-// http://code.google.com/p/ge-nong/ 
-// Our version of SACA-K, called gSACA-K, maintain the theoretical bounds of the
-// original algorithm to construct the generalized suffix array.
+/* 
+ * Authors: Felipe A. Louza, Simon Gog, Guilherme P. Telles
+ * contact: louza@ic.unicamp.br
+ * 01/09/2015
+ */
+
+/* 
+ * This code is a modification of SACA-K algorithm by G. Nong, which can be
+ * retrieved at: http://code.google.com/p/ge-nong/ 
+ *
+ * Our version of SACA-K, called gSACA-K, maintain the theoretical bounds of the
+ * original algorithm to construct the generalized suffix array.
+ *
+ */
 
 #ifndef GSACA_K_H
 #define GSACA_K_H
