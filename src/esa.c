@@ -217,7 +217,7 @@ void induce(heap* h, heap_node *node, int_lcp lcp){
 /**********************************************************************/
 
 // Formar ESA para gravar em disco.. 
-int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char *c_dir, char *c_file) {
+int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char *c_file) {
 	
 	char c_aux[500];
 	
@@ -350,7 +350,7 @@ return 0;
 
 /**********************************************************************/
 
-int esa_build(t_TEXT *Text, int_text k, int sigma, char *c_dir, char* c_file){
+int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 
 	int_suff *SA;
 	int_lcp *LCP;
@@ -358,7 +358,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char *c_dir, char* c_file){
 	int_text i = 0;
 	for(; i < k; i++){
 	
-		open_sequence(&Text[i], c_dir, c_file);		//open bin		
+		open_sequence(&Text[i], c_file);		//open bin		
 		seek_sequence(Text[i].f_in, 0);			//seek
 
 		#if DEBUG
@@ -428,7 +428,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char *c_dir, char* c_file){
 			esa_print_suff(SA, LCP, &Text[i],  20);
 		#endif		
 		//write on disk
-		esa_write_all(SA, LCP, ISA, &Text[i], c_dir, c_file);
+		esa_write_all(SA, LCP, ISA, &Text[i], c_file);
 
 		/**************************************************************/
 		
@@ -444,18 +444,18 @@ return 0;
 
 /**********************************************************************/
 
-int esa_merge(t_TEXT *Text, int_text k, size_t *size, char *c_dir, char* c_file, int_text total){//size = soma de todos os tamanhos
+int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total){//size = soma de todos os tamanhos
 	
 	*size = 0;
 	
 	//load all partition (beginning)
-	heap *H = heap_alloc_induced(k, c_dir, c_file, total);
+	heap *H = heap_alloc_induced(k, c_file, total);
 	int_text j = 0;
 	for(; j < k; j++){
 		
 		Text[j].key = j;
 		
-		open_sequence(&Text[j], c_dir, c_file);//open bin
+		open_sequence(&Text[j], c_file);//open bin
 
 		esa_open(&Text[j], "esa");				
 		esa_malloc(&Text[j]);
@@ -538,7 +538,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char *c_dir, char* c_file,
 		esa_close(&Text[i]);
 		fclose(Text[i].f_in);
 	}
-	heap_free(H, c_dir);
+	heap_free(H);
 	
 return 0;	
 }

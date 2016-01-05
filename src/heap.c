@@ -11,7 +11,7 @@ g.p.telles, jan 2012.
 #include "heap.h"
 
 /**********************************************************************/
-heap* heap_alloc_induced(int k, char *c_dir, char *c_file, int_text total) {
+heap* heap_alloc_induced(int k, char *c_file, int_text total) {
   
 	int i;
 	
@@ -47,15 +47,11 @@ heap* heap_alloc_induced(int k, char *c_dir, char *c_file, int_text total) {
 	#endif
 	
 	h->size = 0;
-	
-	char c_aux[FILE_NAME];
-	sprintf(c_aux, "%stmp/", c_dir);
-	mkdir(c_aux);
-	
+	mkdir("tmp/");
 	
 	for(i = 0; i < SIGMA+1; i++){
 			
-		sprintf(h->cSIGMA[i], "%stmp/%d.esa.tmp", c_dir, i);
+		sprintf(h->cSIGMA[i], "tmp/%d.esa.tmp", i);
 			
 		h->fSIGMA[i] = fopen(h->cSIGMA[i], "wb");
 		if(!h->fSIGMA[i]) perror("heap_alloc_induced(h->fSIGMA)");
@@ -68,7 +64,7 @@ heap* heap_alloc_induced(int k, char *c_dir, char *c_file, int_text total) {
 	}
 	
 	char c_out_esa[FILE_NAME];
-	sprintf(c_out_esa, "%s%s.%d.gesa", c_dir, c_file, total);
+	sprintf(c_out_esa, "%s.%d.gesa", c_file, total);
 	
 	h->f_out_ESA = fopen(c_out_esa, "wb");
 	if(!h->f_out_ESA) perror("heap_alloc_induced(h->f_out_ESA)");
@@ -80,7 +76,7 @@ return h;
 
 /**********************************************************************/
 
-int heap_free(heap *h, char *c_dir) {
+int heap_free(heap *h) {
 
 	free(h->heap);
 	

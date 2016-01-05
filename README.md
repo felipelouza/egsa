@@ -19,7 +19,7 @@ We have implemented two settings to egsa:
 --
 **Examples:**
 
-One could find examples in _example_ folder, at least one for each setting mode.
+One could find examples in _dataset_ folder, at least one for each setting mode.
 
 ##install:
 
@@ -55,7 +55,7 @@ Given a collection of K strings (DNA sequences), each one stored in a different 
 _fasta_ (genomes):
 
 ```sh
-make run DIR=example/fasta/ INPUT=all.in K=5 
+make run DIR=dataset/fasta/ INPUT=all.in K=5 
 ```
 
 --
@@ -67,13 +67,13 @@ Given a collection of K strings (reads or proteins), all strings stored (concate
 _fastq_ (reads):
 
 ```sh
-make run DIR=example/fastq/ INPUT=reads-10000.fastq K=1000
+make run DIR=dataset/fastq/ INPUT=reads-10000.fastq K=1000
 ```
 
 _fasta_ (proteins):
 
 ```sh
-make run DIR=example/proteins/ INPUT=proteins-10000.fasta K=1000
+make run DIR=dataset/proteins/ INPUT=proteins-10000.fasta K=1000
 ```
 
 

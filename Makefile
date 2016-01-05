@@ -57,7 +57,7 @@ flush:
 	
 clean:
 	rm -f $(SRC_DIR)/*.o
-	rm -f egsa-1.0
+	rm -f egsa-1.1
 
 erase:
 	rm $(DIR)*.gesa
@@ -77,10 +77,10 @@ $(SRC_DIR)/lcp.o	: $(LIBH)
 ##
 
 compile: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa-1.0
+	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa-1.1
 
-run: egsa-1.0
-	./egsa-1.0 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+run: egsa-1.1
+	./egsa-1.1 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.0 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.1 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)

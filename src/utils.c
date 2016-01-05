@@ -86,14 +86,14 @@ return min;
 }
 /**********************************************************************/
 
-void check(t_TEXT *Text, int_text n, char *c_dir, char* c_file, int_text total){
+void check(t_TEXT *Text, int_text n, char* c_file, int_text total){
 	
 	size_t length = 0;
 	
 	int_text k = 0;
 	for(; k < n; k++){
 		
-		open_sequence(&Text[k], c_dir, c_file);	//open bin		
+		open_sequence(&Text[k], c_file);	//open bin		
 		seek_sequence(Text[k].f_in, 0);			//seek
 		
 		load_sequence(&Text[k]);				//load sequence	
@@ -123,7 +123,7 @@ void check(t_TEXT *Text, int_text n, char *c_dir, char* c_file, int_text total){
 	t_TEXT *t_Aux = (t_TEXT*) malloc(sizeof(t_TEXT));
 	
 	t_Aux->c_file = (char*) malloc(sizeof(char)*FILE_NAME);
-	sprintf(t_Aux->c_file, "%s%s.%d", c_dir, c_file, total);
+	sprintf(t_Aux->c_file, "%s.%d", c_file, total);
 	
 	esa_open(t_Aux, "gesa");
 	esa_malloc(t_Aux);	

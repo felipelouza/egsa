@@ -1,7 +1,7 @@
 /***********************************************************************
 
-eGSA.v.2.0: External Generalized Suffix Array Construction Algorithm 
-Louza, abr 2015.
+egsa-1.1: External Generalized Suffix Array Construction Algorithm 
+Louza, jan 2016.
 
 Copyright (C) 2015 Felipe Louza <louza@ic.unicamp.br>
 
@@ -64,10 +64,12 @@ int main(int argc, char **argv) {
 	printf("MEMLIMIT = %llu bytes\n", MEMLIMIT);
 	printf("PRE = %d\n", PRE_OPTION);
 	printf("CHECK = %d\n", VALIDATE);
-	
+
+	file_chdir(argv[2]);
+		
 	int_text r = 0;
 	#if INPUT_CAT
-		total = file_get_size(argv[2], argv[3], k);
+		total = file_get_size(argv[3], k);
 		if(!total){
 			perror("error: strings in INPUT < K");
 			return 1;
@@ -91,10 +93,10 @@ int main(int argc, char **argv) {
 	t_start = time(NULL);
 	total = k;
 	
-	file_open_input(&Text, argv[2], argv[3], &k, &r);
+	file_open_input(&Text, argv[3], &k, &r);
 
 	if(PRE_OPTION){
-		preprocessing(Text, argv[2], argv[3], k);
+		preprocessing(Text, argv[3], k);
 	}
 
 	time_stop(t_start, c_start);
@@ -107,7 +109,7 @@ int main(int argc, char **argv) {
 	c_start =  clock();
 
 	printf("\n### PHASE 1 ###\n");
-	esa_build(Text, k, SIGMA, argv[2], argv[3]);
+	esa_build(Text, k, SIGMA, argv[3]);
 
 	time_stop(t_start, c_start);
 
@@ -116,7 +118,7 @@ int main(int argc, char **argv) {
 	c_start =  clock();
 	
 	printf("\n### PHASE 2 ###\n");	
-	esa_merge(Text, k, &size, argv[2], argv[3], total);
+	esa_merge(Text, k, &size, argv[3], total);
 	
 	time_stop(t_start, c_start);
 
@@ -134,7 +136,7 @@ int main(int argc, char **argv) {
 		c_start =  clock();
 		
 		printf("\n### VALIDATION ###\n");
-		check(Text, k, argv[2], argv[3], total);
+		check(Text, k, argv[3], total);
 
 		time_stop(t_start, c_start);
 	}

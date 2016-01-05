@@ -1,8 +1,28 @@
 #include "file.h"
 
 
+/**********************************************************************/
+
+/* Changes to a working directory, where everything will be read
+ * from and written to:
+ */ 
+
+int file_chdir(char* dir){
+
+	printf("change to: %s\n", dir);
+	
+	char* oldwd = getcwd(NULL,0);
+	if (!oldwd) die(__func__);
+	if (chdir(dir) == -1) die(__func__);
+
+	free(oldwd);
+return 0;
+}
+
+/**********************************************************************/
+
 //read fasta and convert it (sequence.bin)
-int preprocessing(t_TEXT *Text, char* c_dir, char *c_file, int_text k){ 
+int preprocessing(t_TEXT *Text, char *c_file, int_text k){ 
 	
 	printf("### PREPROCESSING ###\n");
 	
@@ -18,7 +38,7 @@ int preprocessing(t_TEXT *Text, char* c_dir, char *c_file, int_text k){
 		file_open_fasta(&Text[i], Text[i].c_file, begin);
 		
 		begin = file_load_fasta(&Text[i]);
-		file_write_sequence(&Text[i], c_dir, c_file);
+		file_write_sequence(&Text[i], c_file);
 		
 		#if INPUT_CAT
 			Text[i].n_start = sum;
@@ -40,24 +60,22 @@ return 0;
 
 /**********************************************************************/
 
-int file_open_input(t_TEXT **Text, char *c_dir, char *c_file, int_text *k, int_text *r){
+int file_open_input(t_TEXT **Text, char *c_file, int_text *k, int_text *r){
 	
 	char c_aux[FILE_NAME];
-	sprintf(c_aux, "%s%s", c_dir, c_file);
 	
-	printf("input = %s\n", c_aux);
+	printf("input = %s\n", c_file);
 	
-	FILE* f_aux = fopen(c_aux, "r");	
+	FILE* f_aux = fopen(c_file, "r");	
 	if(!f_aux) perror ("open_input");
 	fseek(f_aux, 0, SEEK_SET);	
 	
 	#if INPUT_CAT
 		
-		*r = file_partition(c_dir, f_aux, *k, *r);
+		*r = file_partition(f_aux, *k, *r);
 		fclose(f_aux);	
 		
-		sprintf(c_aux, "%sall.in", c_dir);
-		f_aux = fopen(c_aux, "r");
+		f_aux = fopen("all.in", "r");
 		if(!f_aux) perror ("open_input");
 		fseek(f_aux, 0, SEEK_SET);	
 	
@@ -76,7 +94,8 @@ int file_open_input(t_TEXT **Text, char *c_dir, char *c_file, int_text *k, int_t
 		#endif
 				
 		fscanf(f_aux, "%s\n", c_aux);
-		sprintf((*Text)[i].c_file, "%s%s", c_dir, c_aux);
+		sprintf((*Text)[i].c_file, "%s", c_aux);
+		printf("%s\n", c_aux);
 		
 	}
 
@@ -88,20 +107,17 @@ return 0;
 
 /**********************************************************************/
 
-int_text file_get_size(char *c_dir, char *c_file, int_text k){
+int_text file_get_size(char *c_file, int_text k){
 	
 	int_text size = 0;
 	
-	char c_in[FILE_NAME];
-	sprintf(c_in, "%s%s", c_dir, c_file);
-	
-	FILE* f_in = fopen(c_in, "r");	
+	FILE* f_in = fopen(c_file, "r");	
 	if(!f_in) perror ("open_input");
 	fseek(f_in, 0, SEEK_SET);	
 	
 	
 	char c_out[FILE_NAME] = "";
-	sprintf(c_out, "%s%s.%d.bin", c_dir, c_file, k);
+	sprintf(c_out, "%s.%d.bin", c_file, k);
 
 	FILE* f_out = fopen(c_out, "wb");	
 	if(!f_out) perror ("open_input");
@@ -289,28 +305,26 @@ return 0;
 
 /**********************************************************************/
 
-int file_partition(char *c_dir, FILE *f_in, int_text k, int_text r){
+int file_partition(FILE *f_in, int_text k, int_text r){
 	
 	char c_in[FILE_NAME];
-	sprintf(c_in, "%sall.in", c_dir);
 	
-	FILE* f_all = fopen(c_in, "w");	
+	FILE* f_all = fopen("all.in", "w");	
 	if(!f_all) perror ("open_input");
 	fseek(f_all, 0, SEEK_SET);
 
+	#if MODE == 2
+		char c_aux[FILE_READ]; 
+	#endif
 
-	char c_aux[FILE_READ]; //, c_tmp[FILE_READ];
-	//size_t min = 10000, max = 0, mean = 0;
-
-	sprintf(c_aux, "%spartition/", c_dir);
-	mkdir(c_aux);
+	mkdir("partition/");
 
 	//int line = 0;
 	int_text i = 0;	
 	int_text total = 0;
 	for(; i< r && total < k; i++){
 	
-		sprintf(c_in, "%spartition/%d.fasta", c_dir, i);
+		sprintf(c_in, "partition/%d.fasta", i);
 		
 		FILE* f_aux = fopen(c_in, "w");	
 		if(!f_aux) perror ("partition");
@@ -375,7 +389,7 @@ return i;
 
 /**********************************************************************/
 
-int open_sequence(t_TEXT *Text, char *c_dir, char *c_file){
+int open_sequence(t_TEXT *Text, char *c_file){
 	
 	char c_aux[500];
 	
@@ -419,7 +433,7 @@ void load_sequence(t_TEXT *Text) {//load .bin file
 	fclose(Text->f_in);
 }
 
-int file_write_sequence(t_TEXT *Text, char *c_dir, char* c_file) {
+int file_write_sequence(t_TEXT *Text, char* c_file) {
 	
 	char c_aux[FILE_NAME] = "";
 	sprintf(c_aux, "%s.bin", Text->c_file);

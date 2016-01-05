@@ -133,7 +133,7 @@ int check_is_permutation(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux)
 int check_gsa(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux);
 int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux);
 
-void check(t_TEXT *Text, int_text n, char *c_dir, char* c_file, int_text total);
+void check(t_TEXT *Text, int_text n, char* c_file, int_text total);
 
 /**********************************************************************/
 
