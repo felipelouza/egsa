@@ -7,8 +7,6 @@ void find_inverse(int_suff* SA, int_suff **ISA, int_suff n){
 	int_suff i;
 	for(i = 0; i < n; i++)
 		((*ISA)[SA[i]]) = i;
-
-//return ISA;
 }
 
 int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP, int_suff *ISA){
@@ -31,12 +29,7 @@ int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP, in
 				l++; 	
 			}
 			LCP[k] = l;
-			
-			/**
-			if(T[i+l] == 0 && T[j+l]==0){
-				LCP[k]++;
-			}
-			/**/
+			// if(T[i+l] == 0 && T[j+l]==0) LCP[k]++;
 			
 			if(l>0) l--;
 		}
@@ -62,10 +55,7 @@ int lcp_PHI(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP){
 		    ++l;
 		}
 		PLCP[i] = l;
-		if (l) {
-//		    max_l = std::max(max_l, l);
-		    --l;
-		}
+		if (l) --l;
 	}
 
 	for (i=0; i < n; ++i) {

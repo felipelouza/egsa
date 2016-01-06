@@ -394,11 +394,6 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 	
 			//computes lcp in 13n bytes
 			lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
-
-//			find_inverse(SA, &ISA, Text[i].length+1);
-//			lcp_kasai(Text[i].c_buffer, SA, Text[i].length+1, LCP, ISA); // 13n bytes
-
-						
 		#else
 		
 			//computes sa+lcp in 9n bytes
