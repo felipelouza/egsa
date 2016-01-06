@@ -217,7 +217,7 @@ void induce(heap* h, heap_node *node, int_lcp lcp){
 /**********************************************************************/
 
 // Formar ESA para gravar em disco.. 
-int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char *c_file) {
+int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	
 	char c_aux[500];
 	
@@ -234,7 +234,10 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char 
 	size_t i = 0;
 	
 	#if INPUT_CAT
-		
+			
+		int_suff *ISA = NULL;
+		find_inverse(SA, &ISA, Text[i].length+1);
+
 		size_t sum=0;
 		
 		size_t *size = (size_t*) malloc(Text->n_strings * sizeof(size_t));
@@ -264,6 +267,8 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, int_suff* ISA, t_TEXT *Text, char 
 				offset = i+1;
 			}
 		}
+		
+		free(ISA);
 	#endif
 	
 	
@@ -375,7 +380,6 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		LCP = (int_lcp*) malloc((Text[i].length+3) * sizeof(int_lcp));
 		if(!LCP) perror("esa_build");
 		
-		int_suff *ISA = NULL;
 		
 		#if INPUT_CAT
 			unsigned j = 0;
@@ -389,9 +393,12 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
 	
 			//computes lcp in 13n bytes
-			find_inverse(SA, &ISA, Text[i].length+1);
-			lcp_kasai(Text[i].c_buffer, SA, Text[i].length+1, LCP, ISA); // 13n bytes
-			
+			lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
+
+//			find_inverse(SA, &ISA, Text[i].length+1);
+//			lcp_kasai(Text[i].c_buffer, SA, Text[i].length+1, LCP, ISA); // 13n bytes
+
+						
 		#else
 		
 			//computes sa+lcp in 9n bytes
@@ -419,13 +426,12 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 			esa_print_suff(SA, LCP, &Text[i],  20);
 		#endif		
 		//write on disk
-		esa_write_all(SA, LCP, ISA, &Text[i], c_file);
+		esa_write_all(SA, LCP, &Text[i], c_file);
 
 		/**************************************************************/
 		
 		free(SA);
 		free(LCP);
-		free(ISA);
 		free(Text[i].c_buffer);
 	}
 	

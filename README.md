@@ -136,7 +136,7 @@ We have included the source codes of the following algorithms:
 
 * sais-lite-LCP: suffix array and LCP-array construction algorithm \[2\]
 * gsaca-k: generalized suffix array construction algorithm \[3\]
-* KLAAP: LCP-array construction algorithm given the suffix array \[4\]
+* lcp-PHI: LCP-array construction algorithm given the suffix array \[4\]
 
 ##citation:
 
@@ -164,7 +164,7 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 \[3\] Louza, F. A., Gog, S., Telles, G. P.  https://github.com/felipelouza/gsa-is 
 
-\[4\] Kasai, T., Lee, G., Arimura, H., Arikawa, S., & Park, K. (2001). Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications. In Proc. CPM (pp. 181–192).
+\[4\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
 
 ##thanks:
 

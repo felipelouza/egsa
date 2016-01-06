@@ -95,8 +95,6 @@ int file_open_input(t_TEXT **Text, char *c_file, int_text *k, int_text *r){
 				
 		fscanf(f_aux, "%s\n", c_aux);
 		sprintf((*Text)[i].c_file, "%s", c_aux);
-		printf("%s\n", c_aux);
-		
 	}
 
 	fclose(f_aux);
