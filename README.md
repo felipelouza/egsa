@@ -162,7 +162,7 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 \[2\] Fischer, J. (2011). Inducing the LCP-Array. In F. Dehne, J. Iacono, & J.-R. Sack (Eds.), Proc. WADS (pp. 374–385).
 
-\[3\] Louza, F. A., Gog, S., Telles, G. P.  https://github.com/felipelouza/gsa-is 
+\[3\] Louza, F. A., Gog, S., Telles, G. P. (2016). Induced Suffix Sorting for String Collections. In Proc. DCC (to appear), https://github.com/felipelouza/gsa-is 
 
 \[4\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
 
