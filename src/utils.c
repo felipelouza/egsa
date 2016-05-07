@@ -334,7 +334,7 @@ int check_gsa(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux) {
 	pos = ftell(t_Aux->f_ESA);
 	esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	
-	esa_print_gsa(GSA, 20);
+	esa_print_gsa(GSA, min(20,length));
 	
 	size_t text[2];
 	size_t suff[2];

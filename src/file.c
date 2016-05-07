@@ -280,7 +280,7 @@ int file_load_fasta(t_TEXT *Text) {
 	}
 	
 	
-	#if PROTEIN	
+	#if PROTEIN || DNA	
 		Text->length = j;
 	#else
 		Text->length = j-1;
