@@ -9,6 +9,7 @@ LFLAGS = -lm -ldl
 
 LIBOBJ = external/malloc_count/malloc_count.o\
 		external/gsaca-k.o\
+		external/sais-lite-LCP.o\
 		$(LIB_DIR)/utils.o\
 		$(LIB_DIR)/file.o\
 		$(LIB_DIR)/esa.o\

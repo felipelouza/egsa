@@ -10,7 +10,6 @@ const uint_t EMPTY_k=((uint_t)1)<<(sizeof(uint_t)*8-1);
 #define true 1
 #define false 0
 
-#define DEBUG 0
 #define DEPTH 0  // compute time and size of reduced problem for each recursion call
 #define PHASES 0 // compute time for each phase
 

@@ -337,6 +337,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 
 	int_suff *SA;
 	int_lcp *LCP;
+	unsigned j = 0;
 	
 	int_text i;
 	for(i = 0; i < k; i++){
@@ -357,17 +358,27 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		
 		/**************************************************************/
 		//computes gsa in 5n bytes
-		unsigned j = 0;
-		for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]++;
-		Text[i].c_buffer[j]=0;
 
-		gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
+		//printf("n_strings = %d\n", Text[i].n_strings);
 
-		for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
+		if(Text[i].n_strings==1){
 
-		//computes lcp in 13n bytes
-		lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
+			Text[i].c_buffer[Text[i].length]=0;
+			//computes sa+lcp in 9n bytes
+			sais_lcp(Text[i].c_buffer, SA, LCP, Text[i].length+1);
+			LCP[1] = 0;
+		}
+		else{
+			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]++;
+			Text[i].c_buffer[j]=0;
 
+			gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
+
+			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
+
+			//computes lcp in 13n bytes
+			lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
+		}
 		/**************************************************************/
 		//validate
 		#if DEBUG
@@ -445,6 +456,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	printf("alfa\tTOTAL\tINDUCED\t\%:\n");
 
 	size_t induced_suffixes = 0;
+	size_t total_induced_suffixes = 0;
 	#if DEBUG
 		size_t ant = 0;
 	#endif
@@ -470,7 +482,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 				if(H->induced[alfa]){//induceds > 0
 					
 
-					induced_suffixes += heap_pass_induced(H, Text, &i, alfa);
+					induced_suffixes = heap_pass_induced(H, Text, &i, alfa);
 					
 					H->size = 0;
 					for(j = 0; j < k; j++){
@@ -486,6 +498,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 					H->lcp_son_dad[0] = 1;
 					heap_lcp(H, 0);
 				}
+				total_induced_suffixes += induced_suffixes;
 			}
 		#endif	//_INDUCING
 		
@@ -495,7 +508,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 		printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
 	#endif
 	
-	printf("ALL)\t%d\t%d\t%.2lf\n", i, induced_suffixes, (100.0)*(induced_suffixes/(double) (i)));
+	printf("ALL)\t%d\t%d\t%.2lf\n", i, total_induced_suffixes, (100.0)*(total_induced_suffixes/(double) (i)));
 	
 	#if _OUTPUT_BUFFER
 		fwrite(H->out_buffer, sizeof(t_GSA), H->size_out_buffer, H->f_out_ESA);//fflush out_buffer

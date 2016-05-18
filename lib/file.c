@@ -270,9 +270,9 @@ return r;
 
 int_suff file_size(FILE* f_in){
 	
-		fseek (f_in, 0, SEEK_END);
-		int_suff length = ftell (f_in);
-	    rewind(f_in);
+	fseek (f_in, 0, SEEK_END);
+	int_suff length = ftell (f_in);
+	rewind(f_in);
 
 return length;
 }
@@ -285,6 +285,8 @@ int_text file_count_separators(FILE* f_in, int_suff length){
 	char c;
 
 	while((c = fgetc(f_in))!=EOF) if(c==0) count++;
+
+	rewind(f_in);
 		
 return count;
 }
@@ -295,6 +297,8 @@ void file_count_symbols(FILE* f_in, int_suff length, int_suff* COUNT){
 	
 	int c;
 	while((c = fgetc(f_in))!=EOF) COUNT[c]++;
+	
+	rewind(f_in);
 }
 
 /*******************************************************************/
@@ -349,7 +353,8 @@ int preprocessing(t_TEXT **Text, char *c_file, int_suff mem_limit, int_text *k, 
 		(*Text)[i].length = file_size(f_in);
 		
 		file_count_symbols(f_in, (*Text)[i].length, COUNT);
-		(*Text)[i].n_strings = COUNT[0];
+		//(*Text)[i].n_strings = COUNT[0];
+		(*Text)[i].n_strings = file_count_separators(f_in, (*Text)[i].length);
 		
 		(*Text)[i].n_start = sum;
 		sum += (*Text)[i].n_strings;
@@ -383,7 +388,7 @@ int open_sequence(t_TEXT *Text, char *c_file){
 
 	fseek (Text->f_in, 0, SEEK_END);
 
-    Text->length = ftell(Text->f_in);
+  	Text->length = ftell(Text->f_in);
 	rewind(Text->f_in);
 
 	Text->length--;// remove #-suffix to be sorted
