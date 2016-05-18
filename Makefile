@@ -15,7 +15,7 @@ LIBOBJ = external/malloc_count/malloc_count.o\
 		$(LIB_DIR)/esa.o\
 		$(LIB_DIR)/heap.o\
 		$(LIB_DIR)/lcp.o\
-		src/gesa.o\
+		src/egsa.o\
 ##
 BWT = 0
 DEBUG = 0
@@ -50,7 +50,8 @@ flush:
 	
 clean:
 	rm -f $(LIB_DIR)/*.o
-#	rm -f external/*.o
+	rm -f src/*.o
+	rm -f external/*.o
 	rm -f egsa-1.2
 
 remove:

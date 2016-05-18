@@ -1,7 +1,7 @@
-#include "gesa.h"
+#include "egsa.h"
 
 /**********************************************************************/
-int gesa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE){
+int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE){
 
 time_t t_start, t_total;
 clock_t c_start, c_total;
@@ -10,11 +10,11 @@ clock_t c_start, c_total;
 int_text total;
 int_suff n=1;
 
-
 	file_chdir(c_dir);
 	
 	//preprocessing
 	t_start = time(NULL);
+	c_start =  clock();
 	total = K;
 
 	int_suff COUNT[SIGMA];

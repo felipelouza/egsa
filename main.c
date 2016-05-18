@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <time.h>
 #include <errno.h>
 
-#include "src/gesa.h"
+#include "src/egsa.h"
 #include "lib/utils.h"
 #include "lib/file.h"
 #include "lib/esa.h"
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
 	#endif
 
 	//c_dir, c_file, K, memlimit, check
-	gesa(argv[2], argv[3], K, MEMLIMIT, VALIDATE);
+	egsa(argv[2], argv[3], K, MEMLIMIT, VALIDATE);
 
 return 0;
 }

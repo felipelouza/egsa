@@ -1,5 +1,5 @@
-#ifndef GESA_H
-#define GESA_H
+#ifndef EGSA_H
+#define EGSA_H
 
 #include <math.h>
 #include "../lib/utils.h"
@@ -7,7 +7,7 @@
 
 /**********************************************************************/
 
-int gesa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE);
+int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE);
 
 /**********************************************************************/
 
