@@ -2,27 +2,13 @@
 
 This software is the implementation of egsa \[1\] (http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20), an external memory algorithm to construct generalized enhanced suffix arrays.
 
-Given a collection of K strings, egsa outputs its:
+Given a collection of K strings, egsa outputs the:
 
 * Generalized suffix array 
 * LCP-array 
 * Burrows-Wheeler transform.
 
---
-**Settings:**
-
-We have implemented two settings to egsa:
-
-* Mode 1: indexing a small collection of large strings (DNA sequences);
-* Mode 2: indexing a large collections of small strings (DNA sequencing reads; or protein sequences);
-
---
-**Examples:**
-
-One could find examples in _dataset_ folder, at least one for each setting mode.
-
 ##install:
-
 
 ```sh
 git clone https://github.com/felipelouza/egsa.git
@@ -31,50 +17,38 @@ cd egsa
 
 **Compile:**
 
-
 ```sh
 make clean
-make compile MODE=1  
+make compile 
 ```
-
-or 
-
-```sh
-make clean
-make compile MODE=2
-```
-
-\*In mode 2, one can add _PROTEIN=1_ if the input is a collection of protein sequences.
 
 ##run:
 
-**Mode 1:**
+Given a collection of K strings concatenated in a single file indicated by the file INPUT in directory DIR.
 
-Given a collection of K strings (DNA sequences), each one stored in a different (fasta) file, indicated by the file INPUT in directory DIR.
-
-_fasta_ (genomes):
-
+_fasta_
 ```sh
-make run DIR=dataset/fasta/ INPUT=all.in K=5 
+make run DIR=dataset/fasta/ INPUT=proteins-100.fasta K=100
 ```
+* strings separated by '>' line
+
+_fastq_
+```sh
+make run DIR=dataset/fastq/ INPUT=reads-100.fastq K=100
+```
+* strings at each four lines
+
+
+_txt_
+```sh
+make run DIR=dataset/txt/	INPUT=input-100.txt K=100
+```
+* strings separated per line
 
 --
+**Examples:**
 
-**Mode 2:** 
-
-Given a collection of K strings (reads or proteins), all strings stored (concatenated) in the same (fastq or fasta) file INPUT in directory DIR.
-
-_fastq_ (reads):
-
-```sh
-make run DIR=dataset/fastq/ INPUT=reads-10000.fastq K=1000
-```
-
-_fasta_ (proteins):
-
-```sh
-make run DIR=dataset/proteins/ INPUT=proteins-10000.fasta K=1000
-```
+One could find examples in _dataset_ folder, at least one for each setting mode.
 
 
 ##output:
@@ -85,10 +59,11 @@ The generalized enhanced suffix array is stored in the same directory DIR in a f
 $(INPUT).K.gesa
 ```
 
-Each input file is converted and stored in a binary file called:
+Temporary files are stored in folders 
 
 ```sh
-$(INPUT).K.bin
+$(DIR)/partition/
+$(DIR)/tmp/
 ```
 
 ##options:
@@ -103,7 +78,7 @@ make compile BWT=1
 
 ```
 
-In mode 2, one can inform to egsa the maximum available internal memory to be used (in MB):
+One can inform the maximum available internal memory to be used (in MB):
 
 ```sh
 
@@ -168,5 +143,5 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 ##thanks:
 
-Thanks to Fabio Garofalo and Giovanna Rosone by helpful suggestions and debugging.
+Thanks to Guilherme P. Telles, Steve Hoffmann, Fabio Garofalo and Giovanna Rosone by helpful suggestions and debugging.
 

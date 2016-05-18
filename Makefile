@@ -1,5 +1,5 @@
 CC = gcc
-SRC_DIR=src
+LIB_DIR=lib
 
 CWARNING =  -Wall -Wno-unused-result -Wno-implicit-function-declaration -Wno-comment -Wno-format 
 #VLIB= -g -O0
@@ -10,24 +10,18 @@ LFLAGS = -lm -ldl
 LIBOBJ = external/malloc_count/malloc_count.o\
 		external/sais-lite-LCP.o\
 		external/gsaca-k.o\
-		$(SRC_DIR)/utils.o\
-		$(SRC_DIR)/file.o\
-		$(SRC_DIR)/esa.o\
-		$(SRC_DIR)/heap.o\
-		$(SRC_DIR)/lcp.o\
-
+		$(LIB_DIR)/utils.o\
+		$(LIB_DIR)/file.o\
+		$(LIB_DIR)/esa.o\
+		$(LIB_DIR)/heap.o\
+		$(LIB_DIR)/lcp.o\
+		src/gesa.o\
 ##
-
 BWT = 0
 DEBUG = 0
-
-##
-MODE = 2
-PROTEIN = 0 #1 for protein input, 0 for reads
-
 ##
 
-DEFINES = -DDEBUG=$(DEBUG)  -DBWT=$(BWT) -DMODE=$(MODE) -DPROTEIN=$(PROTEIN)
+DEFINES = -DDEBUG=$(DEBUG) -DBWT=$(BWT) 
 
 CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 
@@ -36,14 +30,13 @@ CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 CHECK = 1
 PRE = 1
 
-DIR = dataset/fastq/
-#DIR = dataset/fasta/
+DIR = dataset/
 
-INPUT = reads-10000.fastq
-#INPUT = all.in
+#INPUT = proteins-100.fasta
+INPUT = input.10000.txt
+#INPUT = reads-10000.fastq
 
-K =  5000
-#K =  5
+K =  100
 
 #1024MB
 MEMLIMIT = 1 
@@ -56,32 +49,32 @@ flush:
 	sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
 	
 clean:
-	rm -f $(SRC_DIR)/*.o
+	rm -f $(LIB_DIR)/*.o
 #	rm -f external/*.o
-	rm -f egsa-1.1
+	rm -f egsa-1.2
 
-erase:
-	rm $(DIR)*.gesa
-	rm $(DIR)*.bin
+remove:
+	rm -f $(DIR)*.gesa
+	rm -f $(DIR)*.bin
 	rm -Rf $(DIR)*.esa
 	rm -Rf $(DIR)partition/*
 	rm -Rf $(DIR)tmp/*	
 
 ##
-LIBH = $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-$(SRC_DIR)/esa.o 	: $(LIBH)
-$(SRC_DIR)/heap.o	: $(LIBH)
-$(SRC_DIR)/file.o	: $(LIBH)
-$(SRC_DIR)/utils.o	: $(LIBH)
-$(SRC_DIR)/lcp.o	: $(LIBH)
+LIBH = $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
+$(LIB_DIR)/esa.o 	: $(LIBH)
+$(LIB_DIR)/heap.o	: $(LIBH)
+$(LIB_DIR)/file.o	: $(LIBH)
+$(LIB_DIR)/utils.o	: $(LIBH)
+$(LIB_DIR)/lcp.o	: $(LIBH)
 
 ##
 
-compile: $(SRC_DIR)/main.c ${LIBOBJ} $(SRC_DIR)/defines.h $(SRC_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) $(SRC_DIR)/main.c -o egsa-1.1
+compile: main.c ${LIBOBJ} $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
+	$(CC) $(LIBOBJ) $(CFLAGS) main.c -o egsa-1.2
 
-run: egsa-1.1
-	./egsa-1.1 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+run: egsa-1.2
+	./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.1 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
