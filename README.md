@@ -104,9 +104,8 @@ make run CHECK=1
 
 We have included the source codes of the following algorithms: 
 
-* sais-lite-LCP: suffix array and LCP-array construction algorithm \[2\]
-* gsaca-k: generalized suffix array construction algorithm \[3\]
-* lcp-PHI: LCP-array construction algorithm given the suffix array \[4\]
+* gsaca-k: generalized suffix array construction algorithm \[2\]
+* lcp-PHI: LCP-array construction algorithm given the suffix array \[3\]
 
 ##citation:
 
@@ -130,13 +129,11 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 
 \[1\] Louza, F. A., Telles, G. P., Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201-210).
 
-\[2\] Fischer, J. (2011). Inducing the LCP-Array. In F. Dehne, J. Iacono, & J.-R. Sack (Eds.), Proc. WADS (pp. 374-385).
+\[2\] Louza, F. A., Gog, S., Telles, G. P. (2016). Induced Suffix Sorting for String Collections. In Proc. DCC (pp. 43-52), https://github.com/felipelouza/gsa-is 
 
-\[3\] Louza, F. A., Gog, S., Telles, G. P. (2016). Induced Suffix Sorting for String Collections. In Proc. DCC (pp. 43-52), https://github.com/felipelouza/gsa-is 
-
-\[4\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
+\[3\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
 
 ##thanks:
 
-Thanks to Guilherme P. Telles, Steve Hoffmann, Fabio Garofalo and Giovanna Rosone by helpful suggestions and debugging.
+Thanks to Fabio Garofalo, Giovanna Rosone and Guilherme P. Telles by helpful suggestions and debugging.
 
