@@ -24,26 +24,23 @@ make compile
 
 ##run:
 
-Given a collection of K strings concatenated in a single file indicated by the file INPUT in directory DIR.
+Given a collection of K strings concatenated in a single file INPUT in the directory DIR.
 
 _fasta_
 ```sh
 make run DIR=dataset/fasta/ INPUT=proteins-100.fasta K=100
 ```
-* strings separated by '>' line
 
 _fastq_
 ```sh
 make run DIR=dataset/fastq/ INPUT=reads-100.fastq K=100
 ```
-* strings at each four lines
-
 
 _txt_
 ```sh
 make run DIR=dataset/txt/	INPUT=input-100.txt K=100
 ```
-* strings separated per line
+* strings are separated per '\0' (new line)
 
 --
 **Examples:**
@@ -67,8 +64,6 @@ $(DIR)/tmp/
 ```
 
 ##options:
-
-One can choose the following options:
 
 Output the burrows wheeler transform:
 
