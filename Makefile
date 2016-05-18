@@ -8,7 +8,6 @@ MY_CXX_OPT_FLAGS= -O3 -ffast-math -funroll-loops -m64 -fomit-frame-pointer -D_FI
 LFLAGS = -lm -ldl
 
 LIBOBJ = external/malloc_count/malloc_count.o\
-		external/sais-lite-LCP.o\
 		external/gsaca-k.o\
 		$(LIB_DIR)/utils.o\
 		$(LIB_DIR)/file.o\
@@ -32,8 +31,8 @@ PRE = 1
 
 DIR = dataset/
 
-#INPUT = proteins-100.fasta
-INPUT = input.10000.txt
+#INPUT = proteins-10000.fasta
+INPUT = input-10000.txt
 #INPUT = reads-10000.fastq
 
 K =  100
