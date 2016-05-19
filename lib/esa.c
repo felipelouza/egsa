@@ -127,7 +127,7 @@ int esa_print_gsa(t_GSA *GSA, size_t size){
 	size_t i = 0;		
 	for(; i < size; i++){
 		#if BWT
-			printf("%zu\t|%u, %u \t(%u) \t(%d)\n", i, GSA[i].text, GSA[i].suff, GSA[i].lcp, GSA[i].bwt);
+			printf("%zu\t|%u, %u \t(%u) \t(%c)\n", i, GSA[i].text, GSA[i].suff, GSA[i].lcp, GSA[i].bwt);
 		#else
 			printf("%zu\t|%u, %u \t(%u) \n", i, GSA[i].text, GSA[i].suff, GSA[i].lcp);
 		#endif
