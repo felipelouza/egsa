@@ -442,7 +442,6 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 		*size += Text[j].length;
 	}
 
-	printf("size = %zu\n", *size); 
 
 	//initialize the heap
 	for(j = 0; j < k; j++){

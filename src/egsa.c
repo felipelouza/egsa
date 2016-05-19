@@ -27,7 +27,7 @@ int_suff n=1;
 	n = preprocessing(&Text,c_file, MEMLIMIT, &K, COUNT);
 	if(n==0) return 1;		
 	
-	printf("TOTAL = %lu bytes\n", n);
+        printf("TOTAL = %lu bytes\t%.2lf MB\n", n, n/pow(2,20));
 
 	time_stop(t_start, c_start);
 
