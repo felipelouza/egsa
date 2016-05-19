@@ -91,10 +91,8 @@ int heap_free(heap *h) {
 		fclose(h->fSIGMA[i]);
 	}
 	
-	#if _LCP_COMPARISON
-		free(h->lcp_left_right);
-		free(h->lcp_son_dad);
-	#endif
+	free(h->lcp_left_right);
+	free(h->lcp_son_dad);
 	
 	#if _OUTPUT_BUFFER
 		free(h->out_buffer);
@@ -206,7 +204,6 @@ int heapfy_down(heap *h, int i_node) {
 				else
 					i_son = (is_less_left_right(h, h->heap[l], h->heap[r], &h->lcp_left_right[l])) ? l : r;
 			#else
-				int_lcp aux = 0;
 				i_son = (is_less_left_right(h, h->heap[l], h->heap[r], &h->lcp_left_right[l])) ? l : r;
 			#endif
 				
@@ -265,7 +262,7 @@ int heap_insert(heap *h, int key, heap_node* node, unsigned u_idx) {
 	h->heap[h->size] = node;
 
 	#if _PREFIX_ASSY
-		memcpy(node->c_buffer , node->ESA[u_idx].prefix, PREFIX_SIZE);
+		memcpy(node->c_buffer, node->ESA[u_idx].prefix, PREFIX_SIZE);
 		node->i_loaded = node->i_height = PREFIX_SIZE;
 		node->c_buffer[PREFIX_SIZE] = SIGMA;
 	#else
@@ -324,12 +321,11 @@ int heap_delete_min(heap *h) {//outputs min
 	
 	if(node->ESA[node->u_idx].lcp < node->i_height)
 		node->i_height = node->ESA[node->u_idx].lcp;
+		
+	#if _PREFIX_ASSY
 	
-	if(node->i_height < C_BUFFER_SIZE){
-		
-		
-		#if _PREFIX_ASSY
-		
+		if(node->i_height < C_BUFFER_SIZE){
+			
 			int_lcp aux = PREFIX_SIZE;		
 			if(node->i_height + PREFIX_SIZE > C_BUFFER_SIZE) aux = C_BUFFER_SIZE - node->i_height;
 
@@ -337,29 +333,31 @@ int heap_delete_min(heap *h) {//outputs min
 			node->c_buffer[node->i_height+aux] = SIGMA;
 			
 			node->i_height += aux;
+		}
+
+		node->i_loaded = node->i_height;
+	#else
+		
+		#if _LCP_COMPARISON
+			seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa + (size_t) node->i_height);
+			fread (&node->c_buffer[node->i_height], sizeof(int8), C_BUFFER_SIZE - node->i_height, node->f_in);
 			
+			node->c_buffer[C_BUFFER_SIZE] = SIGMA;
+			node->i_loaded = C_BUFFER_SIZE-1;			
 		#else
+			seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa);
+			fread (&node->c_buffer[0], sizeof(int8), C_BUFFER_SIZE, node->f_in);
 			
-			#if _LCP_COMPARISON
-				seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa + (size_t) node->i_height);
-				fread (&node->c_buffer[node->i_height], sizeof(int8), C_BUFFER_SIZE - node->i_height, node->f_in);
-				
-				node->c_buffer[C_BUFFER_SIZE] = SIGMA;
-				node->i_loaded = C_BUFFER_SIZE-1;			
-			#else
-				seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa);
-				fread (&node->c_buffer[0], sizeof(int8), C_BUFFER_SIZE, node->f_in);
-				
-				node->c_buffer[C_BUFFER_SIZE] = SIGMA;
-				node->i_loaded = C_BUFFER_SIZE-1;				
-			#endif
-			
+			node->c_buffer[C_BUFFER_SIZE] = SIGMA;
+			node->i_loaded = C_BUFFER_SIZE-1;				
 		#endif
+		
+	#endif
 			
-	}
+	
+	//int j1; for(j1=0;j1<C_BUFFER_SIZE;j1++) printf("%d|", node->c_buffer[j1]); printf("\n\n");
 	
 	#if _PREFIX_ASSY
-		node->i_loaded = node->i_height;
 	#endif
 	
 
@@ -426,7 +424,7 @@ return h->induced[alfa];
 /*******************************************************************************/
 
 int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length){
-	
+	//printf("load_buffer\n");
 	//loads buffer (c_buffer)
 	seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa + (size_t) length);
 	
@@ -512,13 +510,12 @@ int is_less_down(heap *h, heap_node *node_son, heap_node *node_dad, int_lcp* lcp
 int is_less_left_right(heap *h, heap_node *node_left, heap_node *node_right, int_lcp* lcp_BD){
 
 	
-	int_lcp min = min(node_left->i_loaded, node_right->i_loaded);
-	
 	#if _LCP_COMPARISON
+		int_lcp min = min(node_left->i_loaded, node_right->i_loaded);
+		
 		if((*lcp_BD) > min){
 			(*lcp_BD) = min;
 		}
-		
 	#else
 		(*lcp_BD) = 0;
 	#endif
@@ -559,9 +556,9 @@ int is_less_left_right(heap *h, heap_node *node_left, heap_node *node_right, int
 
 int compare(heap *h, heap_node *node1, heap_node *node2, int_lcp* lcp){//[left, right], [son, dad]
 	
-	int_lcp min = min(node1->i_loaded, node2->i_loaded);
-	
 	#if _LCP_COMPARISON
+		int_lcp min = min(node1->i_loaded, node2->i_loaded);
+
 		if((*lcp) > min){
 			(*lcp) = min;
 		}

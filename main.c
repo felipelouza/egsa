@@ -53,6 +53,7 @@ int main(int argc, char **argv) {
 	printf("DIR = %s\n", argv[2]);
 	printf("INPUT = %s\n", argv[3]);
 	printf("K = %d\n", K);
+	//MEMLIMIT *= 1024*1024;
 	MEMLIMIT *= 1024*1024;
 	printf("MEMLIMIT = %.2lf MB\n", MEMLIMIT/pow(2,20));
 	printf("PRE = %d\n", PRE_OPTION);
@@ -75,7 +76,7 @@ void print_config(void){
 	
 	printf("******************\n");
 	
-	printf("BLOCK_ESA_SIZE = %d\n", BLOCK_ESA_SIZE);
+	printf("BLOCK_ESA_SIZE = %.2lf MB\n", (BLOCK_ESA_SIZE*sizeof(t_ESA))/pow(2,20));
 	printf("C_BUFFER_SIZE = [%d, %d]\n", C_BUFFER_SIZE, C_OVERFLOW_SIZE);
 
 	printf("_OUTPUT_BUFFER = %d\n", _OUTPUT_BUFFER);

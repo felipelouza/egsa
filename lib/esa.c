@@ -80,12 +80,13 @@ int esa_print(t_TEXT *Text, size_t size){
 	size_t end = BLOCK_ESA_SIZE+1;
 	if(Text->length < end) end = Text->length+1;
 	
-	size_t j, i = end - size;
+	size_t i = end - size;
 	for(i = 0; i < size; i++){
 		
 		printf("%zu\t|%d\t(%d)\t", i, Text->ESA[i].sa, Text->ESA[i].lcp);
 		
 		#if _PREFIX_ASSY
+			size_t j;
 			for(j = 0; j < PREFIX_SIZE && j < 10; j++){
 				printf("%d ", Text->ESA[i].prefix[j]);
 			}
@@ -158,7 +159,7 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 		h->out_buffer[h->size_out_buffer++].lcp = lcp;
 	
 	#else
-	
+
 		fwrite(&node->ESA[node->u_idx].text, sizeof(int_text), 1, h->f_out_ESA);
 		fwrite(&node->ESA[node->u_idx].sa_prime, sizeof(int_suff), 1, h->f_out_ESA);			
 		
@@ -217,8 +218,11 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	
 	if(!f_out) perror("esa_write_all_induced");
 	
-	int_suff inicio;
-	int_lcp  i_height = 0;
+	#if _PREFIX_ASSY
+		int_suff begin=0;
+		int_lcp  i_height = 0;
+	#endif
+	
 	int8 bwt;
 	
 	size_t i = 0;
@@ -268,17 +272,17 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		#if _PREFIX_ASSY
 			i_height += PREFIX_SIZE;		
 			if(LCP[i] < i_height) i_height = LCP[i];
+			begin = SA[i] + i_height;
 		#endif
 			
-		inicio = SA[i] + i_height;
 		
 		#if _INDUCING
 			if(Text->c_buffer[SA[i]] > Text->c_buffer[SA[i]+1]){
 				
 				LCP[i+1] = 0;
-				inicio = SA[i];
 				
 				#if _PREFIX_ASSY
+					begin = SA[i];
 					i_height = PREFIX_SIZE;
 				#endif
 			}
@@ -289,7 +293,7 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		fwrite(&LCP[i], sizeof(int_lcp), 1, f_out);
 		
 		#if _PREFIX_ASSY
-			fwrite(&Text->c_buffer[inicio], sizeof(int8), PREFIX_SIZE, f_out);
+			fwrite(&Text->c_buffer[begin], sizeof(int8), PREFIX_SIZE, f_out);
 		#endif
 		
 		//bwt
@@ -304,10 +308,10 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		
 		if(SA_prime[i]==0) sum++;
 	}
-	//extra node [n, 0, 500]
 	
+	//extra node [n-1, 0, 500] SENTINEL
 	t_ESA aux_gsa;
-	aux_gsa.sa = Text->length;
+	aux_gsa.sa = Text->length-1; //FELIPE
 	aux_gsa.lcp = 0;
 	
 	aux_gsa.text = 0;
@@ -337,7 +341,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 
 	int_suff *SA;
 	int_lcp *LCP;
-	unsigned j = 0;
+	int_suff j = 0;
 	
 	int_text i;
 	for(i = 0; i < k; i++){
@@ -355,6 +359,8 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		
 		LCP = (int_lcp*) malloc((Text[i].length+3) * sizeof(int_lcp));
 		if(!LCP) perror("esa_build");
+
+		for(j=0;j<Text[i].length+3;j++) SA[j] = LCP[j] = 0;
 		
 		/**************************************************************/
 		//computes gsa in 5n bytes
@@ -397,7 +403,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		Text[i].c_buffer[Text[i].length] = SIGMA; 
 		
 		#if DEBUG
-			esa_print_suff(SA, LCP, &Text[i],  20);
+			esa_print_suff(SA, LCP, &Text[i],  min(Text[i].length,20));
 		#endif		
 		//write on disk
 		esa_write_all(SA, LCP, &Text[i], c_file);
@@ -454,12 +460,16 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	printf("INDUCING:\n");
 	printf("alfa\tTOTAL\tINDUCED\t\%:\n");
 
-	size_t induced_suffixes = 0;
+	#if _INDUCING
+		size_t induced_suffixes = 0;
+		int8 alfa = 0;
+	#endif
+	
 	size_t total_induced_suffixes = 0;
 	#if DEBUG
 		size_t ant = 0;
 	#endif
-	int8 alfa = 0;
+	
 	size_t i = 0;
 	for(; i < *size; i++){
 		
@@ -501,10 +511,12 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 			}
 		#endif	//_INDUCING
 		
-		heap_delete_min(H);				
+		heap_delete_min(H);			
 	}
-	#if DEBUG
-		printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
+	#if _INDUCING
+		#if DEBUG
+			printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
+		#endif
 	#endif
 	
 	printf("ALL)\t%d\t%d\t%.2lf\n", i, total_induced_suffixes, (100.0)*(total_induced_suffixes/(double) (i)));

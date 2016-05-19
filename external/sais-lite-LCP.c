@@ -90,9 +90,9 @@ LMSsort1(const void *T, sais_index_type *SA,
   SA[bb++] = (chr(j) < c1) ? ~j : j;
   for(i = 0; i < n; ++i) {
     if(0 < (j = SA[i])) {
-      //assertchr(j) >= chr(j + 1));
+      assert(chr(j) >= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = bb; bb = B[c1 = c0]; }
-      //asserti < bb);
+      assert(i < bb);
       --j;
       SA[bb] = (chr(j) < c1) ? ~j : j;
       ++bb;
@@ -106,9 +106,9 @@ LMSsort1(const void *T, sais_index_type *SA,
   getBuckets(C, B, k, 1); /* find ends of buckets */
   for(i = n - 1, bb = B[c1 = 0]; 0 <= i; --i) {
     if(0 < (j = SA[i])) {
-      //assertchr(j) <= chr(j + 1));
+      assert(chr(j) <= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = bb; bb = B[c1 = c0]; }
-      //assert(bb) <= i);
+      assert((bb) <= i);
       --j;
       SA[--bb] = (chr(j) > c1) ? ~(j + 1) : j;
       SA[i] = 0;
@@ -125,11 +125,11 @@ LMSpostproc1(const void *T, sais_index_type *SA,
 
   /* compact all the sorted substrings into the first m items of SA
       2*m must be not larger than n (proveable) */
-  //assert0 < n);
-  for(i = 0; (p = SA[i]) < 0; ++i) { SA[i] = ~p; /*assert((i + 1) < n)*/; }
+  assert(0 < n);
+  for(i = 0; (p = SA[i]) < 0; ++i) { SA[i] = ~p; assert((i + 1) < n); }
   if(i < m) {
     for(j = i, ++i;; ++i) {
-      //asserti < n);
+      assert(i < n);
       if((p = SA[i]) < 0) {
         SA[j++] = ~p; SA[i] = 0;
         if(j == m) { break; }
@@ -168,7 +168,7 @@ LMSsort2(const void *T, sais_index_type *SA,
          sais_index_type n, sais_index_type k, int cs) {
   sais_index_type *b, i, j, t, d;
   sais_index_type c0, c1;
-  //assertC != B);
+  assert(C != B);
 
   /* compute SAl */
   getBuckets(C, B, k, 0); /* find starts of buckets */
@@ -181,9 +181,9 @@ LMSsort2(const void *T, sais_index_type *SA,
   for(i = 0, d = 0; i < n; ++i) {
     if(0 < (j = SA[i])) {
       if(n <= j) { d += 1; j -= n; }
-      //assertchr(j) >= chr(j + 1));
+      assert(chr(j) >= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = b - SA; b = SA + B[c1 = c0]; }
-      //asserti < (b - SA));
+      assert(i < (b - SA));
       --j;
       t = c0; t = (t << 1) | (chr(j) < c1);
       if(D[t] != d) { j += n; D[t] = d; }
@@ -209,9 +209,9 @@ LMSsort2(const void *T, sais_index_type *SA,
   for(i = n - 1, d += 1, b = SA + B[c1 = 0]; 0 <= i; --i) {
     if(0 < (j = SA[i])) {
       if(n <= j) { d += 1; j -= n; }
-      //assertchr(j) <= chr(j + 1));
+      assert(chr(j) <= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = b - SA; b = SA + B[c1 = c0]; }
-      //assert(b - SA) <= i);
+      assert((b - SA) <= i);
       --j;
       t = c0; t = (t << 1) | (chr(j) > c1);
       if(D[t] != d) { j += n; D[t] = d; }
@@ -226,16 +226,16 @@ LMSpostproc2(sais_index_type *SA, sais_index_type n, sais_index_type m) {
   sais_index_type i, j, d, name;
 
   /* compact all the sorted LMS substrings into the first m items of SA */
-  //assert0 < n);
+  assert(0 < n);
   for(i = 0, name = 0; (j = SA[i]) < 0; ++i) {
     j = ~j;
     if(n <= j) { name += 1; }
     SA[i] = j;
-    //assert(i + 1) < n);
+    assert((i + 1) < n);
   }
   if(i < m) {
     for(d = i, ++i;; ++i) {
-      //asserti < n);
+      assert(i < n);
       if((j = SA[i]) < 0) {
         j = ~j;
         if(n <= j) { name += 1; }
@@ -277,9 +277,9 @@ static void induceSA(const void *T, sais_index_type *SA,
     j = SA[i], SA[i] = ~j;
     if(0 < j) {
       --j;
-      //assertchr(j) >= chr(j + 1));
+      assert(chr(j) >= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = bb; bb = B[c1 = c0]; }
-      //asserti < bb);
+      assert(i < bb);
       SA[bb] = ((0 < j) && (chr(j - 1) < c1)) ? ~j : j;
       ++bb;
     }
@@ -290,9 +290,9 @@ static void induceSA(const void *T, sais_index_type *SA,
   for(i = n - 1, bb = B[c1 = 0]; 0 <= i; --i) {
     if(0 < (j = SA[i])) {
       --j;
-      //assertchr(j) <= chr(j + 1));
+      assert(chr(j) <= chr(j + 1));
       if((c0 = chr(j)) != c1) { B[c1] = bb; bb = B[c1 = c0]; }
-      //assertbb <= i);
+      assert(bb <= i);
       SA[--bb] = ((j == 0) || (chr(j - 1) > c1)) ? ~j : j;
     } else {
       SA[i] = ~j;
@@ -314,7 +314,7 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
     LCP-value at this "L/S-seam" has to be recomputed. All other uncomputed
     LCP-entries are marked -2.
   */
-  
+
   sais_index_type i, bb;         // indices in SA/LCP (origin/target)
   sais_index_type j;             // position in text
   sais_index_type c0, c1;        // characters (new/last)
@@ -371,23 +371,23 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
 	// no need to store LCP[i]=lcp (will be re-calculated in right-to-left scan!)
       }
       --j;      // move to suffix T[SA[i]-1]
-      //assertchr(j) >= chr(j + 1));   // induced suffix must be type L
+      assert(chr(j) >= chr(j + 1));   // induced suffix must be type L
       if((c0 = chr(j)) != c1) {       // induced SA-value in new bucket c0
 	B[c1] = bb;                   // store current end in old bucket
 	bb = B[c1 = c0];              // go to position in new bucket
       }
-      //asserti < bb);                 // can only induce to the right
+      assert(i < bb);                 // can only induce to the right
       LastW[c0] = j;                  // store last written L-suffix for every bucket
       SA[bb] = ((0 < j) && (chr(j - 1) < c0)) ? ~j : j;
 
       // Variant 3: use stack:
-      //assertlcp >= 0);                                 // lcp already computed
+      assert(lcp >= 0);                                 // lcp already computed
       while (lcp <= MinStack[stack_end]) stack_end -= 2; // pop from stack
       MinStack[++stack_end] = i;   // push position on stack
       MinStack[++stack_end] = lcp; // push lcp-value
 
       start = LastOcc[TranslateSigma[c0]] + 1; // start of query
-      //assertstack_end-3 >= 0);                // stopper (-1) and last (i) are on stack
+      assert(stack_end-3 >= 0);                // stopper (-1) and last (i) are on stack
       end = stack_end - 3;
       while (start <= MinStack[end]) end -= 2; // search until smaller element found
       if (bb == D[c0]) LCP[bb] = 0;            // store 0 at bucket beginnings
@@ -398,7 +398,7 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
     }
     else { // don't induce, but update stack with LCP[i]
       lcp = LCP[i];      // get current LCP-value
-      //assertlcp != -1); // -1 only for S*, but we induce from S*
+      assert(lcp != -1); // -1 only for S*, but we induce from S*
       if (lcp >= 0) {    // check if already computed
 	while (lcp <= MinStack[stack_end]) stack_end -= 2; // pop from stack
 	MinStack[++stack_end] = i;   // push position on stack
@@ -417,7 +417,7 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
 	if (start > MinStack[end-1]) {         // otherwise correct element already taken
 	  while (l < stack_end && start > MinStack[l]) l += 2;
 	  if (l > stack_end) break;
-	  //assertl < stack_end);
+	  assert(l < stack_end);
 	  MinStack[++end] = MinStack[l];       // take first element >= start
 	  MinStack[++end] = MinStack[l+1];
 	}
@@ -447,17 +447,17 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
     }
     if(0 < (j = SA[i])) { // induce SA and LCP
       --j;                           // go to suffix T[SA[i]-1] (to be induced)
-      //assertchr(j) <= chr(j + 1));  // must be type S
+      assert(chr(j) <= chr(j + 1));  // must be type S
       if((c0 = chr(j)) != c1) {
 	B[c1] = bb; bb = B[c1 = c0]; // switch bucket
       }
-      //assertbb <= i); // induced suffix must be placed to the left of i
+      assert(bb <= i); // induced suffix must be placed to the left of i
       SA[--bb] = ((j == 0) || (chr(j - 1) > c0)) ? ~j : j; // continue if type L
-      //assertc0+1<k);        // we cannot induce into the last bucket
+      assert(c0+1<k);        // we cannot induce into the last bucket
 
       // search MinStack:
       start = LastOcc[TranslateSigma[c0]];     // end of query
-      //assertstack_end-1 >= 0);                // stopper (-1) is on stack
+      assert(stack_end-1 >= 0);                // stopper (-1) is on stack
       end = stack_end - 1;
       while (start >= MinStack[end]) end -= 2; // search until smaller element found
       if (bb+1 == D[c0+1]) LCP[bb+1] = 0;      // store 0 at bucket beginnings
@@ -468,7 +468,7 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
       SA[i] = ~j;
     }
     // update MinStack:
-    //assertlcp >= 0); // LCP must already have been computed
+    assert(lcp >= 0); // LCP must already have been computed
     while (lcp <= MinStack[stack_end]) stack_end -= 2; // pop from stack
     MinStack[++stack_end] = i;   // push position on stack
     MinStack[++stack_end] = lcp; // push lcp-value
@@ -485,7 +485,7 @@ static void induceSAandLCP(const void *T, sais_index_type *SA,
 	if (start < MinStack[end-1]) {         // otherwise correct element already taken
 	  while (l < stack_end && start < MinStack[l]) l += 2;
 	  if (l > stack_end) break;
-	  //assertl < stack_end);
+	  assert(l < stack_end);
 	  MinStack[++end] = MinStack[l];       // take first element >= start
 	  MinStack[++end] = MinStack[l+1];
 	}
@@ -518,10 +518,10 @@ computeBWT(const void *T, sais_index_type *SA,
   for(i = 0; i < n; ++i) {
     if(0 < (j = SA[i])) {
       --j;
-      //assertchr(j) >= chr(j + 1));
+      assert(chr(j) >= chr(j + 1));
       SA[i] = ~((sais_index_type)(c0 = chr(j)));
       if(c0 != c1) { B[c1] = b - SA; b = SA + B[c1 = c0]; }
-      //asserti < (b - SA));
+      assert(i < (b - SA));
       *b++ = ((0 < j) && (chr(j - 1) < c1)) ? ~j : j;
     } else if(j != 0) {
       SA[i] = ~j;
@@ -533,10 +533,10 @@ computeBWT(const void *T, sais_index_type *SA,
   for(i = n - 1, b = SA + B[c1 = 0]; 0 <= i; --i) {
     if(0 < (j = SA[i])) {
       --j;
-      //assertchr(j) <= chr(j + 1));
+      assert(chr(j) <= chr(j + 1));
       SA[i] = (c0 = chr(j));
       if(c0 != c1) { B[c1] = b - SA; b = SA + B[c1 = c0]; }
-      //assert(b - SA) <= i);
+      assert((b - SA) <= i);
       *--b = ((0 < j) && (chr(j - 1) > c1)) ? ~((sais_index_type)chr(j - 1)) : j;
     } else if(j != 0) {
       SA[i] = ~j;
@@ -559,8 +559,8 @@ static sais_index_type sais_main(const void *T, sais_index_type *SA,
   sais_index_type c0, c1;
   unsigned int flags;
 
-  //assert(T != NULL) && (SA != NULL));
-  //assert(0 <= fs) && (0 < n) && (1 <= k));
+  assert((T != NULL) && (SA != NULL));
+  assert((0 <= fs) && (0 < n) && (1 <= k));
 
   if(k <= MINBUCKETSIZE) {
     if((C = SAIS_MYMALLOC(k, sais_index_type)) == NULL) { return -2; }
@@ -619,11 +619,11 @@ static sais_index_type sais_main(const void *T, sais_index_type *SA,
       } else {
         D = B - k * 2;
       }
-      //assert(j + 1) < n);
+      assert((j + 1) < n);
       ++B[chr(j + 1)];
       for(i = 0, j = 0; i < k; ++i) {
         j += C[i];
-        if(B[i] != j) { /*assert(SA[B[i]] != 0);*/ SA[B[i]] += n; }
+        if(B[i] != j) { assert(SA[B[i]] != 0); SA[B[i]] += n; }
         D[i] = D[i + k] = 0;
       }
       LMSsort2(T, SA, C, B, D, n, k, cs);
@@ -651,7 +651,7 @@ static sais_index_type sais_main(const void *T, sais_index_type *SA,
       if((k + name) <= newfs) { newfs -= k; }
       else { flags |= 8; }
     }
-    //assert(n >> 1) <= (newfs + m));
+    assert((n >> 1) <= (newfs + m));
     RA = SA + m + newfs;
     for(i = m + (n >> 1) - 1, j = m - 1; m <= i; --i) {
       if(SA[i] != 0) {
@@ -790,7 +790,7 @@ static sais_index_type sais_main(const void *T, sais_index_type *SA,
 	  if(--i < 0) break;
 	  newfs = LCP[i]; p = SA[i];
 	} while((c1 = chr(p)) == c0);
-	//assert(LCP[j]==0); // first S*-suffix in bucket must have LCP-value 0	
+	assert(LCP[j]==0); // first S*-suffix in bucket must have LCP-value 0
 	LCP[j] = -1;       // mark first S*-suffix in every bucket
       } while(0 <= i);
       while(0 < j) {
@@ -812,7 +812,7 @@ static sais_index_type sais_main(const void *T, sais_index_type *SA,
   }
 
   if(isbwt == 0) {
-    if (level0){ induceSAandLCP(T, SA, LCP, C, B, n, k, cs);}
+    if (level0) induceSAandLCP(T, SA, LCP, C, B, n, k, cs);
     else induceSA(T, SA, C, B, n, k, cs);
   }
   else { pidx = computeBWT(T, SA, C, B, n, k, cs); }

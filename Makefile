@@ -30,10 +30,10 @@ CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 CHECK = 1
 PRE = 1
 
-DIR = dataset/
+DIR = /home/louza/dataset/egsa/
 
-#INPUT = proteins-10000.fasta
-INPUT = input-10000.txt
+INPUT = proteins-10000.fasta
+#INPUT = input-10000.txt
 #INPUT = reads-10000.fastq
 
 K =  100
