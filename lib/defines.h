@@ -27,7 +27,7 @@
 /**/
 
 #define _PREFIX_ASSY	1
-#define _LCP_COMPARISON	0
+#define _LCP_COMPARISON	1
 #define _INDUCING	1
 
 /**/
