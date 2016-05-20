@@ -31,6 +31,7 @@ double time_stop(time_t t_time, clock_t c_clock){
 	double aux2 = difftime (time(NULL),t_time);
 	
 	printf("CLOCK = %lf TIME = %lf\n", aux1, aux2);
+	fprintf(stderr, "%lf\t%lf\n", aux1, aux2);
 	
 	return aux2;
 }

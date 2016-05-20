@@ -17,22 +17,25 @@ mkdir -p tests
 make clean
 make
 
-for i in {1..10}
-do
+test="protein"
 
-        echo "('${test}')dataset:  '${Ap[$i]}' strings"
-
-        mkdir -p tests/protein/
-        date >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
-
-		for j in {1..8} ##settings
-		do
-				cp lib/settings/defines_${j}.h lib/defines.h
-				
-                echo " " >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
-                make run DIR=${dir} INPUT=uniprot_trembl.fasta K=${Ap[$i]} CHECK=1 >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
-		done
+for j in {1..8} ##settings
+	do
+		echo "settings '${j}':"
 	
+		for i in {1..10}
+		do
+
+			echo "('${test}')dataset:  '${Ap[$i]}' strings"
+
+			mkdir -p tests/protein/
+			date >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
+
+			cp lib/settings/defines_${j}.h lib/defines.h
+			
+			echo " " >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
+			make run DIR=${dir} INPUT=uniprot_trembl.fasta K=${Ap[$i]} CHECK=1 >> tests/protein/uniprot.${host}."${Ap[$i]}".txt
+		done	
 done
 
 
