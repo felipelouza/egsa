@@ -1,7 +1,7 @@
 CC = gcc
 LIB_DIR=lib
 
-CWARNING =  -Wall -Wno-unused-result -Wno-implicit-function-declaration -Wno-comment -Wno-format 
+CWARNING =  -Wall -Wno-implicit-function-declaration  
 #VLIB= -g -O0
 MY_CXX_OPT_FLAGS= -O3 -ffast-math -funroll-loops -m64 -fomit-frame-pointer -D_FILE_OFFSET_BITS=64
 
@@ -38,8 +38,8 @@ INPUT = proteins-10000.fasta
 
 K =  100
 
-#1024MB
-MEMLIMIT = 1024 
+#4GB
+MEMLIMIT = 4096 
 
 ########################################################################
 

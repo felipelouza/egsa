@@ -309,9 +309,9 @@ int heap_delete_min(heap *h) {//outputs min
 	esa_write_induced(h, node, node->c_buffer[0], h->lcp_son_dad[0]);
 
 		
-	if(++node->u_idx == BLOCK_ESA_SIZE){
+	if(++node->u_idx == node->block_esa_size){ //BLOCK_ESA_SIZE
 		node->u_idx = 0;
-		esa_read(node->ESA, node->f_ESA);
+		esa_read(node->ESA, node->f_ESA, node->block_esa_size);
 	}
 	
 	if(node->ESA[node->u_idx].lcp < node->i_height)
@@ -403,9 +403,9 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 		
 		h->lcp_induced[alfa] = LCP_MAX;
 		
-		if(++Text[induced.text].u_idx == BLOCK_ESA_SIZE){
+		if(++Text[induced.text].u_idx == Text[induced.text].block_esa_size){ //BLOCK_ESA_SIZE){
 			Text[induced.text].u_idx = 0;
-			esa_read(Text[induced.text].ESA, Text[induced.text].f_ESA);
+			esa_read(Text[induced.text].ESA, Text[induced.text].f_ESA, Text[induced.text].block_esa_size);
 		}
 
 		if(!feof(h->fSIGMA[alfa]))
@@ -491,10 +491,7 @@ int is_less_down(heap *h, heap_node *node_son, heap_node *node_dad, int_lcp* lcp
 	}
 	
 	if(!(*p1) && !(*p2)){
-		
-		/**
-			(*lcp_AB)++;
-		/**/
+		//	(*lcp_AB)++;
 		return (node_son->key < node_dad->key ? 1: 0);
 	}
 	else{
@@ -584,12 +581,9 @@ int compare(heap *h, heap_node *node1, heap_node *node2, int_lcp* lcp){//[left, 
 			load_buffer(h, node2, &p2, *lcp);
 		}
 	}
-	
-	/**
-	if(!(*p1) && !(*p2)){
-		(*lcp)++;
-	}
-	/**/
+	//if(!(*p1) && !(*p2)){
+		//(*lcp)++;
+	//}
 	
 	return 0;
 }

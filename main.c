@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 	//argv[2] = DIR
 	//argv[3] = DATABASE
 	sscanf(argv[4], "%d", &K);//NUMBER OF STRINGS
-	sscanf(argv[5], "%u", &MEMLIMIT);//AVAILABLE MEMORY
+	sscanf(argv[5], "%zu", &MEMLIMIT);//AVAILABLE MEMORY
 	sscanf(argv[6], "%u", &VALIDATE);
 
 	printf("SIGMA = %d\n", SIGMA);
@@ -59,9 +59,9 @@ int main(int argc, char **argv) {
 	printf("CHECK = %d\n", VALIDATE);
 
 	
-	#if DEBUG
+//	#if DEBUG
 		print_config();
-	#endif
+//	#endif
 
 	//c_dir, c_file, K, memlimit, check
 	egsa(argv[2], argv[3], K, MEMLIMIT, VALIDATE);
@@ -74,7 +74,7 @@ return 0;
 void print_config(void){
 	
 	printf("******************\n");
-	
+
 	printf("BLOCK_ESA_SIZE = %.2lf MB\n", (BLOCK_ESA_SIZE*sizeof(t_ESA))/pow(2,20));
 	printf("C_BUFFER_SIZE = [%d, %d]\n", C_BUFFER_SIZE, C_OVERFLOW_SIZE);
 

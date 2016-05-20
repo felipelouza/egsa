@@ -14,7 +14,7 @@ int esa_close(t_TEXT *Text);
 /**********************************************************************/
 
 void esa_seek(FILE *File, size_t pos);
-void esa_read(t_ESA *ESA, FILE *File);
+void esa_read(t_ESA *ESA, FILE *File, size_t block_esa_size);
 
 void esa_read_sa(unsigned *SA, size_t n, FILE *File);
 void esa_read_gsa(t_GSA *GSA, size_t n, FILE *File);

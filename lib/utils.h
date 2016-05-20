@@ -89,6 +89,7 @@ typedef struct { //Text struct
 	int_text	n_start;	// # of the first string in CAT string
 		
 	size_t		*pos;		// start pos of each string 
+	size_t 		block_esa_size;
 	
 } t_TEXT;
 

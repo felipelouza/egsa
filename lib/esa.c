@@ -7,7 +7,7 @@ int esa_open(t_TEXT *Text, char *ext){
 	sprintf(c_aux, "%s.%s", Text->c_file, ext);	
 
 	Text->f_ESA = fopen(c_aux, "rb");//rb
-	if (!Text->f_ESA) perror ("esa_malloc(f_ESA)");
+	if (!Text->f_ESA) perror ("esa_open(f_ESA)");
 	
 	fseek(Text->f_ESA , 0, SEEK_SET);	
 
@@ -16,7 +16,7 @@ return 0;
 
 int esa_malloc(t_TEXT *Text){
 	
-	Text->ESA = (t_ESA*) malloc (sizeof(t_ESA) * (BLOCK_ESA_SIZE + 1));
+	Text->ESA = (t_ESA*) malloc (sizeof(t_ESA) * (Text->block_esa_size + 1)); //BLOCK_ESA_SIZE
 	if (!Text->ESA) perror ("esa_malloc(ESA)");
 	
 	Text->c_buffer = (int8*) malloc(sizeof(int8) * (C_BUFFER_SIZE + 2));
@@ -47,9 +47,9 @@ void esa_seek(FILE *File, size_t pos) {
 	fseek(File, pos, SEEK_SET);
 }
 
-void esa_read(t_ESA *ESA, FILE *File) {
+void esa_read(t_ESA *ESA, FILE *File, size_t block_esa_size) {
 
-	fread(ESA, sizeof(t_ESA), BLOCK_ESA_SIZE, File);	
+	fread(ESA, sizeof(t_ESA), block_esa_size, File);	
 	
 }
 
@@ -352,6 +352,8 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		load_sequence(&Text[i]);			//load sequence	
 		Text[i].key = i;
 		
+		Text[i].block_esa_size = BLOCK_ESA_SIZE/k;
+		
 		#if DEBUG
 			printf("T_%d\t%d\n", i, Text[i].length);	
 		#endif
@@ -438,7 +440,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 
 		esa_open(&Text[j], "esa");				
 		esa_malloc(&Text[j]);
-		esa_read(Text[j].ESA, Text[j].f_ESA);
+		esa_read(Text[j].ESA, Text[j].f_ESA, Text[j].block_esa_size);
 		
 		#if DEBUG
 			printf("T_%d\t%d\n", j, Text[j].length);
@@ -460,7 +462,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	heap_lcp(H, 0);
 	printf("\n");
 	printf("INDUCING:\n");
-	printf("alfa\tTOTAL\tINDUCED\t\%:\n");
+	printf("alfa\tTOTAL\tINDUCED\t\%%:\n");
 
 	#if _INDUCING
 		size_t induced_suffixes = 0;
@@ -483,9 +485,9 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 				#if DEBUG
 					printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
 					ant = i;
-					induced_suffixes = 0;
 				#endif
-						
+
+				induced_suffixes = 0;						
 				alfa = H->heap[0]->c_buffer[0];	
 				
 				//RMQ
@@ -521,7 +523,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 		#endif
 	#endif
 	
-	printf("ALL)\t%d\t%d\t%.2lf\n", i, total_induced_suffixes, (100.0)*(total_induced_suffixes/(double) (i)));
+	printf("ALL)\t%zu\t%zu\t%.2lf\n", i, total_induced_suffixes, (100.0)*(total_induced_suffixes/(double) (i)));
 	
 	#if _OUTPUT_BUFFER
 		fwrite(H->out_buffer, sizeof(t_GSA), H->size_out_buffer, H->f_out_ESA);//fflush out_buffer

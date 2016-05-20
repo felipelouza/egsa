@@ -10,7 +10,7 @@
 
 /**********************************************************************/
 
-int 		preprocessing(t_TEXT **Text, char *c_file, int_suff mem_limit, int_text *k, int_suff *COUNT);
+int 		preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k, int_suff *COUNT);
 
 int 		file_close(FILE* f_in);
 void		mkdir(char* c_file);

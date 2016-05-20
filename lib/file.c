@@ -53,9 +53,9 @@ return 0;
 
 /**********************************************************************/
 // read line by line
-int_text load_multiple_txt(FILE* f_in, char *c_file, int_suff mem_limit, int_text k) {
+int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text k) {
 
-	int_suff sum=0;
+	size_t sum=0;
 	int_text r = 0;
 	int8 sentinel = SIGMA;
 	
@@ -116,9 +116,9 @@ return r;
 }
 
 // read sequences separeted by '@' line
-int_text load_multiple_fastq(FILE* f_in, char *c_file, int_suff mem_limit, int_text k){
+int_text load_multiple_fastq(FILE* f_in, char *c_file, size_t mem_limit, int_text k){
 
-	int_suff sum=0;
+	size_t sum=0;
 	int_text r = 0;
 	int8 sentinel = SIGMA;
 	
@@ -188,9 +188,9 @@ return r;
 }
 
 // read sequences separeted by '>' line
-int_text load_multiple_fasta(FILE* f_in, char *c_file, int_suff mem_limit, int_text k){
+int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_text k){
 
-	int_suff sum=0;
+	size_t sum=0;
 	int_text r = 0;
 	int8 sentinel = SIGMA;
 	
@@ -220,7 +220,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_suff mem_limit, int_t
 		int nalloc = 128;
 		char *c_buffer = (char*) malloc(nalloc*sizeof(char));
 
-		int_suff p=0;
+		size_t p=0;
 		while(getline(&buf, &len, f_in)!=-1){
 
 			if(buf[0] == '>'){
@@ -307,11 +307,11 @@ void file_count_symbols(FILE* f_in, int_suff length, int_suff* COUNT){
  * .fasta - strings separated by '>' line
  * .fastq - strings separated by four lines
  */
-int preprocessing(t_TEXT **Text, char *c_file, int_suff mem_limit, int_text *k, int_suff *COUNT){ 
+int preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k, int_suff *COUNT){ 
 
 	printf("\n");
 	printf("### PREPROCESSING ###\n");
-	
+
 	/**/
 	
 	mkdir("partition/");

@@ -117,6 +117,8 @@ void check(t_TEXT *Text, int_text n, char* c_file, int_text total){
 	t_Aux->c_file = (char*) malloc(sizeof(char)*FILE_NAME);
 	sprintf(t_Aux->c_file, "%s.%d", c_file, total);
 	
+	t_Aux->block_esa_size = BLOCK_ESA_SIZE;
+	
 	esa_open(t_Aux, "gesa");
 	esa_malloc(t_Aux);	
 	
@@ -234,7 +236,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
 				//printf("k = %d\n", k);	
-				printf("LCP mean= %.2lf\nLCP max = %zu\n", (double)lcp_mean/length, lcp_max);
+				printf("LCP mean= %.2lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
 				free(GSA);
 				return 1;
 			}
@@ -270,7 +272,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 					
 			if(GSA[i+1].lcp!=h) {
 			
-				printf("&%zu) [%u,%u], [%u, %u] -> [%d, %d]&\n", i+(k*BLOCK_ESA_SIZE), text[0], suff[0], text[1], suff[1], suff[0], suff[1]);
+				printf("&%zu) [%zu,%zu], [%zu, %zu] -> [%zu, %zu]&\n", i+(k*BLOCK_ESA_SIZE), text[0], suff[0], text[1], suff[1], suff[0], suff[1]);
 				printf("i = %zu - %zu\n", i+(k*BLOCK_ESA_SIZE), length-1);
 				printf("lcp = %u, h = %u\n", GSA[i+1].lcp, h);
 				
@@ -342,7 +344,7 @@ int check_gsa(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux) {
 
 				printf("-%zu) [%u,%u], [%u, %u]-\n", i+(k*BLOCK_ESA_SIZE), GSA[i].text, GSA[i].suff, GSA[i+1].text, GSA[i+1].suff);
 				
-				printf("&%zu) [%u,%u], [%u, %u]&\n", i+(k*BLOCK_ESA_SIZE), text[0], suff[0], text[1], suff[1]);
+				printf("&%zu) [%zu,%zu], [%zu, %zu]&\n", i+(k*BLOCK_ESA_SIZE), text[0], suff[0], text[1], suff[1]);
 				printf("i = %zu - %zu\n", i+(k*BLOCK_ESA_SIZE), length-1);
 				
 				free(GSA);			
