@@ -395,10 +395,10 @@ int check_is_permutation(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux)
 	
 	for(y = 0; y < n; y++)
 		for (i = 0;  i < Text[y].length;  i++){ 
-			//printf("%d) %d\n", i, Text[0].c_buffer[i]);
+			printf("%d) %d\n", i, Text[0].c_buffer[i]);
 			if (!Text[y].c_buffer[i])
 				return 0;
-		}
+		}printf("\n");
 
 	free(GSA);
 
@@ -459,15 +459,29 @@ return 1;
 int check_sa(int_suff *SA, size_t length, t_TEXT *Text) {
 
 	unsigned i;
-	i = 1;
+	char *b = (char*) malloc(length*sizeof(char));
 	
-	for (;  i < length-1;  i++) {
+	for (i=0; i<length; i++) b[i]=0;
+	
+
+	for(i=1; i<length-1;  i++) {
+		b[SA[i]] = 1;
+	
 		//printf("%d) %d, %d&\n", i, SA[i], SA[i+1]);
 		if (!sleq(Text->c_buffer+SA[i], Text->c_buffer+SA[i+1])){
 			printf("#%d) %d, %d&\n", i, SA[i], SA[i+1]);
 			return 0;
 		}
 	}
+	
+	for(i=0; i<length; i++){
+		if (!b[i]){
+			 printf("isNotPermutation!!\n");
+			return 0;
+		}
+	}
+	
+	free(b);
 	
 return 1;  
 }
