@@ -37,7 +37,7 @@ do
 		test=${D[$d]}
 		echo "${test}"	
 
-		for i in 1 #{1..10}
+		for i in 0 1 2 #{0..9}
 		do
 			a=$(($d*10+$i))
 			echo ${A[$a]}

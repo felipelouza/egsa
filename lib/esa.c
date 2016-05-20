@@ -483,7 +483,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 			if(H->heap[0]->c_buffer[0] > alfa){
 			
 				#if DEBUG
-					printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
+					printf("%c)\t%zu\t%zu\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
 					ant = i;
 				#endif
 
@@ -519,7 +519,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	}
 	#if _INDUCING
 		#if DEBUG
-			printf("%c)\t%d\t%d\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
+			printf("%c)\t%zu\t%zu\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
 		#endif
 	#endif
 	

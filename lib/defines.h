@@ -13,7 +13,7 @@
 	#define	BWT	0
 #endif
 
-#define BLOCK_ESA_SIZE 	(1024*MB)/sizeof(t_ESA)	// (10MB) size of buffer (BLOCK_ESA_SIZE > 0)
+#define BLOCK_ESA_SIZE 	(1024*MB)/sizeof(t_ESA)	// (10MB) size of ALL buffers (BLOCK_ESA_SIZE > 0)
 
 #define FILE_NAME	512
 #define FILE_READ	512		// bytes read from disk once
@@ -25,9 +25,9 @@
 
 /**/
 
-#define _PREFIX_ASSY	0	
-#define _LCP_COMPARISON	0
-#define _INDUCING	0
+#define _PREFIX_ASSY	1
+#define _LCP_COMPARISON	1
+#define _INDUCING	1
 
 /**/
 

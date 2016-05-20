@@ -58,6 +58,7 @@ int_suff n=1;
 	double d_total = time_stop(t_total, c_total)/size;
 	
 	printf("milisecond per byte = %.9lf\n", d_total*(double) pow(10,6));
+	fprintf(stderr,"%.9lf\n", d_total*(double) pow(10,6));	
 	printf("size = %zu\n", size);
 	
 	//validate

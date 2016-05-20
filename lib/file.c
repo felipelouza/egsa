@@ -81,6 +81,12 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 		/**/
         char *c_buffer = NULL;
 		size = getline(&c_buffer, &len, f_in); // read line
+		if(size==1){
+			i--;
+			free(c_buffer);		
+			continue;
+		}
+		
         c_buffer[size-1] = 0;
 
         sum += size;
