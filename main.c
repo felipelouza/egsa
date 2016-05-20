@@ -53,7 +53,6 @@ int main(int argc, char **argv) {
 	printf("DIR = %s\n", argv[2]);
 	printf("INPUT = %s\n", argv[3]);
 	printf("K = %d\n", K);
-	//MEMLIMIT *= 1024*1024;
 	MEMLIMIT *= 1024*1024;
 	printf("MEMLIMIT = %.2lf MB\n", MEMLIMIT/pow(2,20));
 	printf("PRE = %d\n", PRE_OPTION);
