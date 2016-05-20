@@ -48,6 +48,6 @@ do
 		        echo " " >> tests/${test}/${j}/${host}.db.${A[$a]}.txt
 		        make run DIR=${dir} INPUT=${test} K=${A[$a]} CHECK=$c >> tests/${test}/${j}/${host}.db.${A[$a]}.txt
 		done
+		make remove
 	done
-	make remove &
 done
