@@ -42,10 +42,7 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, i
 			for(i = 1; i < SIGMA; i++){//**
 				
 				h->size_induced_buffer[i] = ((double)COUNT[i]/n)*(INDUCED_SIZE)+1;
-				h->inserted_induced_buffer[i] = 0;
-				
-//				if(COUNT[i]) printf("%.5lf * %d = %d\n",(double) COUNT[i]/n,INDUCED_SIZE, h->size_induced_buffer[i]);
-				
+				h->inserted_induced_buffer[i] = 0;			
 				h->induced_buffer[i] = (t_INDUCED*) malloc(h->size_induced_buffer[i]*sizeof(t_INDUCED));
 			}
 		#endif
@@ -102,8 +99,7 @@ int heap_free(heap *h) {
 	
 	#if _INDUCING
 		#if INDUCED_BUFFER	
-			i = 1;
-			for(; i < SIGMA; i++){//**
+			for(i = 1; i < SIGMA; i++){
 				free(h->induced_buffer[i]);
 			}
 		#endif
@@ -281,7 +277,6 @@ int heap_update(heap *h, int key, heap_node* node, unsigned u_idx) {
 	h->heap[h->size] = node;
 	
 	if(!node->ESA[u_idx].lcp){
-	
 
 	#if _PREFIX_ASSY
 		memcpy(node->c_buffer , node->ESA[u_idx].prefix, PREFIX_SIZE);
@@ -306,8 +301,8 @@ int heap_delete_min(heap *h) {//outputs min
 	heap_node *node = h->heap[0];
 	
 	#if _INDUCING
-		int j = 1;
-		for(; j < SIGMA; j++)//RMQ
+		int j;
+		for(j=1; j<SIGMA; j++)//RMQ
 			if(h->lcp_induced[j] > h->lcp_son_dad[0]) h->lcp_induced[j] = h->lcp_son_dad[0];
 	#endif
 			
@@ -395,12 +390,11 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 	fread(&induced, sizeof(t_INDUCED), 1, h->fSIGMA[alfa]);		
 	induced.lcp = 0;
 	
-	size_t i = 0;
-	for(; i < h->induced[alfa]; i++){
+	size_t i;
+	for(i=0; i < h->induced[alfa]; i++){
 		
-
-		int j = 1;
-		for(; j < SIGMA; j++)//RMQ
+		int j;
+		for(j=1; j< SIGMA; j++)//RMQ
 			if(h->lcp_induced[j] > induced.lcp)
 				h->lcp_induced[j] = induced.lcp;
 			
@@ -414,6 +408,7 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 			esa_read(Text[induced.text].ESA, Text[induced.text].f_ESA);
 		}
 
+		if(!feof(h->fSIGMA[alfa]))
 		fread(&induced, sizeof(t_INDUCED), 1, h->fSIGMA[alfa]);			
 	}
 	

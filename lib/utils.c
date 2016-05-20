@@ -233,7 +233,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
 				//printf("k = %d\n", k);	
-				printf("LCP mean= %zu\nLCP max = %zu\n", lcp_mean/length, lcp_max);
+				printf("LCP mean= %.2lf\nLCP max = %zu\n", (double)lcp_mean/length, lcp_max);
 				free(GSA);
 				return 1;
 			}
@@ -288,7 +288,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 		esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	}
 
-printf("LCP mean= %zu\n", lcp_mean/length);
+printf("LCP mean= %.2lf\n", (double) lcp_mean/length);
 
 return 1; 		
 }
@@ -339,7 +339,7 @@ int check_gsa(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux) {
 			
 			if (!sleq(Text[text[0]].c_buffer+suff[0], Text[text[1]].c_buffer + suff[1])){
 
-				printf("&%zu) [%u,%u], [%u, %u]&\n", i+(k*BLOCK_ESA_SIZE), GSA[i].text, GSA[i].suff, GSA[i+1].text, GSA[i+1].suff);
+				printf("-%zu) [%u,%u], [%u, %u]-\n", i+(k*BLOCK_ESA_SIZE), GSA[i].text, GSA[i].suff, GSA[i+1].text, GSA[i+1].suff);
 				
 				printf("&%zu) [%u,%u], [%u, %u]&\n", i+(k*BLOCK_ESA_SIZE), text[0], suff[0], text[1], suff[1]);
 				printf("i = %zu - %zu\n", i+(k*BLOCK_ESA_SIZE), length-1);
@@ -363,42 +363,34 @@ int check_is_permutation(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux)
 
 	size_t i, k;
 	
-	t_GSA *GSA = (t_GSA*) malloc((BLOCK_ESA_SIZE) * sizeof(t_GSA));	
+	t_GSA *GSA = (t_GSA*) malloc(1 * sizeof(t_GSA));	
 	if(!GSA) perror("is_permutation_GSA");
+
 	
-	
-	int_text y;
-	for(y = 0; y < n; y++)
-		for (i = 0;  i < Text[y].length;  i++) 
-			Text[y].c_buffer[i] = 0;//zera todos
-	
-	esa_read_gsa(GSA, BLOCK_ESA_SIZE, t_Aux->f_ESA);
-	
+
+	int_text j;
+	for(j = 0; j < n; j++)
+		for (i = 0;  i < Text[j].length;  i++) 
+			Text[j].c_buffer[j] = 0;
+		
 	size_t text[1];
 	size_t suff[1];
 	
-	for(k = 0; k < length/BLOCK_ESA_SIZE+1; k++){
+	for(k = 0; k < length; k++){
 	
-		for (i = 0;  i < BLOCK_ESA_SIZE;  i++) {
-			
-			if(i+(k*BLOCK_ESA_SIZE) == length)	
-				break;
-			
-			text[0] = get_text(Text, n, GSA[i].text);
-			suff[0] = get_suff(Text, text[0], GSA[i].text, GSA[i].suff);
-			
-			Text[text[0]].c_buffer[suff[0]] = 1;
-		}
+		fread(GSA, sizeof(t_GSA), 1, t_Aux->f_ESA);
 		
-		esa_read_gsa(GSA, BLOCK_ESA_SIZE, t_Aux->f_ESA);
+		text[0] = get_text(Text, n, GSA->text);
+		suff[0] = get_suff(Text, text[0], GSA->text, GSA->suff);
+			
+		Text[text[0]].c_buffer[suff[0]] = 1;
 	}
 	
-	for(y = 0; y < n; y++)
-		for (i = 0;  i < Text[y].length;  i++){ 
-			printf("%d) %d\n", i, Text[0].c_buffer[i]);
-			if (!Text[y].c_buffer[i])
+	for(j = 0; j < n; j++)
+		for (i = 0;  i < Text[j].length;  i++){ 
+			if (!Text[j].c_buffer[i])
 				return 0;
-		}printf("\n");
+		}
 
 	free(GSA);
 
@@ -463,7 +455,7 @@ int check_sa(int_suff *SA, size_t length, t_TEXT *Text) {
 	
 	for (i=0; i<length; i++) b[i]=0;
 	
-
+	b[SA[0]] = 1;
 	for(i=1; i<length-1;  i++) {
 		b[SA[i]] = 1;
 	
@@ -473,6 +465,7 @@ int check_sa(int_suff *SA, size_t length, t_TEXT *Text) {
 			return 0;
 		}
 	}
+	b[SA[i]] = 1;
 	
 	for(i=0; i<length; i++){
 		if (!b[i]){

@@ -21,14 +21,14 @@
 
 /**********************************************************************/
 
-#define _OUTPUT_BUFFER	0
+#define _OUTPUT_BUFFER	1
 #define OUTPUT_SIZE 	(1*MB)/sizeof(t_GSA) 		// size of output buffer
 
 /**/
 
 #define _PREFIX_ASSY	1
 #define _LCP_COMPARISON	1
-#define _INDUCING	1
+#define _INDUCING		1
 
 /**/
 

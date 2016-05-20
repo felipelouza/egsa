@@ -160,6 +160,8 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 	
 	#else
 
+
+
 		fwrite(&node->ESA[node->u_idx].text, sizeof(int_text), 1, h->f_out_ESA);
 		fwrite(&node->ESA[node->u_idx].sa_prime, sizeof(int_suff), 1, h->f_out_ESA);			
 		
@@ -389,7 +391,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		//validate
 		#if DEBUG
 		
-		if(!check_sa(SA, Text[i].length, &Text[i]))
+		if(!check_sa(SA, Text[i].length+1, &Text[i]))
 			printf("isNotSorted!!\n");
 		else
 			printf("isSorted!!\n");
@@ -403,7 +405,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		Text[i].c_buffer[Text[i].length] = SIGMA; 
 		
 		#if DEBUG
-			esa_print_suff(SA, LCP, &Text[i],  min(Text[i].length,20));
+			esa_print_suff(SA, LCP, &Text[i],  min(Text[i].length+1,20));
 		#endif		
 		//write on disk
 		esa_write_all(SA, LCP, &Text[i], c_file);
@@ -466,13 +468,15 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	#endif
 	
 	size_t total_induced_suffixes = 0;
-	#if DEBUG
-		size_t ant = 0;
+	#if _INDUCING
+		#if DEBUG
+			size_t ant = 0;
+		#endif
 	#endif
 	
 	size_t i = 0;
 	for(; i < *size; i++){
-		
+		//printf("%d)\n", i);
 		#if _INDUCING
 			if(H->heap[0]->c_buffer[0] > alfa){
 			
@@ -485,27 +489,25 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 				alfa = H->heap[0]->c_buffer[0];	
 				
 				//RMQ
-				j = 1;
-				for(; j < SIGMA; j++) H->lcp_induced[j] = 0;
+				for(j = 1; j < SIGMA; j++) H->lcp_induced[j] = 0;
 							
 				if(H->induced[alfa]){//induceds > 0
-					
-
+				
 					induced_suffixes = heap_pass_induced(H, Text, &i, alfa);
 					
 					H->size = 0;
 					for(j = 0; j < k; j++){
-						
 						H->lcp_son_dad[j] = H->lcp_left_right[j] = 0;
 						heap_update(H, j, &Text[j], Text[j].u_idx);
 					}
-					
+										
+					heap_lcp(H, 0);
 					if(H->heap[0]->c_buffer[0] > alfa){
 						i--; continue;
 					}
 					
 					H->lcp_son_dad[0] = 1;
-					heap_lcp(H, 0);
+					
 				}
 				total_induced_suffixes += induced_suffixes;
 			}
