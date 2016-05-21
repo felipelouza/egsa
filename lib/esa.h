@@ -25,7 +25,7 @@ int esa_print(t_TEXT *Text, size_t size);
 int esa_print_suff(int_suff *SA, int_lcp *LCP, t_TEXT *Text, unsigned size);
 int esa_print_gsa(t_GSA *GSA, size_t size);
 
-int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, int_suff n);
+int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n);
 
 /**********************************************************************/
 

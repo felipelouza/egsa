@@ -425,7 +425,7 @@ return 0;
 
 /**********************************************************************/
 
-int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, int_suff n){//size = soma de todos os tamanhos
+int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n){//size = soma de todos os tamanhos
 	
 	*size = 0;
 	

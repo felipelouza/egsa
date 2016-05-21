@@ -8,7 +8,7 @@ clock_t c_start, c_total;
 
 
 int_text total;
-int_suff n=1;
+size_t n=1;
 
 	file_chdir(c_dir);
 	
@@ -27,7 +27,7 @@ int_suff n=1;
 	n = preprocessing(&Text,c_file, MEMLIMIT, &K, COUNT);
 	if(n==0) return 1;		
 	
-    printf("TOTAL = %u bytes\t%.2lf MB\n", n, n/pow(2,20));
+    printf("TOTAL = %zu bytes\t%.2lf MB\n", n, n/pow(2,20));
 
 	time_stop(t_start, c_start);
 

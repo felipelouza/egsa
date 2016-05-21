@@ -58,7 +58,7 @@ typedef struct heap heap;
 
 
 //heap* heap_alloc(int_text n);
-heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, int_suff n);
+heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n);
 int heap_free(heap *h);
 
 #define heap_size(h) ((h)->size)

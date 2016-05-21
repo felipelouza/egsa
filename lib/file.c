@@ -313,7 +313,7 @@ void file_count_symbols(FILE* f_in, int_suff length, int_suff* COUNT){
  * .fasta - strings separated by '>' line
  * .fastq - strings separated by four lines
  */
-int preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k, int_suff *COUNT){ 
+size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k, int_suff *COUNT){ 
 
 	printf("\n");
 	printf("### PREPROCESSING ###\n");

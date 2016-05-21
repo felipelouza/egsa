@@ -11,7 +11,7 @@ g.p.telles, jan 2012.
 #include "heap.h"
 
 /**********************************************************************/
-heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, int_suff n) {
+heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n) {
    
 	int i;
 	
