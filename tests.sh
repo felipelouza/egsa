@@ -47,7 +47,13 @@ do
 
 		        echo " " >> tests/${test}/${j}/${host}.db.${A[$a]}.txt
 		        make run DIR=${dir} INPUT=${test} K=${A[$a]} CHECK=$c >> tests/${test}/${j}/${host}.db.${A[$a]}.txt
+		        
+		        rm -f ${dir}*.gesa
+				rm -f ${dir}*.bin
+				rm -Rf ${dir}*.esa
+				rm -Rf ${dir}partition/*
+				rm -Rf ${dir}tmp/*
 		done
-		make remove
+		
 	done
 done
