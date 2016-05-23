@@ -79,16 +79,16 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 		size_t len = 0;
 
 		/**/
-	        char *c_buffer = NULL;
-		size = getline(&c_buffer, &len, f_in); // read line
+		unsigned char *c_buffer = NULL;
+		size = getline((char **)&c_buffer, &len, f_in); // read line
 		if(size==1){
 			i--;
 			free(c_buffer);		
 			continue;
 		}
 		
-	        c_buffer[size-1] = 0;
-        	sum += size;
+		c_buffer[size-1] = 0;
+		sum += size;
 
 		if(sum>mem_limit/WORKSPACE && i){
 
@@ -104,7 +104,16 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 			if (!f_out) perror ("write_sequence");
 		}
 		
-		fwrite(c_buffer, sizeof(int8), size, f_out);
+		size_t j;
+		for(j=0; j<size;j++)
+			if(c_buffer[j]<SIGMA-2){
+				fwrite(&c_buffer[j], sizeof(int8), 1, f_out);
+			}
+			else{
+				sum--;
+			}	
+		//fwrite(c_buffer, sizeof(int8), size, f_out);
+
 		free(c_buffer);		
 		
 		if (feof(f_in)){
@@ -368,7 +377,7 @@ size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k,
 		fclose(f_in);
 		
 		#if DEBUG
-			printf("%s \t%d\t%d\t%d\n",(*Text)[i].c_file, (*Text)[i].length, (*Text)[i].n_strings, (*Text)[i].n_start);
+			printf("%s \t%zu\t%d\t%d\n",(*Text)[i].c_file, (*Text)[i].length, (*Text)[i].n_strings, (*Text)[i].n_start);
 		#endif
 
 	}

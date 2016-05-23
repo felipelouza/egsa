@@ -347,7 +347,7 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		Text[i].block_esa_size = BLOCK_ESA_SIZE/k;
 		
 		#if DEBUG
-			printf("T_%d\t%d\n", i, Text[i].length);	
+			printf("T_%d\t%zu\n", i, Text[i].length);	
 		#endif
 			
 		SA  = (int_suff*) malloc((Text[i].length+3) * sizeof(int_suff));
@@ -433,7 +433,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 		esa_read(Text[j].ESA, Text[j].f_ESA, Text[j].block_esa_size);
 		
 		#if DEBUG
-			printf("T_%d\t%d\n", j, Text[j].length);
+			printf("T_%d\t%zu\n", j, Text[j].length);
 			esa_print(&Text[j], 5);	printf("\n");
 		#endif
 		
