@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-#define WORKSPACE 21.5 //Phase 1 requeries 21.0 n bytes
+#define WORKSPACE 22 //Phase 1 requeries 21.0 n bytes
 
 typedef unsigned int int_text;
 typedef unsigned int int_suff; 	//-2^31 to 2^31

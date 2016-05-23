@@ -274,10 +274,10 @@ return r;
 
 /*******************************************************************/
 
-int_suff file_size(FILE* f_in){
+size_t file_size(FILE* f_in){
 	
-	fseek (f_in, 0, SEEK_END);
-	int_suff length = ftell (f_in);
+	fseek(f_in, 0, SEEK_END);
+	size_t length = (size_t) ftell (f_in);
 	rewind(f_in);
 
 return length;

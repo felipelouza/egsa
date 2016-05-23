@@ -3,7 +3,8 @@ LIB_DIR=lib
 
 CWARNING =  -Wall -Wno-implicit-function-declaration  
 #VLIB= -g -O0
-MY_CXX_OPT_FLAGS= -O3 -ffast-math -funroll-loops -m64 -fomit-frame-pointer -D_FILE_OFFSET_BITS=64
+MY_CXX_OPT_FLAGS= -O3 -m64 -D_FILE_OFFSET_BITS=64
+#-fomit-frame-pointer -ffast-math -funroll-loops 
 
 LFLAGS = -lm -ldl
 
@@ -12,8 +13,8 @@ LIBOBJ = external/malloc_count/malloc_count.o\
 		external/sais-lite-LCP.o\
 		$(LIB_DIR)/utils.o\
 		$(LIB_DIR)/file.o\
-		$(LIB_DIR)/esa.o\
 		$(LIB_DIR)/heap.o\
+		$(LIB_DIR)/esa.o\
 		$(LIB_DIR)/lcp.o\
 		src/egsa.o\
 ##
@@ -39,7 +40,7 @@ INPUT = proteins-10000.fasta
 K =  100
 
 #4GB
-MEMLIMIT = 4096 
+MEMLIMIT = 2048 
 
 ########################################################################
 

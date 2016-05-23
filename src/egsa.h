@@ -4,6 +4,8 @@
 #include <math.h>
 #include "../lib/utils.h"
 #include "../lib/defines.h"
+#include "../lib/esa.h"
+#include "../lib/file.h"
 
 /**********************************************************************/
 

@@ -435,6 +435,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	for(; j < k; j++){
 		
 		Text[j].key = j;
+		Text[j].block_esa_size = BLOCK_ESA_SIZE/k;
 		
 		open_sequence(&Text[j], c_file);//open bin
 

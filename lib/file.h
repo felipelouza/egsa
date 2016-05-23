@@ -17,7 +17,7 @@ void		mkdir(char* c_file);
 
 /**********************************************************************/
 
-int			open_sequence(t_TEXT *Text, char *c_file);
+int		open_sequence(t_TEXT *Text, char *c_file);
 void 		close_sequence(t_TEXT *Text);
 void		seek_sequence(FILE *File, size_t pos);
 

@@ -3,12 +3,11 @@
 /**********************************************************************/
 int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE){
 
-time_t t_start, t_total;
-clock_t c_start, c_total;
-
-
-int_text total;
-size_t n=1;
+	time_t t_start, t_total;
+	clock_t c_start, c_total;
+	
+	int_text total;
+	size_t n=1;
 
 	file_chdir(c_dir);
 	
@@ -27,7 +26,7 @@ size_t n=1;
 	n = preprocessing(&Text,c_file, MEMLIMIT, &K, COUNT);
 	if(n==0) return 1;		
 	
-    printf("TOTAL = %zu bytes\t%.2lf MB\n", n, n/pow(2,20));
+	printf("TOTAL = %zu bytes\t%.2lf MB\n", n, n/pow(2,20));
 
 	time_stop(t_start, c_start);
 
