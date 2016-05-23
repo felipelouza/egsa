@@ -160,8 +160,6 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 	
 	#else
 
-
-
 		fwrite(&node->ESA[node->u_idx].text, sizeof(int_text), 1, h->f_out_ESA);
 		fwrite(&node->ESA[node->u_idx].sa_prime, sizeof(int_suff), 1, h->f_out_ESA);			
 		
@@ -209,7 +207,6 @@ void induce(heap* h, heap_node *node, int_lcp lcp){
 
 /**********************************************************************/
 
-// Formar ESA para gravar em disco.. 
 int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	
 	char c_aux[500];
@@ -228,7 +225,6 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	int8 bwt;
 	
 	size_t i = 0;
-	
 	
 	int_suff *ISA = NULL;
 	find_inverse(SA, &ISA, Text[i].length+1);
@@ -262,9 +258,7 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 			offset = i+1;
 		}
 	}
-	
 	free(ISA);
-	
 	
 	i = 1;
 	Text->length++;
@@ -326,8 +320,6 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	aux_gsa.bwt = 0;
 	
 	fwrite(&aux_gsa, sizeof(t_ESA), 1, f_out);
-
-	//fflush(f_out);	
 	if(fclose(f_out)==EOF) printf("error closing file %s.\n\n\n", c_aux); 
 	
 	free(SA_prime);
@@ -367,13 +359,11 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		for(j=0;j<Text[i].length+3;j++) SA[j] = LCP[j] = 0;
 		
 		/**************************************************************/
-		//computes gsa in 5n bytes
-
 		//printf("n_strings = %d\n", Text[i].n_strings);
-
 		if(Text[i].n_strings==1){
 
 			Text[i].c_buffer[Text[i].length]=0;
+			
 			//computes sa+lcp in 9n bytes
 			sais_lcp(Text[i].c_buffer, SA, LCP, Text[i].length+1);
 			LCP[1] = 0;
@@ -422,10 +412,9 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 return 0;
 }
 
-
 /**********************************************************************/
 
-int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n){//size = soma de todos os tamanhos
+int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n){
 	
 	*size = 0;
 	
@@ -452,7 +441,6 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	
 		*size += Text[j].length;
 	}
-
 
 	//initialize the heap
 	for(j = 0; j < k; j++){

@@ -76,11 +76,11 @@ typedef struct { //Text struct
 	int8 		*c_buffer;		// buffer used for I/O	-> prefix
 	int8	 	*c_overflow;	// buffer used for I/O
 	
-	int_suff	length;			// length of partition	
+	size_t		length;			// length of partition	
 
 	//heap sort
 	int_text	key;			// indetifier of sequence
-	unsigned	u_idx; 			
+	size_t		u_idx; 			
 	
 	int_lcp		i_height;
 	int_lcp		i_loaded;

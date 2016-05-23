@@ -8,8 +8,6 @@
 #include <assert.h>
 #include <math.h>
 
-
-
 //typedef struct heap_node heap_node;
 typedef t_TEXT heap_node;
 

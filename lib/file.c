@@ -68,7 +68,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 	if (!f_out) perror ("write_sequence");
 	
 	ssize_t size = 0;			
-	int i;
+	int_text i;
  	for(i=0; i<k; i++){
 		
 		if (feof(f_in)){
@@ -79,7 +79,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 		size_t len = 0;
 
 		/**/
-        char *c_buffer = NULL;
+	        char *c_buffer = NULL;
 		size = getline(&c_buffer, &len, f_in); // read line
 		if(size==1){
 			i--;
@@ -87,9 +87,8 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 			continue;
 		}
 		
-        c_buffer[size-1] = 0;
-
-        sum += size;
+	        c_buffer[size-1] = 0;
+        	sum += size;
 
 		if(sum>mem_limit/WORKSPACE && i){
 
@@ -149,18 +148,18 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 		char *buf = NULL;
 
 		size = getline(&buf, &len, f_in); // @'s line
-        if (size <= 1){ //number of strings less than k
+        	if (size <= 1){ //number of strings less than k
 			free(buf);
 			fclose(f_out);
 			return 0;
 		}
 
 		/**/
-        char *c_buffer = NULL;
+        	char *c_buffer = NULL;
 		size = getline(&c_buffer, &len, f_in); // read line
-        c_buffer[size-1] = 0;
+	        c_buffer[size-1] = 0;
 
-        sum += size;
+        	sum += size;
 
 		if(sum>mem_limit/WORKSPACE && i){
 
@@ -364,7 +363,7 @@ size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k,
 		
 		(*Text)[i].n_start = sum;
 		sum += (*Text)[i].n_strings;
-		total += (*Text)[i].length;
+		total += (size_t)(*Text)[i].length;
 
 		fclose(f_in);
 		
@@ -378,7 +377,6 @@ size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k,
 	#endif
 
 	//printf("R = %d\nc_file = %s\n", r, c_file);
-	
 	*k = r;
 	printf("PARTITIONS = %d\n", r);
 	
@@ -394,7 +392,7 @@ int open_sequence(t_TEXT *Text, char *c_file){
 
 	fseek (Text->f_in, 0, SEEK_END);
 
-  	Text->length = ftell(Text->f_in);
+  	Text->length = (size_t) ftell(Text->f_in);
 	rewind(Text->f_in);
 
 	Text->length--;// remove #-suffix to be sorted

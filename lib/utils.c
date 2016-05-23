@@ -22,7 +22,6 @@ void print4(unsigned* a, unsigned n, const char *comment) {//4 bytes
 	}
 }
 
-
 /**********************************************************************/
 
 double time_stop(time_t t_time, clock_t c_clock){
@@ -236,14 +235,14 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
 				//printf("k = %d\n", k);	
-				printf("LCP mean= %.2lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
+				printf("LCP mean= %.5lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
 				free(GSA);
 				return 1;
 			}
 			
 			if(GSA[i+1].lcp>lcp_max) lcp_max = GSA[i+1].lcp;
 	
-			lcp_mean += GSA[i+1].lcp;
+			lcp_mean += (size_t) GSA[i+1].lcp;
 			
 			int_lcp h = 0;
 
@@ -291,7 +290,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 		esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	}
 
-printf("LCP mean= %.2lf\n", (double) lcp_mean/length);
+printf("LCP mean= %.5lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
 
 return 1; 		
 }
