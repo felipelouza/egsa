@@ -6,4 +6,4 @@ egsa-1.*
 *.gesa
 *.tmp
 *.swp
-scripts/
+scripts/tmp/
