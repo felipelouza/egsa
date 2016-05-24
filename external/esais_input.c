@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
 	sscanf(argv[3], "%d", &K);//NUMBER OF STRINGS
 
 	printf("SIGMA = %d\n", SIGMA);
-	printf("DIR = %s\n", argv[2]);
-	printf("INPUT = %s\n", argv[3]);
+	printf("DIR = %s\n", argv[1]);
+	printf("INPUT = %s\n", argv[2]);
 	printf("K = %d\n", K);
 	MEMLIMIT = ULLONG_MAX;
 	printf("MEMLIMIT = %.2lf MB\n", MEMLIMIT/pow(2,20));
@@ -35,6 +35,9 @@ int main(int argc, char **argv) {
 	file_chdir(argv[1]);
         preprocessing(&Text, argv[2], MEMLIMIT, &K, COUNT);
 
+	for(i=0; i < K; i++)
+		free(Text[i].c_file);
+	free(Text);
 return 0;
 }
 

@@ -5,7 +5,7 @@
 ##gutengerg
 ##wikipedia
 
-A=(	2 6 8 10 12 24 49 68 92 133
+A=(	2 6 8 10 12 24 49 68 92 153
 	100000 200000 400000 800000 1600000 3200000 6400000 12800000 25600000 50825784
 	921710 1843420 3686839 7373679 14747358 29494715 58989430 117978860 235957720 471915440
  	814197 1628394 3256788 6513576 13027152 26054303 52108607 104217213 208434426 416868852)
@@ -83,23 +83,24 @@ do
 
 		        mkdir -p tests/${test}/${j}
 		        date >> tests/${test}/${j}/${host}.db.$i.txt
-#
-#		        echo " " >> tests/${test}/${j}/${host}.db.$i.txt
-#		        make run DIR=${dir} INPUT=${test} K=${A[$a]} CHECK=$c >> tests/${test}/${j}/${host}.db.$i.txt
-#		        
-#			rm -f ${dir}*.gesa
-#			rm -f ${dir}*.bin
-#			rm -Rf ${dir}*.esa
-#			rm -Rf ${dir}partition/*
-#			rm -Rf ${dir}tmp/*
-###
-#			echo "eSAIS"
-#	       		cd ${workspace}eSAIS-DC3-LCP-0.5.4/build_2g/src/
-#
-		        date >> ${workspace}egsa/tests/${test}/${j}/${host}.esais.db.$i.txt
-#			./esactest ${test}.${A[$a]}.0.bin > ${workspace}egsa/tests/${test}/${j}/${host}.esais.db.$i.txt
-			echo "./esactest ${test}.${A[$a]}.0.bin"
 
+		        echo " " >> tests/${test}/${j}/${host}.db.$i.txt
+		        make run DIR=${dir} INPUT=${test} K=${A[$a]} CHECK=$c >> tests/${test}/${j}/${host}.db.$i.txt
+		        
+			rm -f ${dir}*.gesa
+			rm -f ${dir}*.bin
+			rm -Rf ${dir}*.esa
+			rm -Rf ${dir}partition/*
+			rm -Rf ${dir}tmp/*
+#####
+			echo "./esactest ${test}.${A[$a]}.0.bin"
+	       		cd ${workspace}eSAIS-DC3-LCP-0.5.4/build_2g/src/
+
+		        mkdir -p tests/${test}/esais
+       	        	date >> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+			./esactest ${test}.${A[$a]}.0.bin > ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+
+#####
 		done
 		
 	done
