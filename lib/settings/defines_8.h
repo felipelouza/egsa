@@ -38,8 +38,8 @@
 
 #define SIGMA 			255 	// size of \Sigma
 
-#define C_BUFFER_SIZE 		128	// 10000 size of composed suffix
-#define C_OVERFLOW_SIZE 	128		
+#define C_BUFFER_SIZE 		10240	// 10000 size of composed suffix
+#define C_OVERFLOW_SIZE 	10240		
 
 #define PREFIX_SIZE 		10
 	

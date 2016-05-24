@@ -58,10 +58,7 @@ int main(int argc, char **argv) {
 	printf("PRE = %d\n", PRE_OPTION);
 	printf("CHECK = %d\n", VALIDATE);
 
-	
-//	#if DEBUG
-		print_config();
-//	#endif
+	print_config();
 
 	//c_dir, c_file, K, memlimit, check
 	egsa(argv[2], argv[3], K, MEMLIMIT, VALIDATE);

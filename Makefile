@@ -80,3 +80,9 @@ run: egsa-1.2
 
 valgrind:
 	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+
+esais_compile: external/esais_input.c ${LIBOBJ} $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
+	$(CC) $(LIBOBJ) $(CFLAGS) external/esais_input.c -o external/esais_input
+
+esais_input: external/esais_input
+	external/esais_input $(DIR) $(INPUT) $(K) 
