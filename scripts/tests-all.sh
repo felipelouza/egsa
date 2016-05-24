@@ -96,7 +96,7 @@ do
 			echo "./esactest ${test}.${A[$a]}.0.bin"
 	       		cd ${workspace}eSAIS-DC3-LCP-0.5.4/build_2g/src/
 
-		        mkdir -p tests/${test}/esais
+		        mkdir -p ${workspace}egsa/tests/${test}/esais
        	        	date >> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
 			./esactest ${test}.${A[$a]}.0.bin > ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
 
