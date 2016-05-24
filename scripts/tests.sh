@@ -15,7 +15,7 @@ A=(	1 2 3 4 5 6 5 4 3 2
 	20 40 60 80 100 120 140 160 180 200
 	200 400 600 800 1000 1200 1400 1600 1800 2000)
 
-#D=("DNA.all.fasta" "uniprot_trembl.fasta" "gutenberg-201209.txt" "enwiki-20160501.txt")
+#D=("DNA.all.fasta" "uniprot_trembl.fasta" "gutenberg-201209-cleaned.txt" "enwiki-20160501.txt")
 D=("DNA.all.fasta" "input-10000.txt" "proteins-10000.fasta" "reads-10000.fastq")  
 
 #host="bug"
