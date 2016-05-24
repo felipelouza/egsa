@@ -57,7 +57,7 @@ c=0
 
 cd ${workspace}egsa/
 mkdir -p tests
-export HOME=/mnt/data/bio/projects/gpt/
+export HOME=${dir}
 
 for j in 8 #7 6 5 4 3 2 1 ##settings
 do
