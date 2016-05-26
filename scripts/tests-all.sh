@@ -60,6 +60,18 @@ do
 			rm -Rf ${dir}*.esa
 			rm -Rf ${dir}partition/*
 			rm -Rf ${dir}tmp/*
+<<<<<<< HEAD
+=======
+#####
+			echo "./esactest ${test}.${A[$a]}.0.bin"
+	       		cd ${workspace}eSAIS-DC3-LCP-0.5.4/build_2g/src/
+
+		        mkdir -p ${workspace}egsa/tests/${test}/esais
+       	        	date >> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+			./esactest ${test}.${A[$a]}.0.bin > ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+
+#####
+>>>>>>> 6dd1a5a7b5d0c5001173b10dd7a38d2d40a92038
 		done
 		
 	done
