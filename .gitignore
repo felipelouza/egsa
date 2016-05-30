@@ -10,3 +10,4 @@ esais_input
 *a.out
 tests/
 scripts/tmp/
+scripts/convert_fasta

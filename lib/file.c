@@ -231,7 +231,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 		}
 		
 		len = 0;
-		int nalloc = 128;
+		int nalloc = 2048;
 		char *c_buffer = (char*) malloc(nalloc*sizeof(char));
 
 		size_t p=0;
@@ -242,7 +242,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 			}
 
 			if(p+len>nalloc){
-				nalloc += 128;
+				nalloc += 8192;
 				c_buffer= realloc(c_buffer, sizeof(char) * nalloc);
 			}
 
