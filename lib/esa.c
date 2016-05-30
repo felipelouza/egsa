@@ -222,44 +222,25 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		int_lcp  i_height = 0;
 	#endif
 	
-	int8 bwt;
-	
+	int8 bwt = 0;
 	size_t i = 0;
-	
-	int_suff *ISA = NULL;
-	find_inverse(SA, &ISA, Text[i].length+1);
 
-	size_t sum=0;
-	
-	size_t *size = (size_t*) malloc(Text->n_strings * sizeof(size_t));
+	size_t pos = 0;
+	int_text d = 0; 
+	int_suff *D = (int_suff*) malloc((Text[i].length+1)*sizeof(int_suff));
 
-	size_t j = 0, previous = 0;
-	for(; i < Text->length; i++){
+	D[0] = d++;
+	for(i = 1; i < Text->length; i++){
 
-		if(Text->c_buffer[i] == 0){
-			size[j++] = i - previous;
-			previous = i;
+		if(Text->c_buffer[i]==0){
+			D[i] = d++;
+			pos = i;
+		}
+		else {
+			D[i] = pos;
 		}
 	}
 
-	int_text *D  = (int_text*) malloc((Text->length+1)* sizeof(int_text));
-	int_suff *SA_prime  = (int_suff*) malloc((Text->length+1)* sizeof(int_suff));	
-		
-	size_t offset=0;
-	j = 0;
-	for(i = 0; i < Text->length; i++){
-	
-		D[ISA[i]] = j + Text->n_start;
-		SA_prime[ISA[i]] = i-offset;
-		
-		
-		if(Text->c_buffer[i] == 0){
-			j++;
-			offset = i+1;
-		}
-	}
-	free(ISA);
-	
 	i = 1;
 	Text->length++;
 
@@ -294,15 +275,25 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		
 		//bwt
 		bwt = 0;
-		if(SA[i] > 0) bwt = Text->c_buffer[SA[i] - 1];
-		
+		if(SA[i] > 0) bwt = Text->c_buffer[SA[i] - 1];	
 		fwrite(&bwt, sizeof(int8), 1, f_out);
 		
-		
-		fwrite(&D[i], sizeof(int_text), 1, f_out);
-		fwrite(&SA_prime[i], sizeof(int_suff), 1, f_out);
-		
-		if(SA_prime[i]==0) sum++;
+		int_text d;
+		int_suff sa;
+
+		if(Text->c_buffer[SA[i]]==0){
+			d = D[SA[i]]-1;
+			sa = SA[i]-D[SA[i]-1]-1;
+		}
+		else{
+			d = D[D[SA[i]]];
+			sa = SA[i]-D[SA[i]]-1;	
+		}
+		if(!d) sa++;
+		d += Text->n_start;
+
+		fwrite(&d, sizeof(int_text), 1, f_out);
+		fwrite(&sa, sizeof(int_suff), 1, f_out);
 	}
 	
 	//extra node [n-1, 0, 500] SENTINEL
@@ -322,9 +313,7 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	fwrite(&aux_gsa, sizeof(t_ESA), 1, f_out);
 	if(fclose(f_out)==EOF) printf("error closing file %s.\n\n\n", c_aux); 
 	
-	free(SA_prime);
 	free(D);
-	free(size);
 	
 return 0;
 }
@@ -373,7 +362,6 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 			Text[i].c_buffer[j]=0;
 
 			gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
-
 			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
 
 			//computes lcp in 13n bytes
@@ -461,19 +449,19 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	size_t total_induced_suffixes = 0;
 	#if _INDUCING
 		#if DEBUG
-			size_t ant = 0;
+		      size_t ant = 0;
 		#endif
 	#endif
 	
-	size_t i = 0;
-	for(; i < *size; i++){
+	size_t i;
+	for(i=0; i<*size; i++){
 		//printf("%d)\n", i);
 		#if _INDUCING
 			if(H->heap[0]->c_buffer[0] > alfa){
 			
 				#if DEBUG
-					printf("%c)\t%zu\t%zu\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
-					ant = i;
+		      		printf("%c)\t%zu\t%zu\t%.2lf\n", alfa, i-ant, induced_suffixes, (100.0)*(induced_suffixes/(double) (i-ant)));
+		      		ant = i;
 				#endif
 
 				induced_suffixes = 0;						

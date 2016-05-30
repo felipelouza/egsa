@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-#define WORKSPACE 22 //Phase 1 requeries 21.0 n bytes
+#define WORKSPACE 13 //Phase 1 requeries 13.0 n bytes
 
 typedef unsigned int int_text;
 typedef unsigned int int_suff; 	//-2^31 to 2^31
@@ -74,7 +74,7 @@ typedef struct { //Text struct
 	t_ESA 		*ESA;
 	
 	int8 		*c_buffer;		// buffer used for I/O	-> prefix
-	int8	 	*c_overflow;	// buffer used for I/O
+	int8	 	*c_overflow;		// buffer used for I/O
 	
 	size_t		length;			// length of partition	
 

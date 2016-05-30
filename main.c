@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
 	printf("MEMLIMIT = %.2lf MB\n", MEMLIMIT/pow(2,20));
 	printf("PRE = %d\n", PRE_OPTION);
 	printf("CHECK = %d\n", VALIDATE);
+	printf("WORKSPACE = %d.n bytes\n", WORKSPACE);
 
 	print_config();
 

@@ -13,9 +13,11 @@
 
 int main(int argc, char **argv) {
 	
+        size_t K;
+
 	//argv[1] = DIR
 	//argv[2] = DATABASE
-
+        sscanf(argv[3], "%zu", &K);//NUMBER OF STRINGS
 /**/
 	char* oldwd = getcwd(NULL,0);
 	if (!oldwd) return 1;
@@ -29,7 +31,7 @@ int main(int argc, char **argv) {
 
 	
 	char *buf = NULL;
-	size_t len = 0;
+	size_t len = 0, k=0;
 	
 	getline(&buf, &len, f_in);// first sequence '>'
 	free(buf);
@@ -46,6 +48,7 @@ int main(int argc, char **argv) {
 
 			if(buf[0] == '>'){// break;
 				printf("%s", c_buffer);
+                                if(++k==K) return 0;
 				break;
 			}
 

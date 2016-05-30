@@ -132,9 +132,8 @@ void check(t_TEXT *Text, int_text n, char* c_file, int_text total){
 	
 	if(!check_gsa_lcp(Text, length, n, t_Aux)) printf("isNotLCP!!\n");
 	else printf("isLCP!!\n");
-	
+
 	esa_close(t_Aux);
-	
 	/**/
 	#if BWT
 		esa_open(t_Aux, "gesa");
@@ -149,19 +148,18 @@ void check(t_TEXT *Text, int_text n, char* c_file, int_text total){
 
 	esa_open(t_Aux, "gesa");
 	esa_malloc(t_Aux);		
-	
+
 	if(!check_is_permutation(Text, length, n, t_Aux)) printf("isNotPermutation!!\n");
 	else printf("isPermutation!!\n");
-
-
-	for(k = 0; k < n; k++){
-		free(Text[k].c_buffer);
-		free(Text[k].pos);
-	}
 
 	esa_close(t_Aux);
 	free(t_Aux->c_file);
 	free(t_Aux);
+	
+	for(k = 0; k < n; k++){
+		free(Text[k].c_buffer);
+		free(Text[k].pos);
+	}
 	
 }
 
@@ -220,9 +218,8 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 	
 	esa_read_gsa(GSA, BLOCK_ESA_SIZE+1, t_Aux->f_ESA);	
 	pos = ftell(t_Aux->f_ESA);
-	esa_seek(t_Aux->f_ESA, pos - (unsigned) sizeof(t_GSA));
+	esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	
-	//esa_print_gsa(GSA, 20);
 
 	size_t text[2];
 	size_t suff[2];
@@ -230,12 +227,12 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 	for(; k < length/BLOCK_ESA_SIZE+1; k++){
 	
 		unsigned i;
-		for (i = 0;  i < BLOCK_ESA_SIZE;  i++) {
+		for (i = 0;  i < BLOCK_ESA_SIZE-1;  i++) {
 			
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
 				//printf("k = %d\n", k);	
-				printf("LCP mean= %.5lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
+				printf("LCP_mean= %.5lf\t %zu\nLCP_max = %u\n", (double)lcp_mean/length, lcp_mean, lcp_max);
 				free(GSA);
 				return 1;
 			}
@@ -281,7 +278,6 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 				}
 				
 				free(GSA);				
-				
 				return 0;
 			}
 		}
@@ -289,8 +285,9 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 		pos = ftell(t_Aux->f_ESA);	
 		esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	}
-
-printf("LCP mean= %.5lf\nLCP max = %u\n", (double)lcp_mean/length, lcp_max);
+	
+	free(GSA);				
+	printf("LCP mean= %.5lf\t %zu\nLCP max = %u\n", (double)lcp_mean/length, lcp_mean, lcp_max);
 
 return 1; 		
 }
@@ -355,13 +352,14 @@ int check_gsa(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux) {
 		esa_seek(t_Aux->f_ESA, pos - sizeof(t_GSA));
 	}
 	
+	free(GSA);
+	
 return 1;  
 }
 
 /**********************************************************************/
 
 int check_is_permutation(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
-
 
 	size_t i, k;
 	
@@ -372,26 +370,25 @@ int check_is_permutation(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux)
 
 	int_text j;
 	for(j = 0; j < n; j++)
-		for (i = 0;  i < Text[j].length;  i++) 
+		for (i = 0;  i < Text[j].length-1;  i++) 
 			Text[j].c_buffer[j] = 0;
 		
-	size_t text[1];
-	size_t suff[1];
-	
+	size_t text;
+	size_t suff;
 	for(k = 0; k < length; k++){
 	
 		fread(GSA, sizeof(t_GSA), 1, t_Aux->f_ESA);
 		
-		text[0] = get_text(Text, n, GSA->text);
-		suff[0] = get_suff(Text, text[0], GSA->text, GSA->suff);
-			
-		Text[text[0]].c_buffer[suff[0]] = 1;
+		text = get_text(Text, n, GSA->text);
+		suff = get_suff(Text, text, GSA->text, GSA->suff);
+		Text[text].c_buffer[suff] = 1;
 	}
-	
 	for(j = 0; j < n; j++)
 		for (i = 0;  i < Text[j].length;  i++){ 
-			if (!Text[j].c_buffer[i])
+			if (!Text[j].c_buffer[i]){
+				free(GSA);
 				return 0;
+			}
 		}
 
 	free(GSA);

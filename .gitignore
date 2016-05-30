@@ -7,4 +7,6 @@ esais_input
 *.gesa
 *.tmp
 *.swp
+*a.out
+tests/
 scripts/tmp/

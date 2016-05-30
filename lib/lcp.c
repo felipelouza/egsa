@@ -9,8 +9,10 @@ void find_inverse(int_suff* SA, int_suff **ISA, int_suff n){
 		((*ISA)[SA[i]]) = i;
 }
 
-int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP, int_suff *ISA){
-	
+int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP){
+
+	int_suff *ISA = NULL;	
+	find_inverse(SA, &ISA, n);
 	
 	int_suff l = 0;
 	int_suff j, k, i;
@@ -34,6 +36,8 @@ int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP, in
 			if(l>0) l--;
 		}
 	}	
+
+	free(ISA);
 
 return 0;
 }

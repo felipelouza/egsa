@@ -268,8 +268,11 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 			if (!f_out) perror ("write_sequence");
 		}
 	
-	
-		fwrite(c_buffer, sizeof(int8), p, f_out);
+		size_t j;
+		for(j=0; j<p;j++)
+			if(c_buffer[j]!='N') fwrite(&c_buffer[j], sizeof(int8), 1, f_out);
+			else sum--;
+		//fwrite(c_buffer, sizeof(int8), p, f_out);
 		free(c_buffer);
 	}
 
