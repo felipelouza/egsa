@@ -42,18 +42,18 @@ export HOME=${dir}
 echo "cd ${esais}eSAIS-DC3-LCP-0.5.4/build_2g/src/"
 cd ${esais}eSAIS-DC3-LCP-0.5.4/build_2g/src/
 
-for i in {0..9}
+for d in 1 #{1..3}
 do
-        for d in 1 #{1..3}
-        do
-                a=$(($d*10+$i))
-                test=${D[$d]}
-                echo "./esactest ${test} -s ${E[$a]}mb"
-
-                mkdir -p ${workspace}egsa/tests/${test}/esais
-                date >> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
-                ./esactest ${test} -s ${E[$a]}mb #> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
-        done
+	for i in {0..9}
+	do
+		a=$(($d*10+$i))
+		test=${D[$d]}
+		echo "./esactest ${test} -s ${E[$a]}mb"
+		
+		mkdir -p ${workspace}egsa/tests/${test}/esais
+		date >> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+		./esactest ${test} -s ${E[$a]}mb #> ${workspace}egsa/tests/${test}/esais/${host}.esais.db.$i.txt
+	done
 
 done
 #############################################################################
