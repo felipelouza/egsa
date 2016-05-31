@@ -58,6 +58,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 	size_t sum=0;
 	int_text r = 0;
 	int8 sentinel = SIGMA;
+	int8 separator = 0;
 	
 	FILE *f_out=NULL;
 	
@@ -105,13 +106,12 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 		}
 		
 		size_t j;
-		for(j=0; j<size;j++)
-			if(c_buffer[j]<SIGMA-2){
+		for(j=0; j<size-1;j++)
+			if(c_buffer[j]<SIGMA-2 && c_buffer[j]>0)
 				fwrite(&c_buffer[j], sizeof(int8), 1, f_out);
-			}
-			else{
-				sum--;
-			}	
+			else sum--;	
+		fwrite(&separator, sizeof(int8), 1, f_out);
+
 		//fwrite(c_buffer, sizeof(int8), size, f_out);
 
 		free(c_buffer);		
