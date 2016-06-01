@@ -8,6 +8,9 @@ esais_input
 *.tmp
 *.swp
 *a.out
+dataset/proteins-10000.fasta
+dataset/input-10000.txt
+dataset/reads-10000.fastq
 tests/
 scripts/tmp/
 scripts/convert_fasta

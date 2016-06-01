@@ -10,7 +10,7 @@
 #        7240144 17880288 38760576 92521152 151781728 217672592 282802889 351363467 416868852 1)
 ####
 
-D=("DNA.all.fasta" "input-10000.txt" "proteins-10000.fasta" "reads-10000.fastq")  
+D=("DNA-100.fasta" "input-100.txt" "proteins-100.fasta" "reads-100.fastq")  
 
 A=(	1 2 3 4 5 6 5 4 3 2
 	2 4 6 8 10 12 14 16 18 20
