@@ -348,25 +348,15 @@ int esa_build(t_TEXT *Text, int_text k, int sigma, char* c_file){
 		for(j=0;j<Text[i].length+3;j++) SA[j] = LCP[j] = 0;
 		
 		/**************************************************************/
-		//printf("n_strings = %d\n", Text[i].n_strings);
-		if(Text[i].n_strings==1){
-
-			Text[i].c_buffer[Text[i].length]=0;
-			
-			//computes sa+lcp in 9n bytes
-			sais_lcp(Text[i].c_buffer, SA, LCP, Text[i].length+1);
-			LCP[1] = 0;
-		}
-		else{
-			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]++;
+		#if DEBUG
 			Text[i].c_buffer[j]=0;
+		#endif
 
-			gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
-			for(j=0; j < Text[i].length; j++) Text[i].c_buffer[j]--;
+		gSACA_K((unsigned char*)Text[i].c_buffer, (int*)SA, Text[i].length+1, SIGMA, Text[i].length+1, sizeof(char), 0, 1); // 5n bytes
 
-			//computes lcp in 13n bytes
-			lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
-		}
+		//computes lcp in 13n bytes
+		lcp_PHI(Text[i].c_buffer, SA, Text[i].length+1, LCP); // 13n bytes
+
 		/**************************************************************/
 		//validate
 		#if DEBUG

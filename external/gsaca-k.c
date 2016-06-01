@@ -749,6 +749,14 @@ int_t gSACA_K(unsigned char *s, uint_t *SA,
   uint_t i;
   uint_t *bkt=NULL;
 
+  //ADJUSTED TO RUN EGSA INPUT
+  /**/
+  uint_t a;
+  for(a=0; a<n; a++) s[a]++;
+  s[a]=0;
+  /**/
+
+
   #if PHASES
   time_t t_start_phase = 0.0; 
   clock_t c_start_phase = 0.0;
@@ -867,6 +875,9 @@ int_t gSACA_K(unsigned char *s, uint_t *SA,
       time_stop(t_start_phase, c_start_phase);
   }
   #endif
+
+  //ADJUSTED TO RUN EGSA INPUT
+  for(a=0; a<n; a++) s[a]--;
 
 return depth;
 }
