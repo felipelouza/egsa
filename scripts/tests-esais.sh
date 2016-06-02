@@ -5,13 +5,13 @@
 #D=("DNA.all.fasta" "uniprot_trembl.fasta" "gutenberg-201209-cleaned.txt" "enwiki-20160501.txt")
 #
 #E=(     1048 2185 4133 8274 10397 1 1 1 1 1
-#        1160 2153 4286 8273 12328 16147 1 1 1 1
+#        1160 2153 4286 8273 12328 16147 19127 1 1 1
 #        1115 2210 4472 8945 12288 16384 20480 1 1 1
 #        1024 2048 4096 8192 12288 16384 20480 24576 29158 1)
 #
 ####
 
-D=("DNA.all.fasta" "input-10000.txt" "proteins-10000.fasta" "reads-10000.fastq")  
+D=("dna-100.fasta" "input-10000.txt" "proteins-10000.fasta" "reads-10000.fastq")  
 
 E=(	1 2 3 4 5 6 5 4 3 2
 	2 4 6 8 10 12 14 16 18 20

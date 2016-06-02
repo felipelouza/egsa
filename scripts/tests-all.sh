@@ -5,12 +5,12 @@
 #D=("DNA.all.fasta" "uniprot_trembl.fasta" "gutenberg-201209-cleaned.txt" "enwiki-20160501.txt")
 #
 #A=(     32 51 68 126 153 1 1 1 1 1
-#        3123223 5446446 10892892 24285785 38178677 50825784 1 1 1 1
+#        3123223 5446446 10892892 24285785 38178677 50825784 62148085 1 1 1
 #        22495772 41291544 81783088 158966176 231949264 299532352 471915440 1 1 1
 #        7240144 17880288 38760576 92521152 151781728 217672592 282802889 351363467 416868852 1)
 ####
 
-D=("DNA-100.fasta" "input-100.txt" "proteins-100.fasta" "reads-100.fastq")  
+D=("dna-100.fasta" "input-100.txt" "proteins-100.fasta" "reads-100.fastq")  
 
 A=(	1 2 3 4 5 6 5 4 3 2
 	2 4 6 8 10 12 14 16 18 20
@@ -21,14 +21,6 @@ A=(	1 2 3 4 5 6 5 4 3 2
 host="louza"
 dir="/home/louza/dataset/"
 workspace="/home/louza/Dropbox/workspace/"
-
-#host="bug"
-#dir="/mnt/disk1/louza/dataset/"
-#workspace="/home/louza/"
-
-#host="jau"
-#dir="/mnt/data/bio/projects/gpt/"
-#workspace="/home/gpt/"
 
 c=0
 ##########################################################################
