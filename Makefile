@@ -1,7 +1,7 @@
 CC = gcc
 LIB_DIR=lib
 
-CWARNING =  -Wall -Wno-implicit-function-declaration  
+CWARNING =  -Wall -Wno-implicit-function-declaration -Wno-unused-result
 #VLIB= -g -O0
 MY_CXX_OPT_FLAGS= -O3 -m64 -D_FILE_OFFSET_BITS=64
 #-fomit-frame-pointer -ffast-math -funroll-loops 
