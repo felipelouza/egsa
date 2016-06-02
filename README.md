@@ -18,7 +18,6 @@ cd egsa
 **Compile:**
 
 ```sh
-make clean
 make compile 
 ```
 
