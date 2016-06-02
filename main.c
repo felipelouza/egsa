@@ -1,7 +1,9 @@
 /***********************************************************************
 
 egsa-1.2: External Generalized Suffix Array Construction Algorithm 
-Louza, may 2016.
+
+Authors: Felipe A. Louza* and Guilherme P. Telles
+*contact: louza@ic.unicamp.br
 
 Copyright (C) 2016 Felipe Louza <louza@ic.unicamp.br>
 
