@@ -10,7 +10,7 @@ void print1(int8* a, unsigned n, const char *comment) {//1 byte
 		printf("%d, %d\n", i, a[i]);	
 	}
 	
-printf("\n");
+	printf("\n");
 }
 
 void print4(unsigned* a, unsigned n, const char *comment) {//4 bytes

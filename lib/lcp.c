@@ -7,6 +7,7 @@ void find_inverse(int_suff* SA, int_suff **ISA, int_suff n){
 	int_suff i;
 	for(i = 0; i < n; i++)
 		((*ISA)[SA[i]]) = i;
+
 }
 
 int lcp_kasai(const unsigned char* T, int_suff* SA, int_suff n, int_lcp* LCP){

@@ -95,7 +95,6 @@ typedef struct { //Text struct
 
 #pragma pack()
 
-
 /**********************************************************************/
 
 void print1(int8* a, unsigned n, const char *comment);

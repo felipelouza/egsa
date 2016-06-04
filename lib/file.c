@@ -268,11 +268,14 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 			if (!f_out) perror ("write_sequence");
 		}
 	
-		size_t j;
+
+//removes symbol N
+/*		size_t j;
 		for(j=0; j<p;j++)
 			if(c_buffer[j]!='N') fwrite(&c_buffer[j], sizeof(int8), 1, f_out);
 			else sum--;
-		//fwrite(c_buffer, sizeof(int8), p, f_out);
+*/
+		fwrite(c_buffer, sizeof(int8), p, f_out);
 		free(c_buffer);
 	}
 
@@ -347,10 +350,16 @@ size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k,
 
 	else if(strcmp(type,"fastq") == 0)
 		r = load_multiple_fastq(f_in, c_file, mem_limit, *k);
+	else{
+		printf("Error: file not recognized (.txt, .fasta, .fastq)\n");
+		return 0;
+	}
 
 	fclose(f_in);
 
-	if(r==0) return 0;
+	if(r==0){
+		return 0;
+	}
 	/**/
 	
 	size_t sum = 0;
