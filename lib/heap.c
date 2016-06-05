@@ -65,6 +65,7 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, s
 		#endif
 	}
 	
+	//GESA output
 	char c_out_esa[FILE_NAME];
 	sprintf(c_out_esa, "%s.%d.gesa", c_file, total);
 	
@@ -72,6 +73,18 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, s
 	if(!h->f_out_ESA) perror("heap_alloc_induced(h->f_out_ESA)");
 	
 	fseek(h->f_out_ESA , 0 , SEEK_SET);	
+
+	#if BWT
+		#if BWT_OUTPUT
+		char c_out_bwt[FILE_NAME];
+		sprintf(c_out_bwt, "%s.%d.bwt", c_file, total);
+
+		h->f_out_BWT = fopen(c_out_bwt, "w");
+	        if(!h->f_out_BWT) perror("heap_alloc_induced(h->f_out_BWT)");
+	
+	        fseek(h->f_out_BWT, 0 , SEEK_SET);
+		#endif
+	#endif
 	
 return h;
 }
@@ -96,7 +109,12 @@ int heap_free(heap *h) {
 	#endif
 	
 	fclose(h->f_out_ESA);
-	
+	#if BWT
+		#if BWT_OUTPUT
+		fclose(h->f_out_BWT);
+		#endif
+	#endif	
+
 	#if _INDUCING
 		#if INDUCED_BUFFER	
 			for(i = 1; i < SIGMA; i++){

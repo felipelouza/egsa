@@ -7,6 +7,7 @@ esais_input
 *.gesa
 *.tmp
 *.swp
+*.bwt
 *a.out
 dataset/proteins-10000.fasta
 dataset/input-10000.txt

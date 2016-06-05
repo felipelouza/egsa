@@ -20,7 +20,7 @@ for j in 8 #7 6 5 4 3 2 1 ##settings
 do
 	cp lib/settings/defines_${j}.h lib/defines.h
 	make clean
-	make DEBUG=0
+	make DEBUG=0 BWT=1
 	
 	echo "settings '${j}':"
 
@@ -39,7 +39,7 @@ do
 			echo " " >> tests/${test}/${j}/${host}.db.$i.txt
 			make run DIR=${dir} INPUT=${test} K=${A[$a]} CHECK=$c >> tests/${test}/${j}/${host}.db.$i.txt
 			
-			rm -Rf ${dir}*.gesa ${dir}*.bin ${dir}*.esa ${dir}partition/* ${dir}tmp/*
+			rm -Rf ${dir}*.gesa ${dir}*.bwt ${dir}*.bin ${dir}*.esa ${dir}partition/* ${dir}tmp/*
 		done
 		
 	done

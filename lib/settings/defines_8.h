@@ -11,6 +11,8 @@
 
 #ifndef BWT
 	#define	BWT	0
+#else
+	#define BWT_OUTPUT 1
 #endif
 
 #define BLOCK_ESA_SIZE 	(1024*MB)/sizeof(t_ESA)	// (10MB) size of ALL buffers (BLOCK_ESA_SIZE > 0)

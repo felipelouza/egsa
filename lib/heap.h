@@ -18,7 +18,8 @@ struct heap {
 	int_lcp* 	lcp_left_right;
 	
 	int	size;	
-	FILE 		*f_out_ESA;		// pointer to the ESA output file
+	FILE 		*f_out_ESA;	// pointer to the ESA output file
+	FILE 		*f_out_BWT;	// pointer to the ESA output file
 	
 	FILE 		*f_in_ESA;	// pointer to the ESA input file
 	FILE 		*f_in_seq;	// pointer to the sequence input file

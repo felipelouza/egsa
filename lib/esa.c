@@ -154,6 +154,9 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 				
 		#if BWT
 			h->out_buffer[h->size_out_buffer].bwt = node->ESA[node->u_idx].bwt;
+			#if BWT_OUTPUT
+				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
+			#endif
 		#endif
 		
 		h->out_buffer[h->size_out_buffer++].lcp = lcp;
@@ -167,6 +170,9 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 		
 		#if BWT
 			fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_ESA);
+			#if BWT_OUTPUT
+				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
+			#endif
 		#endif
 	
 	#endif //_OUTPUT_BUFFER
