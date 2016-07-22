@@ -90,6 +90,9 @@ typedef struct { //Text struct
 		
 	size_t		*pos;		// start pos of each string 
 	size_t 		block_esa_size;
+
+	size_t 		io_read;
+	size_t 		io_write;
 	
 } t_TEXT;
 
