@@ -331,7 +331,7 @@ int heap_delete_min(heap *h) {//outputs min
 		node->u_idx = 0;
 		esa_read(node->ESA, node->f_ESA, node->block_esa_size);
 		#if IO_VOLUME
-			node->io_read++;
+			node->io_read+=node->block_esa_size*sizeof(t_ESA);
 		#endif
 	}
 	
@@ -358,7 +358,7 @@ int heap_delete_min(heap *h) {//outputs min
 			seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa + (size_t) node->i_height);
 			fread (&node->c_buffer[node->i_height], sizeof(int8), C_BUFFER_SIZE - node->i_height, node->f_in);
 			#if IO_VOLUME
-				node->io_read++;
+				node->io_read+=(C_BUFFER_SIZE - node->i_height)*sizeof(int8);
 			#endif
 			
 			node->c_buffer[C_BUFFER_SIZE] = SIGMA;
@@ -367,7 +367,7 @@ int heap_delete_min(heap *h) {//outputs min
 			seek_sequence(node->f_in, (size_t) node->ESA[node->u_idx].sa);
 			fread (&node->c_buffer[0], sizeof(int8), C_BUFFER_SIZE, node->f_in);
 			#if IO_VOLUME
-				node->io_read++;
+				node->io_read+=C_BUFFER_SIZE*sizeof(int8);
 			#endif
 			
 			node->c_buffer[C_BUFFER_SIZE] = SIGMA;
@@ -403,7 +403,7 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 	#if INDUCED_BUFFER
 		fwrite(h->induced_buffer[alfa], sizeof(t_INDUCED), h->inserted_induced_buffer[alfa], h->fSIGMA[alfa]);
 		#if IO_VOLUME
-			Text[0].io_read++;
+			Text[0].io_write+=h->inserted_induced_buffer[alfa]*sizeof(t_INDUCED);
 		#endif
 	#endif //INDUCED_BUFFER
 	
@@ -419,7 +419,7 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 	
 	fread(&induced, sizeof(t_INDUCED), 1, h->fSIGMA[alfa]);		
 	#if IO_VOLUME
-		Text[0].io_read++;
+		Text[0].io_read+=sizeof(t_INDUCED);
 	#endif
 	induced.lcp = 0;
 	
@@ -440,14 +440,14 @@ int heap_pass_induced(heap *h, t_TEXT *Text, size_t *pos, int8 alfa) {
 			Text[induced.text].u_idx = 0;
 			esa_read(Text[induced.text].ESA, Text[induced.text].f_ESA, Text[induced.text].block_esa_size);
 			#if IO_VOLUME
-				Text[induced.text].io_read++;
+				Text[induced.text].io_read+=Text[induced.text].block_esa_size*sizeof(t_ESA);
 			#endif
 		}
 
 		if(!feof(h->fSIGMA[alfa]))
 		fread(&induced, sizeof(t_INDUCED), 1, h->fSIGMA[alfa]);			
 		#if IO_VOLUME
-			Text[0].io_read++;
+			Text[0].io_read+=sizeof(t_INDUCED);
 		#endif
 	}
 	
@@ -466,7 +466,7 @@ int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length){
 		
 		fread (*pt, sizeof(int8), C_BUFFER_SIZE - length, node->f_in);
 		#if IO_VOLUME
-			node->io_read++;
+			node->io_read+=(C_BUFFER_SIZE - length)*sizeof(int8);
 		#endif
 		node->c_buffer[C_BUFFER_SIZE] = SIGMA;
 		node->i_loaded = C_BUFFER_SIZE-1;
@@ -475,7 +475,7 @@ int load_buffer(heap *h, heap_node *node, int8** pt, int_lcp length){
 	
 		fread (node->c_overflow, sizeof(int8), C_OVERFLOW_SIZE, node->f_in);
 		#if IO_VOLUME
-			node->io_read++;
+			node->io_read+=C_OVERFLOW_SIZE*sizeof(int8);
 		#endif
 		node->c_overflow[C_OVERFLOW_SIZE] = SIGMA;
 		*pt = node->c_overflow;
