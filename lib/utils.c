@@ -227,7 +227,7 @@ int check_gsa_lcp(t_TEXT *Text, size_t length, int_text n, t_TEXT *t_Aux){
 	for(; k < length/BLOCK_ESA_SIZE+1; k++){
 	
 		unsigned i;
-		for (i = 0;  i < BLOCK_ESA_SIZE-1;  i++) {
+		for (i = 0;  i < BLOCK_ESA_SIZE;  i++) {
 			
 			if(i+(k*BLOCK_ESA_SIZE) == length-1){
 				
