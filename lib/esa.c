@@ -148,7 +148,7 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 			h->size_out_buffer = 0;
 			fwrite(h->out_buffer, sizeof(t_GSA), OUTPUT_SIZE, h->f_out_ESA);
 			#if IO_VOLUME
-				node->io_write++;
+				node->io_write+=OUTPUT_SIZE*sizeof(t_GSA);
 			#endif
 		}	
 		
@@ -160,7 +160,7 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 			#if BWT_OUTPUT
 				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
 				#if IO_VOLUME
-					node->io_write++;
+					node->io_write+=sizeof(int8);
 				#endif
 			#endif
 		#endif
@@ -171,26 +171,26 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 
 		fwrite(&node->ESA[node->u_idx].text, sizeof(int_text), 1, h->f_out_ESA);
 		#if IO_VOLUME
-			node->io_write++;
+			node->io_write+=sizeof(int_text);
 		#endif
 		fwrite(&node->ESA[node->u_idx].sa_prime, sizeof(int_suff), 1, h->f_out_ESA);			
 		#if IO_VOLUME
-			node->io_write++;
+			node->io_write+=sizeof(int_suff);
 		#endif
 		fwrite(&lcp, sizeof(int_lcp), 1, h->f_out_ESA);
 		#if IO_VOLUME
-			node->io_write++;
+			node->io_write+=sizeof(int_lcp);
 		#endif
 		
 		#if BWT
 			fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_ESA);
 			#if IO_VOLUME
-				node->io_write++;
+				node->io_write+=sizeof(int8);
 			#endif
 			#if BWT_OUTPUT
 				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
 				#if IO_VOLUME
-					node->io_write++;
+					node->io_write+=sizeof(int8);
 				#endif
 			#endif
 		#endif
@@ -215,7 +215,7 @@ void induce(heap* h, heap_node *node, int_lcp lcp){
 			h->inserted_induced_buffer[node->ESA[node->u_idx].bwt] = 0;
 			fwrite(h->induced_buffer[node->ESA[node->u_idx].bwt], sizeof(t_INDUCED), h->size_induced_buffer[node->ESA[node->u_idx].bwt], h->fSIGMA[node->ESA[node->u_idx].bwt]);
 			#if IO_VOLUME
-				node->io_write++;
+				node->io_write+=sizeof(t_INDUCED)*h->size_induced_buffer[node->ESA[node->u_idx].bwt];
 			#endif
 		}	
 		h->induced_buffer[node->ESA[node->u_idx].bwt][h->inserted_induced_buffer[node->ESA[node->u_idx].bwt]].text = node->key;
@@ -225,11 +225,11 @@ void induce(heap* h, heap_node *node, int_lcp lcp){
 
 		fwrite(&node->key, sizeof(int_text), 1, h->fSIGMA[node->ESA[node->u_idx].bwt]);
 		#if IO_VOLUME
-			node->io_write++;
+			node->io_write+=sizeof(int_text);
 		#endif
 		fwrite(&lcp, sizeof(int_lcp), 1, h->fSIGMA[node->ESA[node->u_idx].bwt]);
 		#if IO_VOLUME
-			node->io_write++;
+			node->io_write+=sizeof(int_lcp);
 		#endif
 
 	#endif
@@ -303,17 +303,17 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		//write the node into the file
 		fwrite(&SA[i], sizeof(int_suff), 1, f_out);
 		#if IO_VOLUME
-			Text->io_write++;
+			Text->io_write+=sizeof(int_suff);
 		#endif
 		fwrite(&LCP[i], sizeof(int_lcp), 1, f_out);
 		#if IO_VOLUME
-			Text->io_write++;
+			Text->io_write+=sizeof(int_lcp);
 		#endif
 		
 		#if _PREFIX_ASSY
 			fwrite(&Text->c_buffer[begin], sizeof(int8), PREFIX_SIZE, f_out);
 			#if IO_VOLUME
-				Text->io_write++;
+				Text->io_write+=sizeof(int8)*PREFIX_SIZE;
 			#endif
 		#endif
 		
@@ -322,7 +322,7 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 		if(SA[i] > 0) bwt = Text->c_buffer[SA[i] - 1];	
 		fwrite(&bwt, sizeof(int8), 1, f_out);
 		#if IO_VOLUME
-			Text->io_write++;
+			Text->io_write+=sizeof(int8);
 		#endif
 		
 		int_text d;
@@ -341,11 +341,11 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 
 		fwrite(&d, sizeof(int_text), 1, f_out);
 		#if IO_VOLUME
-			Text->io_write++;
+			Text->io_write+=sizeof(int_text);
 		#endif
 		fwrite(&sa, sizeof(int_suff), 1, f_out);
 		#if IO_VOLUME
-			Text->io_write++;
+			Text->io_write+=sizeof(int_suff);
 		#endif
 	}
 	
@@ -365,7 +365,7 @@ int esa_write_all(int_suff* SA, int_lcp* LCP, t_TEXT *Text, char *c_file) {
 	
 	fwrite(&aux_gsa, sizeof(t_ESA), 1, f_out);
 	#if IO_VOLUME
-		Text->io_write++;
+		Text->io_write+=sizeof(t_ESA);
 	#endif
 	if(fclose(f_out)==EOF) printf("error closing file %s.\n\n\n", c_aux); 
 	
@@ -557,7 +557,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	#if _OUTPUT_BUFFER
 		fwrite(H->out_buffer, sizeof(t_GSA), H->size_out_buffer, H->f_out_ESA);//fflush out_buffer
 		#if IO_VOLUME
-			Text[0].io_write++;
+			Text[0].io_write+=sizeof(t_GSA)*H->size_out_buffer;
 		#endif
 	#endif
 	
