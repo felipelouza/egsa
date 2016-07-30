@@ -248,6 +248,15 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 
 			strcpy(&c_buffer[p], buf);
 			p+=strlen(buf)-1;
+
+			//breaks the string larger than the available memory
+			if(p>mem_limit/WORKSPACE){
+			//printf("%d\t%zu: pruned string\n", i, p);
+			        while(getline(&buf, &len, f_in)!=-1){
+			                if(buf[0] == '>') break;
+			        }
+			break;
+			}
 		}
 
 		free(buf);
