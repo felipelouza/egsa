@@ -15,7 +15,7 @@
 	#define BWT_OUTPUT 1
 #endif
 	
-#define	IO_VOLUME	0
+#define	IO_VOLUME	1
 
 #define BLOCK_ESA_SIZE 	(1024*MB)/sizeof(t_ESA)	// (10MB) size of ALL buffers (BLOCK_ESA_SIZE > 0)
 
