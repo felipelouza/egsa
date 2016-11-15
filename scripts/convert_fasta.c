@@ -59,9 +59,10 @@ int main(int argc, char **argv) {
 
 				size_t l = strlen(c_buffer);
 				size_t i;
+				if(CAT)
 				for(i=0; i<l; i++) 
 					if(N && c_buffer[i]=='N') continue; 
-					else if(CAT) printf("%c", c_buffer[i]);
+					else printf("%c", c_buffer[i]);
 				//printf("%s", c_buffer);
 
                                 if(++k==K) return 0;
@@ -69,7 +70,13 @@ int main(int argc, char **argv) {
 				if(!H) printf("%s",buf);
 				break;
 			}
-			else if(!CAT) printf("%s", buf);
+			else if(!CAT){
+				size_t l = strlen(buf);
+                                size_t i;
+                                for(i=0; i<l; i++)
+                                        if(N && buf[i]=='N') continue;
+                                        else printf("%c", buf[i]);
+			}
 
 			if(p+len>nalloc){
 				nalloc += 2048;
