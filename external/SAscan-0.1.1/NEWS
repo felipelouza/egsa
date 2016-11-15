@@ -1,0 +1,6 @@
+Changes in release 0.1.1
+
+  - Fixed a bug in a function deleting a file
+  - Fixed redundant memory allocation during construction of rank data structure
+  - Removed rendudant symbol frequencies recalculation
+  - Switched to GNU getopt for handling command line arguments

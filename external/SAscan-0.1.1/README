@@ -1,0 +1,50 @@
+SAscan - suffix array construction in external memory.
+======================================================
+
+
+Introduction:
+-------------
+
+This package contains implementation of SAscan -- an external memory suffix
+array construction algorithm. The code accompanies the paper
+
+  Juha Kärkkäinen and Dominik Kempa,
+  Engineering a Lightweight External Memory Suffix Array Construction Algorithm,
+  In Proc. 2nd International Conference on Algorithms for Big Data (ICABD) 2014.
+
+The latest version of SAscan is available at:
+  http://www.cs.helsinki.fi/group/pads/
+
+
+Compilation / usage:
+--------------------
+
+  1. Download http://libdivsufsort.googlecode.com/files/libdivsufsort-2.0.1.tar.gz
+     and install. Make sure to compile libdivsufsort to static 64-bit libraries,
+     i.e. set options in the main CMakeLists.txt to
+
+     option(BUILD_SHARED_LIBS "Set to OFF to build static libraries" OFF)
+     option(BUILD_DIVSUFSORT64 "Build libdivsufsort64" ON)
+
+  2. Compile SAscan using the provided Makefile
+
+     $ cd src
+     $ make
+
+For usage, run program without parameters.
+
+
+Known issues:
+-------------
+
+Current version only works for inputs that do not contain bytes with value 255.
+
+
+Terms of use:
+-------------
+
+If you use this code for experiments in a research paper, please cite the
+paper mentioned above and publish the URL from which you downloaded the code.
+
+
+Helsinki, August 2014.
