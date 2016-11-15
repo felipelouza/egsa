@@ -21,14 +21,18 @@ sed -n '1~4s/^@/>/p;2~4p' ../dataset/reads-100.fastq
 
 ####
 
+#remove header 	      1
+#and symbol 'N'       1 1
+#and cat fasta lines  1 1 1
+#outputs 32 strings   1 1 1 32
 
 #egsa
-#removes 'N'
+#removes 'N' and do not 'CAT' the lines
 nohup ./convert_fasta /home/gpt/sac-corpus/DNA.all.fasta 0 1 > /home/gpt/sac-corpus/DNA-cleaned.all.fasta &
 
 ##esais
 #removes 'N' and Headers
-nohup ./convert_fasta /home/gpt/sac-corpus/DNA.all.fasta 1 1 > /home/gpt/sac-corpus/DNA-cleaned-esais.all.fasta &
+nohup ./convert_fasta /home/gpt/sac-corpus/DNA.all.fasta 1 1 1 > /home/gpt/sac-corpus/DNA-cleaned-esais.all.fasta &
 
 #removes Headers
-nohup ./convert_fasta /home/gpt/sac-corpus/uniprot_trembl.fasta 1 > /home/gpt/sac-corpus/uniprot_trembl-esais.fasta &
+nohup ./convert_fasta /home/gpt/sac-corpus/uniprot_trembl.fasta 1 0 1 > /home/gpt/sac-corpus/uniprot_trembl-esais.fasta &

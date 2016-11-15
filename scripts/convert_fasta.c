@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
 	
         size_t K = 0;
         size_t N = 0;
+        size_t CAT = 0;
         size_t H = 0;
 
 	//argv[1] = INPUT
@@ -24,8 +25,11 @@ int main(int argc, char **argv) {
 	if(argc>=4){
 	        sscanf(argv[3], "%zu", &N);//REMOVES SYMBOL 'N' = 1
 	}
-	if(argc==5){
-	        sscanf(argv[4], "%zu", &K);//NUMBER OF STRINGS
+	if(argc>=5){
+	        sscanf(argv[4], "%zu", &CAT);//CAT LINES 
+	}
+	if(argc==6){
+	        sscanf(argv[5], "%zu", &K);//NUMBER OF STRINGS
 	}
 
 	FILE *f_in=NULL;	
@@ -57,7 +61,7 @@ int main(int argc, char **argv) {
 				size_t i;
 				for(i=0; i<l; i++) 
 					if(N && c_buffer[i]=='N') continue; 
-					else printf("%c", c_buffer[i]);
+					else if(CAT) printf("%c", c_buffer[i]);
 				//printf("%s", c_buffer);
 
                                 if(++k==K) return 0;
@@ -65,6 +69,7 @@ int main(int argc, char **argv) {
 				if(!H) printf("%s",buf);
 				break;
 			}
+			else if(!CAT) printf("%s", buf);
 
 			if(p+len>nalloc){
 				nalloc += 2048;
@@ -85,7 +90,7 @@ int main(int argc, char **argv) {
 	size_t i;
 	for(i=0; i<l; i++) 
 		if(N && c_buffer[i]=='N') continue;
-		else printf("%c", c_buffer[i]);
+		else if(CAT) printf("%c", c_buffer[i]);
 	
 	fclose(f_in);
 
