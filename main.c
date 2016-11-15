@@ -42,21 +42,19 @@ int main(int argc, char **argv) {
 	
 	int_text K;
 	unsigned PRE_OPTION, VALIDATE;
-	size_t MEMLIMIT = 1;
+//	size_t MEMLIMIT = 1;
 
 	sscanf(argv[1], "%u", &PRE_OPTION);
 	//argv[2] = DIR
 	//argv[3] = DATABASE
 	sscanf(argv[4], "%d", &K);//NUMBER OF STRINGS
-	sscanf(argv[5], "%zu", &MEMLIMIT);//AVAILABLE MEMORY
-	sscanf(argv[6], "%u", &VALIDATE);
+	sscanf(argv[5], "%u", &VALIDATE);
 
 	printf("SIGMA = %d\n", SIGMA);
 	printf("DIR = %s\n", argv[2]);
 	printf("INPUT = %s\n", argv[3]);
 	printf("K = %d\n", K);
-	MEMLIMIT *= 1024*1024;
-	printf("MEMLIMIT = %.2lf MB\n", MEMLIMIT/pow(2,20));
+	printf("MEMLIMIT = %.2lf MB\n", RAM_USE/pow(2,20));
 	printf("PRE = %d\n", PRE_OPTION);
 	printf("CHECK = %d\n", VALIDATE);
 	printf("WORKSPACE = %d.n bytes\n", WORKSPACE);
@@ -64,7 +62,7 @@ int main(int argc, char **argv) {
 	print_config();
 
 	//c_dir, c_file, K, memlimit, check
-	egsa(argv[2], argv[3], K, MEMLIMIT, VALIDATE);
+	egsa(argv[2], argv[3], K, VALIDATE);
 
 return 0;
 }

@@ -64,7 +64,7 @@ $(DIR)/tmp/
 
 ##options:
 
-Output the burrows wheeler transform:
+Output the Burrows-Wheeler transform:
 
 ```sh
 
@@ -76,7 +76,8 @@ One can inform the maximum available internal memory to be used (in MB):
 
 ```sh
 
-make run MEMLIMIT=10
+make clean
+make compile MEMLIMIT=10
 
 ```
 

@@ -53,7 +53,7 @@ return 0;
 
 /**********************************************************************/
 // read line by line
-int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text k) {
+int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 
 	size_t sum=0;
 	int_text r = 0;
@@ -91,7 +91,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, size_t mem_limit, int_text 
 		c_buffer[size-1] = 0;
 		sum += size;
 
-		if(sum>mem_limit/WORKSPACE && i){
+		if(sum>RAM_USE/WORKSPACE && i){
 
 			fwrite(&sentinel, sizeof(int8), 1, f_out);			
 			fclose(f_out);
@@ -130,7 +130,7 @@ return r;
 }
 
 // read sequences separeted by '@' line
-int_text load_multiple_fastq(FILE* f_in, char *c_file, size_t mem_limit, int_text k){
+int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 
 	size_t sum=0;
 	int_text r = 0;
@@ -170,7 +170,7 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 
         	sum += size;
 
-		if(sum>mem_limit/WORKSPACE && i){
+		if(sum>RAM_USE/WORKSPACE && i){
 
 			fwrite(&sentinel, sizeof(int8), 1, f_out);			
 			fclose(f_out);
@@ -202,7 +202,7 @@ return r;
 }
 
 // read sequences separeted by '>' line
-int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_text k){
+int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 
 	size_t sum=0;
 	int_text r = 0;
@@ -250,7 +250,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 			p+=strlen(buf)-1;
 
 			//breaks the string larger than the available memory
-			if(p>mem_limit/WORKSPACE){
+			if(p>RAM_USE/WORKSPACE){
 			//printf("%d\t%zu: pruned string\n", i, p);
 			        while(getline(&buf, &len, f_in)!=-1){
 			                if(buf[0] == '>') break;
@@ -263,7 +263,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, size_t mem_limit, int_tex
 		c_buffer[p++] = 0;
 		sum += p;
 
-		if(sum>mem_limit/WORKSPACE && i){
+		if(sum>RAM_USE/WORKSPACE && i){
 
 			fwrite(&sentinel, sizeof(int8), 1, f_out);			
 			fclose(f_out);
@@ -337,7 +337,8 @@ void file_count_symbols(FILE* f_in, int_suff length, int_suff* COUNT){
  * .fasta - strings separated by '>' line
  * .fastq - strings separated by four lines
  */
-size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k, int_suff *COUNT){ 
+size_t preprocessing(t_TEXT **Text, char *c_file, int_text *k, int_suff *COUNT){ 
+
 
 	printf("\n");
 	printf("### PREPROCESSING ###\n");
@@ -353,13 +354,13 @@ size_t preprocessing(t_TEXT **Text, char *c_file, size_t mem_limit, int_text *k,
 	const char *type = get_filename_ext(c_file);
 
 	if(strcmp(type,"txt") == 0)
-		r = load_multiple_txt(f_in, c_file, mem_limit, *k);
+		r = load_multiple_txt(f_in, c_file, *k);
 
 	else if(strcmp(type,"fasta") == 0)
-		r = load_multiple_fasta(f_in, c_file, mem_limit, *k);
+		r = load_multiple_fasta(f_in, c_file, *k);
 
 	else if(strcmp(type,"fastq") == 0)
-		r = load_multiple_fastq(f_in, c_file, mem_limit, *k);
+		r = load_multiple_fastq(f_in, c_file, *k);
 	else{
 		printf("Error: file not recognized (.txt, .fasta, .fastq)\n");
 		return 0;

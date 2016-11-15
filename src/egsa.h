@@ -9,7 +9,7 @@
 
 /**********************************************************************/
 
-int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE);
+int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE);
 
 /**********************************************************************/
 

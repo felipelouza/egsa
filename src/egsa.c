@@ -1,7 +1,7 @@
 #include "egsa.h"
 
 /**********************************************************************/
-int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDATE){
+int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE){
 
 	time_t t_start, t_total;
 	clock_t c_start, c_total;
@@ -23,7 +23,7 @@ int egsa(char *c_dir, char* c_file, int_text K, size_t MEMLIMIT, unsigned VALIDA
 	t_TEXT *Text;
 	size_t size; //sizeof generalized suffix array
 
-	n = preprocessing(&Text,c_file, MEMLIMIT, &K, COUNT);
+	n = preprocessing(&Text,c_file, &K, COUNT);
 	if(n==0) return 1;		
 	
 	printf("TOTAL = %zu bytes\t%.2lf MB\n", n, n/pow(2,20));

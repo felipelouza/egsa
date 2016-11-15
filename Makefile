@@ -19,9 +19,10 @@ LIBOBJ = external/malloc_count/malloc_count.o\
 ##
 BWT = 0
 DEBUG = 0
+MEMLIMIT = 2048
 ##
 
-DEFINES = -DDEBUG=$(DEBUG) -DBWT=$(BWT) 
+DEFINES = -DDEBUG=$(DEBUG) -DBWT=$(BWT) -DMEMLIMIT=$(MEMLIMIT) 
 
 CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 
@@ -38,8 +39,6 @@ INPUT = proteins-10000.fasta
 
 K =  100
 
-#4GB
-MEMLIMIT = 2048 
 
 ########################################################################
 
@@ -75,8 +74,8 @@ compile: main.c ${LIBOBJ} $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
 	$(CC) $(LIBOBJ) $(CFLAGS) main.c -o egsa-1.2
 
 run: egsa-1.2
-	./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+	./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(CHECK)
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(MEMLIMIT) $(CHECK)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(CHECK)
 
