@@ -72,10 +72,11 @@ int main(int argc, char **argv) {
 			}
 			else if(!CAT){
 				size_t l = strlen(buf);
-                                size_t i;
-                                for(i=0; i<l; i++)
-                                        if(N && buf[i]=='N') continue;
+                                size_t i, rm=0;
+                                for(i=0; i<l-1; i++)
+                                        if(N && buf[i]=='N'){rm++; continue;}
                                         else printf("%c", buf[i]);
+				if(rm<l-1) printf("\n");
 			}
 
 			if(p+len>nalloc){
