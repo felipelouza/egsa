@@ -3,10 +3,14 @@
 gcc convert_fasta.c -o convert_fasta
 
 #removes fasta header
-./convert_fasta ../dataset/proteins-100.fasta 0
+./convert_fasta ../dataset/proteins-100.fasta 1
 
-#and removes 'N' symbol (outputs 25 strings)
-./convert_fasta ../dataset/proteins-100.fasta 1 25
+#and removes symbol 'N'
+./convert_fasta ../dataset/proteins-100.fasta 1 1
+
+#prints 25 strings
+./convert_fasta ../dataset/proteins-100.fasta 1 1 25
+
 
 ##
 #FASTQ
@@ -17,12 +21,14 @@ sed -n '1~4s/^@/>/p;2~4p' ../dataset/reads-100.fastq
 
 ####
 
-#jau
-mkdir /mnt/data/bio/projects/gpt/sac-corpus/
-./convert_fasta /mnt/data/bio/projects/gpt/DNA.all.fasta 1 > /mnt/data/bio/projects/gpt/sac-corpus/DNA.all.fasta 
-./convert_fasta /mnt/data/bio/projects/gpt/uniprot_trembl.fasta 0 > /mnt/data/bio/projects/gpt/sac-corpus/uniprot_trembl.fasta
 
-#bug
-mkdir /mnt/disk1/louza/dataset/sac-corpus/ 
-./convert_fasta /mnt/disk1/louza/dataset/DNA.all.fasta 1 > /mnt/disk1/louza/dataset/sac-corpus/DNA.all.fasta 
-./convert_fasta /mnt/disk1/louza/dataset/uniprot_trembl.fasta 0 > /mnt/disk1/louza/dataset/sac-corpus/uniprot_trembl.fasta
+#egsa
+#removes 'N'
+nohup ./convert_fasta /home/gpt/sac-corpus/DNA.all.fasta 0 1 > /home/gpt/sac-corpus/DNA-cleaned.all.fasta &
+
+##esais
+#removes 'N' and Headers
+nohup ./convert_fasta /home/gpt/sac-corpus/DNA.all.fasta 1 1 > /home/gpt/sac-corpus/DNA-cleaned-esais.all.fasta &
+
+#removes Headers
+nohup ./convert_fasta /home/gpt/sac-corpus/uniprot_trembl.fasta 1 > /home/gpt/sac-corpus/uniprot_trembl-esais.fasta &

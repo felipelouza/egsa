@@ -15,13 +15,17 @@ int main(int argc, char **argv) {
 	
         size_t K = 0;
         size_t N = 0;
+        size_t H = 0;
 
 	//argv[1] = INPUT
 	if(argc>=3){
-	        sscanf(argv[2], "%d", &N);//REMOVES 'N' SYMBOL
+	        sscanf(argv[2], "%zu", &H);//REMOVES HEADER = 1
 	}
-	if(argc==4){
-	        sscanf(argv[3], "%zu", &K);//NUMBER OF STRINGS
+	if(argc>=4){
+	        sscanf(argv[3], "%zu", &N);//REMOVES SYMBOL 'N' = 1
+	}
+	if(argc==5){
+	        sscanf(argv[4], "%zu", &K);//NUMBER OF STRINGS
 	}
 
 	FILE *f_in=NULL;	
@@ -32,6 +36,9 @@ int main(int argc, char **argv) {
 	size_t len = 0, k=0;
 	
 	getline(&buf, &len, f_in);// first sequence '>'
+
+	if(!H) printf("%s",buf);
+
 	free(buf);
 
 	char *c_buffer;
@@ -54,6 +61,8 @@ int main(int argc, char **argv) {
 				//printf("%s", c_buffer);
 
                                 if(++k==K) return 0;
+				
+				if(!H) printf("%s",buf);
 				break;
 			}
 
@@ -64,16 +73,19 @@ int main(int argc, char **argv) {
 			strcpy(&c_buffer[p], buf);
 			p+=strlen(buf)-1;
 		}
+		
+                if(feof(f_in))break;
+
 		free(buf);
 		free(c_buffer);
 	}
 
+	//printf("%s", c_buffer);
 	size_t l = strlen(c_buffer);
 	size_t i;
 	for(i=0; i<l; i++) 
 		if(N && c_buffer[i]=='N') continue;
 		else printf("%c", c_buffer[i]);
-	//printf("%s", c_buffer);
 	
 	fclose(f_in);
 
