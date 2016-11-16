@@ -20,12 +20,13 @@ std::FILE *open_file(std::string filename, std::string mode);
 long file_size(std::string filename, long size);
 bool file_exists(std::string filename);
 void file_delete(std::string filename);
-void read_block(std::string filename, long beg, long length, unsigned char *b);
+void read_block(std::string filename, long beg, long length, unsigned char *b, long *ioread);
 
 template<typename T>
-void write_objects_to_file(T *tab, long length, std::string filename) {
+void write_objects_to_file(T *tab, long length, std::string filename, long *iowrite) {
   std::FILE *f = open_file(filename, "w");
   size_t fwrite_ret = std::fwrite(tab, sizeof(T), length, f);
+(*iowrite)+=sizeof(T)*length;
   if ((long)fwrite_ret != length) {
     fprintf(stderr, "Error: fwrite in line %s of %s returned %ld\n",
         STR(__LINE__), STR(__FILE__), fwrite_ret);
@@ -36,8 +37,9 @@ void write_objects_to_file(T *tab, long length, std::string filename) {
 }
 
 template<typename T>
-void add_objects_to_file(T *tab, long length, std::FILE *f) {
+void add_objects_to_file(T *tab, long length, std::FILE *f, long *iowrite) {
   size_t fwrite_ret = std::fwrite(tab, sizeof(T), length, f);
+(*iowrite)+=sizeof(T)*length;
   if ((long)fwrite_ret != length) {
     fprintf(stderr, "Error: fwrite in line %s of %s returned %lu\n",
         STR(__LINE__), STR(__FILE__), fwrite_ret);
@@ -46,8 +48,9 @@ void add_objects_to_file(T *tab, long length, std::FILE *f) {
 }
 
 template<typename T>
-void read_objects_from_file(T* &tab, long length, std::FILE *f) {
+void read_objects_from_file(T* &tab, long length, std::FILE *f, long *ioread) {
   size_t fread_ret = fread(tab, sizeof(T), length, f);
+(*ioread)+=sizeof(T)*length;
   if ((long)fread_ret != length) {
     fprintf(stderr, "Error: fread in line %s of %s returned %ld\n",
         STR(__LINE__), STR(__FILE__), fread_ret);
@@ -56,7 +59,7 @@ void read_objects_from_file(T* &tab, long length, std::FILE *f) {
 }
 
 template<typename T>
-void read_objects_from_file(T* &tab, long &length, std::string filename) {
+void read_objects_from_file(T* &tab, long &length, std::string filename, long *ioread) {
   std::FILE *f = open_file(filename, "r");  
 
   std::fseek(f, 0L, SEEK_END);
@@ -64,17 +67,17 @@ void read_objects_from_file(T* &tab, long &length, std::string filename) {
 
   tab = new T[length];
   std::rewind(f);
-  read_objects_from_file<T>(tab, length, f);
+  read_objects_from_file<T>(tab, length, f, ioread);
 
   std::fclose(f);
 }
 
 template<typename T>
-void read_n_objects_from_file(T* &tab, long length, std::string filename) {
+void read_n_objects_from_file(T* &tab, long length, std::string filename, long *ioread) {
   tab = new T[length];
 
   std::FILE *f = open_file(filename, "r");
-  read_objects_from_file<T>(tab, length, f);
+  read_objects_from_file<T>(tab, length, f, ioread);
   std::fclose(f);
 }
 

@@ -1,7 +1,7 @@
 SHELL = /bin/sh
 
 CC = g++
-CFLAGS = -Wall -Wextra -pedantic -Wshadow -static -funroll-loops -DNDEBUG -O3 -I${HOME}/lib/include -L${HOME}/lib/lib/
+CFLAGS = -Wall -Wextra -pedantic -Wshadow -static -funroll-loops -DNDEBUG -O3 -I${HOME}/include/ -L${HOME}/lib/ -Wno-unused-parameter
 #CFLAGS = -Wall -Wextra -pedantic -Wshadow -g2
 
 all: sascan

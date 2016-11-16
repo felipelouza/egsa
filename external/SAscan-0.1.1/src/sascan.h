@@ -13,7 +13,7 @@
 #include "uint40.h"
 #include "settings.h"
 
-void partial_sufsort(std::string filename, long length, long max_block_size, long ram_use);
+void partial_sufsort(std::string filename, long length, long max_block_size, long ram_use, long *iowrite, long *ioread);
 
 //==============================================================================
 // Compute the suffix array of file input_filename and store into
@@ -21,7 +21,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size, lon
 //==============================================================================
 template<typename block_offset_type, typename output_type>
 void SAscan_block_size(std::string input_filename, long max_block_size,
-    long ram_use, long size, unsigned char **BWT, bool compute_bwt,
+    long ram_use, long size, long *iowrite, long *ioread, unsigned char **BWT, bool compute_bwt,
     std::string text_filename, long text_offset) {
   long length = utils::file_size(input_filename, size);
   if (!length) {
@@ -39,13 +39,13 @@ void SAscan_block_size(std::string input_filename, long max_block_size,
   long double start = utils::wallclock();
   {
     // Compute partial SA and gap arrays.
-    partial_sufsort(input_filename, length, max_block_size, ram_use);
+    partial_sufsort(input_filename, length, max_block_size, ram_use, iowrite, ioread);
 
     // Merge partial SA arrays if necessary.
     long double n_block = (length + max_block_size - 1) / max_block_size;
     if (n_block > 1) {
       merge<block_offset_type, output_type>(input_filename, length,
-          max_block_size, n_block, ram_use, input_filename + ".sa5",
+          max_block_size, n_block, ram_use, iowrite, ioread, input_filename + ".sa5",
           BWT, compute_bwt, text_filename, text_offset);
     } else {
       // Invariant: compute_bwt == false (we only need BWT from recursive SAscan
@@ -66,6 +66,8 @@ template<typename output_type>
 void SAscan(std::string      input_filename,
             long             ram_use,
             long             size,
+            long             *iowrite,
+            long             *ioread,
             unsigned char ** BWT,
             bool             in_recursion,
             bool             compute_bwt,
@@ -99,13 +101,13 @@ void SAscan(std::string      input_filename,
 
   if (max_block_size <= MAX_32BIT_DIVSUFSORT_LENGTH)
     SAscan_block_size<int, output_type>(input_filename, max_block_size,
-      ram_use, size, BWT, compute_bwt, text_filename, text_offset);
+      ram_use, size, iowrite, ioread, BWT, compute_bwt, text_filename, text_offset);
   else SAscan_block_size<uint40, output_type>(input_filename, max_block_size,
-      ram_use, size, BWT, compute_bwt, text_filename, text_offset);
+      ram_use, size, iowrite, ioread, BWT, compute_bwt, text_filename, text_offset);
 }
 
-void SAscan(std::string filename, long ram_use, long size) {
-  SAscan<uint40>(filename, ram_use, size, NULL, false, false, "", 0);
+void SAscan(std::string filename, long ram_use, long size, long *iowrite, long *ioread) {
+  SAscan<uint40>(filename, ram_use, size, iowrite, ioread, NULL, false, false, "", 0);
 }
 
 #endif // __SASCAN_H_INCLUDED

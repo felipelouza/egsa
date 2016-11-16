@@ -116,25 +116,31 @@ struct stream_writer {
     m_filled = 0;
   }
 
-  inline void flush() {
-    utils::add_objects_to_file(m_buffer, m_filled, m_file);
+  inline void flush(long *iowrite) {
+    utils::add_objects_to_file(m_buffer, m_filled, m_file, iowrite);
     m_filled = 0;
   }
 
-  void write(T x) {
+  void write(T x, long *iowrite) {
     m_buffer[m_filled++] = x;
 
     if (m_filled == m_bufelems)
-      flush();
+      flush(iowrite);
   }
 
   ~stream_writer() {
+long iowrite=0;
     if (m_filled)
-      flush();
+      flush(&iowrite);
 
     delete[] m_buffer;
     std::fclose(m_file);
   }
+
+  int get_m_filled(){
+    return m_filled;
+  }
+
 
 private:
   long m_bufelems, m_filled;
@@ -169,6 +175,10 @@ struct bit_stream_reader {
     std::fclose(m_file);
   }
 
+  int get_m_filled(){
+    return m_filled;
+  }
+
 private:
   inline void refill() {
     m_filled = fread(m_buf, 1, k_bufsize, m_file);
@@ -196,28 +206,33 @@ struct bit_stream_writer {
     filled = pos_bit = 0;
   }
 
-  inline void flush() {
+  inline void flush(long *iowrite) {
     if (pos_bit) ++filled; // final flush?
-    utils::add_objects_to_file<unsigned char>(buf, filled, f);
+    utils::add_objects_to_file<unsigned char>(buf, filled, f, iowrite);
     filled = pos_bit = 0;
     std::fill(buf, buf + bufsize, 0);
   }
 
-  void write(int bit) {
+  void write(int bit, long *iowrite) {
     buf[filled] |= (bit << pos_bit);
     ++pos_bit;
     if (pos_bit == 8) {
       pos_bit = 0;
       ++filled;
       if (filled == bufsize)
-        flush();
+        flush(iowrite);
     }
   }
   
   ~bit_stream_writer() {
-    flush();
+long iowrite=0;
+    flush(&iowrite);
     fclose(f);
     delete[] buf;
+  }
+
+  int get_filled(){
+    return filled;
   }
 
 private:

@@ -14,7 +14,7 @@
 //==============================================================================
 template<typename offset_type, typename output_type>
 void merge(std::string input_filename, long length, long max_block_size,
-    long n_block, long ram_use, std::string out_filename, unsigned char **BWT,
+    long n_block, long ram_use, long *iowrite, long *ioread, std::string out_filename, unsigned char **BWT,
     bool compute_bwt, std::string text_filename, long text_offset) {
 
   // Invariant: 5 * length <= ram_use.
@@ -29,7 +29,7 @@ void merge(std::string input_filename, long length, long max_block_size,
   if (compute_bwt) {
     // Read the original block of text
     text = new unsigned char[length];
-    utils::read_block(text_filename, text_offset, length, text);
+    utils::read_block(text_filename, text_offset, length, text, ioread);
 
     *BWT = new unsigned char[length - 1];
     long merge_ram_use = ram_use - 2 * length; // is positive
@@ -80,7 +80,7 @@ void merge(std::string input_filename, long length, long max_block_size,
     // Extract the suffix.
     unsigned long SAi = (unsigned long)sparseSA[j]->read() +
       (unsigned long)max_block_size * j; // SA[i]
-    output->write((output_type)SAi);
+    output->write((output_type)SAi, iowrite);
     
     // Compute the BWT entry, if it was requested.
     if (compute_bwt && SAi > 0)
@@ -100,6 +100,7 @@ void merge(std::string input_filename, long length, long max_block_size,
   fprintf(stderr, "Merging: 100.0%%. Time: %.2Lfs\n", merge_time);
 
   // Clean up.
+  (*iowrite)+=output->get_m_filled()*sizeof(output_type);
   delete output;
   if (text)
     delete[] text;

@@ -80,10 +80,10 @@ void file_delete(std::string filename) {
   }
 }
 
-void read_block(std::string filename, long beg, long length, unsigned char *b) {
+void read_block(std::string filename, long beg, long length, unsigned char *b, long *ioread) {
   std::FILE *f = open_file(filename, "r");
   std::fseek(f, beg, SEEK_SET);
-  read_objects_from_file<unsigned char>(b, length, f);
+  read_objects_from_file<unsigned char>(b, length, f, ioread);
   std::fclose(f);
 }
 

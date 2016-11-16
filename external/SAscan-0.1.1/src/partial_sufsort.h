@@ -21,7 +21,7 @@
     
 
 template<typename output_type>
-void SAscan(std::string input_filename, long ram_use, long size, unsigned char **BWT,
+void SAscan(std::string input_filename, long ram_use, long size, long *iowrite, long *ioread, unsigned char **BWT,
     bool in_recursion, bool compute_bwt, std::string text_filename, long text_offset);
 
 //==============================================================================
@@ -29,7 +29,7 @@ void SAscan(std::string input_filename, long ram_use, long size, unsigned char *
 // Optionally (of computed_bwt == true) also compute the BWT.
 //==============================================================================
 void compute_partial_sa_and_bwt(unsigned char *B, long block_size,
-    long max_block_size, long ram_use, std::string text_fname,
+    long max_block_size, long ram_use, long *iowrite, long *ioread, std::string text_fname,
     std::string sa_fname, bool compute_bwt, long n_block, bitvector *gt_eof_bv,
     unsigned char **BWT, long block_offset) {
 
@@ -47,11 +47,12 @@ void compute_partial_sa_and_bwt(unsigned char *B, long block_size,
     long double writing_sa_start = utils::wallclock();
     if (n_block > 1 && max_block_size <= MAX_32BIT_DIVSUFSORT_LENGTH) {
       fprintf(stderr, "(using 32-bit ints): ");
-      utils::write_objects_to_file<int>(SA, block_size, sa_fname);
+      utils::write_objects_to_file<int>(SA, block_size, sa_fname, iowrite);
     } else {
       fprintf(stderr, "(using 40-bit ints): ");
       stream_writer<uint40> *sa_writer = new stream_writer<uint40>(sa_fname, 2L << 20);
-      for (long j = 0; j < block_size; ++j) sa_writer->write(uint40((unsigned long)SA[j]));
+      for (long j = 0; j < block_size; ++j) sa_writer->write(uint40((unsigned long)SA[j]), iowrite);
+      (*iowrite)+=sa_writer->get_m_filled()*sizeof(uint40);
       delete sa_writer;
     }
     fprintf(stderr, "%.2Lf\n", utils::wallclock() - writing_sa_start);
@@ -94,12 +95,14 @@ void compute_partial_sa_and_bwt(unsigned char *B, long block_size,
     if (n_block > 1 && max_block_size <= MAX_32BIT_DIVSUFSORT_LENGTH) {
       fprintf(stderr, " (using 32-bit bits): ");
       stream_writer<int> *sa_writer = new stream_writer<int>(sa_fname, 2L << 20);
-      for (long j = 0; j < block_size; ++j) sa_writer->write((int)SA[j]);
+      for (long j = 0; j < block_size; ++j) sa_writer->write((int)SA[j], iowrite);
+      (*iowrite)+=sa_writer->get_m_filled()*sizeof(uint40);
       delete sa_writer;
     } else {
       fprintf(stderr, "(using 40-bit ints): ");
       stream_writer<uint40> *sa_writer = new stream_writer<uint40>(sa_fname, 2L << 20);
-      for (long j = 0; j < block_size; ++j) sa_writer->write(uint40((unsigned long)SA[j]));
+      for (long j = 0; j < block_size; ++j) sa_writer->write(uint40((unsigned long)SA[j]),iowrite);
+      (*iowrite)+=sa_writer->get_m_filled()*sizeof(uint40);
       delete sa_writer;
     }
     fprintf(stderr, "%.2Lf\n", utils::wallclock() - writing_sa_start);
@@ -134,16 +137,16 @@ void compute_partial_sa_and_bwt(unsigned char *B, long block_size,
 
     // Save the remapped block to temp file.
     std::string B_fname = text_fname + ".current_block";
-    utils::write_objects_to_file<unsigned char>(B, block_size, B_fname);
+    utils::write_objects_to_file<unsigned char>(B, block_size, B_fname, iowrite);
 
     // Free all memory.
     delete gt_eof_bv;
     delete[] B;
 
     if (max_block_size <=  MAX_32BIT_DIVSUFSORT_LENGTH)
-      SAscan<int>(B_fname, ram_use, 0, BWT, true, compute_bwt, text_fname, block_offset);
+      SAscan<int>(B_fname, ram_use, 0, iowrite, ioread, BWT, true, compute_bwt, text_fname, block_offset);
     else
-      SAscan<uint40>(B_fname, ram_use, 0, BWT, true, compute_bwt, text_fname, block_offset);
+      SAscan<uint40>(B_fname, ram_use, 0, iowrite, ioread, BWT, true, compute_bwt, text_fname, block_offset);
  
     // Delete the temp file.
     utils::file_delete(B_fname);
@@ -159,7 +162,7 @@ void compute_partial_sa_and_bwt(unsigned char *B, long block_size,
 // Compute partial SAs and gap arrays and write to disk.
 //==============================================================================
 void partial_sufsort(std::string filename, long length, long max_block_size,
-    long ram_use) {
+    long ram_use, long *iowrite, long *ioread) {
   long n_block = (length + max_block_size - 1) / max_block_size;
   long block_id = n_block - 1, prev_end = length;
 
@@ -179,7 +182,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
     fprintf(stderr, "  Reading block: ");
     long double read_start = utils::wallclock();
     unsigned char *B = new unsigned char[block_size];
-    utils::read_block(filename, beg, block_size, B);
+    utils::read_block(filename, beg, block_size, B, ioread);
     unsigned char last = B[block_size - 1];
     fprintf(stderr, "%.2Lf\n", utils::wallclock() - read_start);
 
@@ -190,7 +193,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
       long double prev_block_reading_start = utils::wallclock();
       unsigned char *extprevB = new unsigned char[max_block_size + 1];
       long ext_prev_block_size = prev_end - end + 1;
-      utils::read_block(filename, end - 1, ext_prev_block_size, extprevB);
+      utils::read_block(filename, end - 1, ext_prev_block_size, extprevB, ioread);
       fprintf(stderr, "%.2Lf\n", utils::wallclock() - prev_block_reading_start);
 
       // Compute gt_eof.
@@ -226,7 +229,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
       long double new_gt_head_bv_start = utils::wallclock();
       bitvector *new_gt_head_bv = new bitvector(block_size);
       whole_suffix_rank = compute_new_gt_head_bv(B, block_size, new_gt_head_bv);
-      new_gt_head_bv->save(filename + ".new_gt_head");
+      new_gt_head_bv->save(filename + ".new_gt_head", iowrite);
       delete new_gt_head_bv;
       fprintf(stderr, "%.2Lf\n", utils::wallclock() - new_gt_head_bv_start);
     }
@@ -234,7 +237,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
     // Compute/save partial SA. Compute BWT if it's not the last block.
     unsigned char *BWT = NULL;
     std::string sa_fname = filename + ".partial_sa." + utils::intToStr(block_id);
-    compute_partial_sa_and_bwt(B, block_size, max_block_size, ram_use,
+    compute_partial_sa_and_bwt(B, block_size, max_block_size, ram_use,iowrite, ioread,
         filename, sa_fname, need_streaming, n_block, gt_eof_bv, &BWT, beg);
 
     if (need_streaming) {
@@ -277,7 +280,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
         unsigned char c = text_streamer->read();     // c = text[j]
         i = count[c] + rank->rank(i - (i > whole_suffix_rank), c);
         if (c == last && next_gt) ++i;               // next_gt = gt[j + 1]
-        new_gt_tail->write(i > whole_suffix_rank);
+        new_gt_tail->write(i > whole_suffix_rank,iowrite);
         gap->increment(i);
         next_gt = gt_tail->read();
       }
@@ -300,7 +303,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
         unsigned char c = text_streamer->read();  // c = text^R[j]
         i = count[c] + rank->rank(i - (i > whole_suffix_rank), c);
         if (c == last && next_gt) ++i;            // next_gt = gt[j + 1]
-        new_gt_tail->write(i > whole_suffix_rank);
+        new_gt_tail->write(i > whole_suffix_rank, iowrite);
         gap->increment(i);
         next_gt = gt_head->read();
       }
@@ -313,6 +316,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
 
       delete text_streamer;
       delete gt_head;
+      (*iowrite)+=new_gt_tail->get_filled()*sizeof(unsigned char);
       delete new_gt_tail;
       delete rank;
       delete[] count;
@@ -320,7 +324,7 @@ void partial_sufsort(std::string filename, long length, long max_block_size,
       utils::execute("mv " + filename + ".new_gt_tail " + filename + ".gt_tail");
 
       // Save gap to file.
-      gap->save_to_file(filename + ".gap." + utils::intToStr(block_id));
+      gap->save_to_file(filename + ".gap." + utils::intToStr(block_id), iowrite);
       delete gap;
     }
 

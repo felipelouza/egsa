@@ -9,7 +9,8 @@
 
 struct bitvector {
   bitvector(std::string filename) {
-    utils::read_objects_from_file<unsigned char>(m_data, m_alloc_bytes, filename);
+long ioread=0;
+    utils::read_objects_from_file<unsigned char>(m_data, m_alloc_bytes, filename, &ioread);
   }
 
   bitvector(long length) : m_alloc_bytes((length + 7) / 8) {
@@ -34,8 +35,8 @@ struct bitvector {
     m_data[i >> 3] &= (~(1 << (i & 7)));
   }
 
-  void save(std::string filename) const {
-    utils::write_objects_to_file<unsigned char>(m_data, m_alloc_bytes, filename);
+  void save(std::string filename, long *iowrite) const {
+    utils::write_objects_to_file<unsigned char>(m_data, m_alloc_bytes, filename, iowrite);
   }
 
   ~bitvector() {

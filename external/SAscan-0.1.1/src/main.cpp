@@ -71,5 +71,12 @@ int main(int argc, char **argv) {
 
   text_fname = utils::absolute_path(text_fname);
 printf("size = %lu\n", size);
-  SAscan(text_fname, ram_use, size);
+long iowrite=0, ioread=0;
+  SAscan(text_fname, ram_use, size, &iowrite, &ioread);
+
+printf("I/O)\t%lu\n", iowrite+ioread);
+printf("read\t%lu\n", ioread);
+printf("write\t%lu\n", iowrite);
+printf("sizeof(long) = %lu bytes\n", sizeof(long));
+
 }

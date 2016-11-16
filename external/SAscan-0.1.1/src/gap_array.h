@@ -47,7 +47,7 @@ struct buffered_gap_array {
   }
   
   // Store to file using v-byte encoding.  
-  void save_to_file(std::string fname) {
+  void save_to_file(std::string fname, long *iowrite) {
     flush();
     
     fprintf(stderr, "  gap->excess.size() = %lu\n", m_excess.size());
@@ -67,18 +67,18 @@ struct buffered_gap_array {
         buffer[m_filled++] = ((gap_j & 0x7f) | 0x80);
         gap_j >>= 7;
         if (m_filled == k_bufsize) {
-          utils::add_objects_to_file<unsigned char>(buffer, m_filled, f);
+          utils::add_objects_to_file<unsigned char>(buffer, m_filled, f, iowrite);
           m_filled = 0;
         }
       }
       buffer[m_filled++] = gap_j;
       if (m_filled == k_bufsize) {
-        utils::add_objects_to_file<unsigned char>(buffer, m_filled, f);
+        utils::add_objects_to_file<unsigned char>(buffer, m_filled, f, iowrite);
         m_filled = 0;
       }
     }
     if (m_filled)
-      utils::add_objects_to_file<unsigned char>(buffer, m_filled, f);
+      utils::add_objects_to_file<unsigned char>(buffer, m_filled, f, iowrite);
 
     std::fclose(f);
     fprintf(stderr, "%.2Lf\n", utils::wallclock() - gap_save_start);
