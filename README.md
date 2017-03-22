@@ -1,4 +1,4 @@
-#egsa tool
+# egsa tool
 
 This software is the implementation of egsa \[1\] (http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20), an external memory algorithm to construct generalized enhanced suffix arrays.
 
@@ -8,20 +8,20 @@ Given a collection of K strings, egsa outputs the:
 * LCP-array 
 * Burrows-Wheeler transform.
 
-##install:
+## install
 
 ```sh
 git clone https://github.com/felipelouza/egsa.git
 cd egsa
 ```
 
-**Compile:**
+**Compile**
 
 ```sh
 make compile 
 ```
 
-##run:
+## run
 
 Given a collection of K strings concatenated in a single file INPUT in the directory DIR.
 
@@ -41,13 +41,13 @@ make run DIR=dataset/txt/	INPUT=input-100.txt K=100
 ```
 * strings are separated per '\0' (new line)
 
---
-**Examples:**
+
+**Examples**
 
 One could find examples in _dataset_ folder, at least one for each setting mode.
 
 
-##output:
+## output
 
 The generalized enhanced suffix array is stored in the same directory DIR in a file called:
 
@@ -62,7 +62,7 @@ $(DIR)/partition/
 $(DIR)/tmp/
 ```
 
-##options:
+## options
 
 Output the Burrows-Wheeler transform:
 
@@ -81,7 +81,7 @@ make compile MEMLIMIT=10
 
 ```
 
-**debug:**
+**debug**
 
 To see a more detailed execution output use:
 
@@ -107,7 +107,7 @@ We have included the source codes of the following algorithms:
 * gsaca-k: generalized suffix array construction algorithm \[2\]
 * lcp-PHI: LCP-array construction algorithm given the suffix array \[3\]
 
-##citation:
+## citation
 
 Please, if you use egsa tool in an academic setting cite the following paper:
 
@@ -125,7 +125,7 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 	  publisher = {Springer}
 	}
 
-##references:
+## references
 
 \[1\] Louza, F. A., Telles, G. P., Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201-210).
 
