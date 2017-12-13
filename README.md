@@ -1,6 +1,6 @@
 # egsa tool
 
-This software is the implementation of egsa \[1\] (http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20), an external memory algorithm to construct generalized enhanced suffix arrays.
+This software is the implementation of egsa \[1,4\] (http://link.springer.com/chapter/10.1007%2F978-3-642-38905-4_20), an external memory algorithm to construct generalized enhanced suffix arrays.
 
 Given a collection of K strings, egsa outputs the:
 
@@ -111,17 +111,14 @@ We have included the source codes of the following algorithms:
 
 Please, if you use egsa tool in an academic setting cite the following paper:
 
-	@inproceedings{DBLP:conf/cpm/LouzaTC13,
-	  author = {Louza, Felipe A. and Telles, Guilherme P. and Ciferri, Cristina D. A.},
-	  title = {External Memory Generalized Suffix and {LCP} Arrays Construction},
-   	  year = {2013},
-	  isbn = {978-3-642-38904-7},
-	  booktitle = {Combinatorial Pattern Matching, 24th Annual Symposium, {CPM} 2013,
-               Bad Herrenalb, Germany, June 17-19, 2013. Proceedings},
-	  pages = {201--210},
-	  year = {2013},
-	  series = {Lecture Notes in Computer Science},
-	  volume = {7922},
+	@inproceedings{Louza2017d,
+		author = {Louza, Felipe A. and Telles, Guilherme P. and Hoffmann, Steve and Ciferri, Cristina D. A.},
+		title={Generalized enhanced suffix array construction in external memory},
+		journal={Algorithms for Molecular Biology},
+   	year = {2017},
+	  pages = {26:1--26:16},
+	  year = {2017},
+		doi = {10.1186/s13015-017-0117-9}
 	  publisher = {Springer}
 	}
 
@@ -132,6 +129,8 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 \[2\] Louza, F. A., Gog, S., Telles, G. P. (2016). Induced Suffix Sorting for String Collections. In Proc. DCC (pp. 43-52), https://github.com/felipelouza/gsa-is 
 
 \[3\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
+
+\[4\] Louza, F. A., Telles, G. P., Hoffman, S., Ciferri, C. D. A. (2017). Generalized enhanced suffix array construction in external memory, Algorithms for Molecular Biology.
 
 ##thanks:
 
