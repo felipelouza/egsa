@@ -115,11 +115,10 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 		author = {Louza, Felipe A. and Telles, Guilherme P. and Hoffmann, Steve and Ciferri, Cristina D. A.},
 		title={Generalized enhanced suffix array construction in external memory},
 		journal={Algorithms for Molecular Biology},
-   	year = {2017},
-	  pages = {26:1--26:16},
-	  year = {2017},
+		year = {2017},
+		pages = {26:1--26:16},
 		doi = {10.1186/s13015-017-0117-9}
-	  publisher = {Springer}
+		publisher = {Springer}
 	}
 
 ## references
