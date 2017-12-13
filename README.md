@@ -111,7 +111,7 @@ We have included the source codes of the following algorithms:
 
 Please, if you use egsa tool in an academic setting cite the following paper:
 
-	@inproceedings{Louza2017d,
+	@article{Louza2017d,
 		author = {Louza, Felipe A. and Telles, Guilherme P. and Hoffmann, Steve and Ciferri, Cristina D. A.},
 		title={Generalized enhanced suffix array construction in external memory},
 		journal={Algorithms for Molecular Biology},
