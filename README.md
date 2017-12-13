@@ -118,7 +118,6 @@ Please, if you use egsa tool in an academic setting cite the following paper:
 		year = {2017},
 		pages = {26:1--26:16},
 		doi = {10.1186/s13015-017-0117-9}
-		publisher = {Springer}
 	}
 
 ## references
