@@ -162,6 +162,7 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 			fclose(f_out);
 			return 0;
 		}
+		free(buf);
 
 		/**/
     char *c_buffer = NULL; len=0;
@@ -189,6 +190,7 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 
 		buf=NULL; len=0;
 		getline(&buf, &len, f_in); // +'s line
+		free(buf);
 		buf=NULL; len=0;
 		getline(&buf, &len, f_in); // @'s line
 
