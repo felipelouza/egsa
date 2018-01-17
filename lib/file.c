@@ -80,7 +80,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 		size_t len = 0;
 
 		/**/
-		unsigned char *c_buffer = NULL;
+		unsigned char *c_buffer = NULL; len=0;
 		size = getline((char **)&c_buffer, &len, f_in); // read line
 		if(size==1){
 			i--;
@@ -157,18 +157,18 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 		char *buf = NULL;
 
 		size = getline(&buf, &len, f_in); // @'s line
-        	if (size <= 1){ //number of strings less than k
+      if (size <= 1){ //number of strings less than k
 			free(buf);
 			fclose(f_out);
 			return 0;
 		}
 
 		/**/
-        	char *c_buffer = NULL;
+    char *c_buffer = NULL; len=0;
 		size = getline(&c_buffer, &len, f_in); // read line
-	        c_buffer[size-1] = 0;
+	  c_buffer[size-1] = 0;
 
-        	sum += size;
+    sum += size;
 
 		if(sum>RAM_USE/WORKSPACE && i){
 
@@ -187,7 +187,9 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 	
 		fwrite(c_buffer, sizeof(int8), size, f_out);
 
+		buf=NULL; len=0;
 		getline(&buf, &len, f_in); // +'s line
+		buf=NULL; len=0;
 		getline(&buf, &len, f_in); // @'s line
 
 		free(buf);
@@ -235,6 +237,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 		char *c_buffer = (char*) malloc(nalloc*sizeof(char));
 
 		size_t p=0;
+		buf=NULL; len=0;
 		while(getline(&buf, &len, f_in)!=-1){
 
 			if(buf[0] == '>'){
@@ -242,7 +245,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 			}
 
 			if(p+len>nalloc){
-				nalloc += 8192;
+				nalloc += len+2048;
 				c_buffer= realloc(c_buffer, sizeof(char) * nalloc);
 			}
 
@@ -252,9 +255,10 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 			//breaks the string larger than the available memory
 			if(p>RAM_USE/WORKSPACE){
 			//printf("%d\t%zu: pruned string\n", i, p);
-			        while(getline(&buf, &len, f_in)!=-1){
-			                if(buf[0] == '>') break;
-			        }
+				buf=NULL; len=0;
+				while(getline(&buf, &len, f_in)!=-1){
+				        if(buf[0] == '>') break;
+				}
 			break;
 			}
 		}
