@@ -23,7 +23,7 @@ make compile
 
 ## run
 
-Given a collection of K strings concatenated in a single file INPUT in the directory DIR.
+	Given a collection of K strings concatenated in a single file INPUT in the directory DIR (K=0 gives all strings in INPUT).
 
 _fasta_
 ```sh

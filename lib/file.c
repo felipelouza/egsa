@@ -53,7 +53,7 @@ return 0;
 
 /**********************************************************************/
 // read line by line
-int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
+int_text load_multiple_txt(FILE* f_in, char *c_file, int_text *k) {
 
 	size_t sum=0;
 	int_text r = 0;
@@ -63,18 +63,19 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 	FILE *f_out=NULL;
 	
 	char c_aux[FILE_NAME] = "";
-	sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+	sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 	
 	f_out = fopen(c_aux, "wb");		
 	if (!f_out) perror ("write_sequence");
 	
 	ssize_t size = 0;			
 	int_text i;
- 	for(i=0; i<k; i++){
+ 	for(i=0; i<*k; i++){
 		
 		if (feof(f_in)){
-			puts("End of file reached!");
-			return 0;
+			//return 0;
+			*k = i;
+			break;		
 		}
 		
 		size_t len = 0;
@@ -82,7 +83,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 		/**/
 		unsigned char *c_buffer = NULL; len=0;
 		size = getline((char **)&c_buffer, &len, f_in); // read line
-		if(size==1){
+		if(size<=1){
 			i--;
 			free(c_buffer);		
 			continue;
@@ -99,7 +100,7 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 			r++;
 			sum=size;
 			
-			sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+			sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 			
 			f_out = fopen(c_aux, "wb");		
 			if (!f_out) perror ("write_sequence");
@@ -117,8 +118,9 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text k) {
 		free(c_buffer);		
 		
 		if (feof(f_in)){
-			puts("End of file reached!");
-			return 0;
+			//return 0;
+			*k = i;
+			break;		
 		}
 	}
 
@@ -130,7 +132,7 @@ return r;
 }
 
 // read sequences separeted by '@' line
-int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
+int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text *k){
 
 	size_t sum=0;
 	int_text r = 0;
@@ -139,28 +141,28 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 	FILE *f_out=NULL;
 	
 	char c_aux[FILE_NAME] = "";
-	sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+	sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 	
 	f_out = fopen(c_aux, "wb");		
 	if (!f_out) perror ("write_sequence");
 	
 	ssize_t size = 0;			
 	int i;
- 	for(i=0; i<k; i++){
+ 	for(i=0; i<*k; i++){
 
 		if (feof(f_in)){
-			puts("End of file reached!");
-			return 0;
+			*k = i;
+			break;		
 		}
 		
 		size_t len = 0;
 		char *buf = NULL;
 
 		size = getline(&buf, &len, f_in); // @'s line
-      if (size <= 1){ //number of strings less than k
+    if (size <= 1){ //number of strings less than k
 			free(buf);
-			fclose(f_out);
-			return 0;
+			*k = i;
+			break;		
 		}
 		free(buf);
 
@@ -179,7 +181,7 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text k){
 			r++;
 			sum=size;
 			
-			sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+			sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 			
 			f_out = fopen(c_aux, "wb");		
 			if (!f_out) perror ("write_sequence");
@@ -206,7 +208,7 @@ return r;
 }
 
 // read sequences separeted by '>' line
-int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
+int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 
 	size_t sum=0;
 	int_text r = 0;
@@ -215,7 +217,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 	FILE *f_out=NULL;
 	
 	char c_aux[FILE_NAME] = "";
-	sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+	sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 	
 	f_out = fopen(c_aux, "wb");		
 	if (!f_out) perror ("write_sequence");
@@ -227,11 +229,11 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 	free(buf);
 
 	int i;
- 	for(i=0; i<k; i++){
+ 	for(i=0; i<*k; i++){
 		
 		if (feof(f_in)){
-			puts("End of file reached!");
-			return 0;
+			*k = i;
+			break;		
 		}
 		
 		len = 0;
@@ -277,7 +279,7 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text k){
 			r++;
 			sum=p;
 			
-			sprintf(c_aux, "partition/%s.%d.%d.bin", c_file, k, r);
+			sprintf(c_aux, "partition/%s.%d.bin", c_file, r);
 			
 			f_out = fopen(c_aux, "wb");		
 			if (!f_out) perror ("write_sequence");
@@ -359,18 +361,23 @@ size_t preprocessing(t_TEXT **Text, char *c_file, int_text *k, int_suff *COUNT){
 
 	const char *type = get_filename_ext(c_file);
 
+
+	if(*k==0) *k=INT_MAX;
+
 	if(strcmp(type,"txt") == 0)
-		r = load_multiple_txt(f_in, c_file, *k);
+		r = load_multiple_txt(f_in, c_file, k);
 
 	else if(strcmp(type,"fasta") == 0)
-		r = load_multiple_fasta(f_in, c_file, *k);
+		r = load_multiple_fasta(f_in, c_file, k);
 
 	else if(strcmp(type,"fastq") == 0)
-		r = load_multiple_fastq(f_in, c_file, *k);
+		r = load_multiple_fastq(f_in, c_file, k);
 	else{
 		printf("Error: file not recognized (.txt, .fasta, .fastq)\n");
 		return 0;
 	}
+
+	printf("K = %d\n", *k);
 
 	fclose(f_in);
 
@@ -389,7 +396,7 @@ size_t preprocessing(t_TEXT **Text, char *c_file, int_text *k, int_suff *COUNT){
 		(*Text)[i].c_file = (char*) malloc(FILE_NAME*sizeof(char));
 		//(*Text)[i].n_strings = 0;
 
-		sprintf((*Text)[i].c_file, "partition/%s.%d.%d.bin", c_file, *k, i);
+		sprintf((*Text)[i].c_file, "partition/%s.%d.bin", c_file, i);
 		
 		FILE* f_in = file_open((*Text)[i].c_file, "r");
 		
