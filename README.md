@@ -1,6 +1,6 @@
 # egsa tool
 
-This software is the implementation of eGSA \[1,2\] [ALMOB](https://doi.org/10.1186/s13015-017-0117-9), an external memory algorithm to construct generalized enhanced suffix arrays.
+This software is the implementation of eGSA \[[1](https://doi.org/10.1007/978-3-642-38905-4_20),[2](https://doi.org/10.1186/s13015-017-0117-9)\], an external memory algorithm to construct generalized enhanced suffix arrays.
 
 Given a collection of K strings, eGSA outputs the:
 
