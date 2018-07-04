@@ -41,17 +41,21 @@ _Notes_
 
 ## output
 
-The generalized enhanced suffix array is stored in the same directory of FILE:
+The **generalized enhanced suffix array** is stored in a _binary file_ in the same directory of FILE:
 
 ```sh
 FILE.K.gesa
 ```
-
-The generalized BWT (_option -b_) is stored in the same directory of FILE:
+The **generalized BWT** (_option -b_) is stored in a _textual file_ in the same directory of FILE:
 
 ```sh
 FILE.K.bwt
 ```
+
+_Notes_
+
+The output binary FILE.K.gesa can be read as a **struct type** according to the typedef in: [lib/utils.h](https://github.com/felipelouza/egsa/blob/master/lib/utils.h#L45)
+
 
 Temporary files are stored in subfolders:
 
@@ -69,7 +73,7 @@ make clean
 make compile BWT=1
 ```
 
-One can inform the maximum available internal memory to be used (in MB):
+One can inform the **maximum available internal memory** to be used (in MB):
 
 ```sh
 make clean
