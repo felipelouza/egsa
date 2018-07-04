@@ -30,13 +30,15 @@ struct heap {
 		size_t		induced[SIGMA];
 	#endif
 	
-	
+	int     compute_bwt;
 	char		cSIGMA[SIGMA][FILE_NAME];
 	FILE		*fSIGMA[SIGMA];//stores induced suffixes
-
+  size_t  memlimit;
+  
 	#if _OUTPUT_BUFFER
 		t_GSA		*out_buffer;
 		size_t	size_out_buffer;
+    int8    *out_buffer_bwt;
 	#endif
 
 	#if _INDUCING
@@ -57,7 +59,7 @@ typedef struct heap heap;
 
 
 //heap* heap_alloc(int_text n);
-heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n);
+heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n, unsigned COMPUTE_BWT);
 int heap_free(heap *h);
 
 #define heap_size(h) ((h)->size)

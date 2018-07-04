@@ -51,12 +51,13 @@ clean:
 	rm -f $(LIB_DIR)/*.o
 	rm -f src/*.o
 	rm -f external/*.o
-	rm -f egsa-1.2
+	rm -f egsa
 
 remove:
 	rm -f $(DIR)*.gesa
 	rm -f $(DIR)*.bin
 	rm -Rf $(DIR)*.esa
+	rm -Rf $(DIR)*.bwt
 	rm -Rf $(DIR)partition/*
 	rm -Rf $(DIR)tmp/*	
 
@@ -71,11 +72,11 @@ $(LIB_DIR)/lcp.o	: $(LIBH)
 ##
 
 compile: main.c ${LIBOBJ} $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) main.c -o egsa-1.2
+	$(CC) $(LIBOBJ) $(CFLAGS) main.c -o egsa
 
-run: egsa-1.2
-	./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(CHECK)
+run: egsa
+	./egsa $(DIR)$(INPUT) $(K) -c 
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa-1.2 $(PRE) $(DIR) $(INPUT) $(K) $(CHECK)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes ./egsa $(DIR)$(INPUT) $(K) -c 
 

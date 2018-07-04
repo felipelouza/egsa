@@ -1,11 +1,11 @@
 /***********************************************************************
 
-egsa-1.2: External Generalized Suffix Array Construction Algorithm 
+egsa: External Generalized Suffix Array Construction Algorithm 
 
 Authors: Felipe A. Louza* and Guilherme P. Telles
-*contact: louza@ic.unicamp.br
+*contact: louza@usp.br
 
-Copyright (C) 2016 Felipe Louza <louza@ic.unicamp.br>
+Copyright (C) 2018 Felipe Louza <louza@usp.br>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,33 +36,73 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void print_config(void);
 
+void usage(char *name){
+  printf("\n\tUsage: %s [options] FILE K\n\n",name);
+  puts("Computes GESA (GSA+LCP) for the first K sequences of a");
+  puts("collection using algorithm eGSA from Louza et al. [ALMOB, 2017]. ");
+  puts("Sequences from FILE are extracted according to FILE's");
+  puts("extension; currently supported extensions are: .txt .fasta .fastq\n");
+  puts("Available options:");
+  puts("\t-h    this help message");
+  puts("\t-b    output BWT (ext: .bwt)");
+  puts("\t-c    check SA and LCP");
+  puts("\t-v    verbose output (more v's for more verbose)\n");
+  exit(EXIT_FAILURE);
+}
+
 /**********************************************************************/
 
 int main(int argc, char **argv) {
 	
-	int_text K;
-	unsigned PRE_OPTION, VALIDATE;
+  extern char *optarg;
+  extern int optind, opterr, optopt;
+  int c;
+  
+	int_text K=0;
+	unsigned VALIDATE=0, VERBOSE=0, COMPUTE_BWT=0;
+  char *c_dir=NULL, *c_file=NULL, *c_input=NULL;
 //	size_t MEMLIMIT = 1;
 
-	sscanf(argv[1], "%u", &PRE_OPTION);
-	//argv[2] = DIR
-	//argv[3] = DATABASE
-	sscanf(argv[4], "%d", &K);//NUMBER OF STRINGS
-	sscanf(argv[5], "%u", &VALIDATE);
+  while ((c=getopt(argc, argv, "vcbh")) != -1) {
+    switch (c) 
+      {
+      case 'v':
+        VERBOSE++; break;
+      case 'c':
+        VALIDATE=1; break;          // validate output
+      case 'b':
+        COMPUTE_BWT+=1; break;      // output BWT  
+      case 'h':
+        usage(argv[0]); break;      // show usage and stop
+      case '?':
+        exit(EXIT_FAILURE);
+      }
+  }
 
-	printf("SIGMA = %d\n", SIGMA);
-	printf("DIR = %s\n", argv[2]);
-	printf("INPUT = %s\n", argv[3]);
-	printf("K = %d\n", K);
-	printf("MEMLIMIT = %.2lf MB\n", RAM_USE/pow(2,20));
-	printf("PRE = %d\n", PRE_OPTION);
-	printf("CHECK = %d\n", VALIDATE);
-	printf("WORKSPACE = %d.n bytes\n", WORKSPACE);
-
-	print_config();
-
-	//c_dir, c_file, K, memlimit, check
-	egsa(argv[2], argv[3], K, VALIDATE);
+  if(optind+2==argc) {
+    c_input=argv[optind++];
+    K = (int_text) atoi(argv[optind++]);
+  }
+  else  usage(argv[0]);
+  
+  c_file= strrchr(c_input, '/')+1;
+  c_dir = strndup(c_input, strlen(c_input)-strlen(c_file));
+  
+  printf("SIGMA = %d\n", SIGMA);
+  printf("DIR = %s\n", c_dir);
+  printf("INPUT = %s\n", c_file);
+  printf("K = %d\n", K);
+  printf("MEMLIMIT = %.2lf MB\n", RAM_USE/pow(2,20));
+  printf("CHECK = %d\n", VALIDATE);
+  printf("COMPUTE_BWT = %d\n", COMPUTE_BWT);
+  printf("WORKSPACE = %d.n bytes\n", WORKSPACE);
+    
+  if(VERBOSE){
+    print_config();
+  }
+      
+	//c_dir, c_file, K, check
+	egsa(c_dir, c_file, K, VALIDATE, VERBOSE, COMPUTE_BWT);
 
 return 0;
 }

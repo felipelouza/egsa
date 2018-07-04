@@ -11,7 +11,7 @@ g.p.telles, jan 2012.
 #include "heap.h"
 
 /**********************************************************************/
-heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n) {
+heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, size_t n, unsigned COMPUTE_BWT) {
    
 	int i;
 	
@@ -27,13 +27,21 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, s
 	for(i=0; i < k+2; i++)
 		h->lcp_son_dad[i] = h->lcp_left_right[i] = 0;
 	
-	
+	h->memlimit = 2048;
+  
 	if(!h->lcp_son_dad) perror("heap_alloc_induced(h->lcp_son_dad)");
 	if(!h->lcp_left_right) perror("heap_alloc_induced(h->lcp_left_right)");
 	
+  h->compute_bwt = COMPUTE_BWT;
+  
 	#if _OUTPUT_BUFFER
 		h->out_buffer = (t_GSA*) malloc( (OUTPUT_SIZE+1) * sizeof(t_GSA));
-		if(!h->out_buffer) perror("heap_alloc_induced(h->out_buffer)");	
+		if(!h->out_buffer) perror("heap_alloc_induced(h->out_buffer)");
+    
+    if(h->compute_bwt){
+      h->out_buffer_bwt = (int8*) malloc( (OUTPUT_SIZE+1) * sizeof(int8));
+      if(!h->out_buffer_bwt) perror("heap_alloc_induced(h->out_buffer_bwt)");	
+    }
 		h->size_out_buffer = 0;
 	#endif
 	
@@ -67,24 +75,25 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, s
 	
 	//GESA output
 	char c_out_esa[FILE_NAME];
-	sprintf(c_out_esa, "%s.%d.gesa", c_file, total);
+  if(total) sprintf(c_out_esa, "%s.%d.gesa", c_file, total);
+  else sprintf(c_out_esa, "%s.gesa", c_file);
 	
 	h->f_out_ESA = fopen(c_out_esa, "wb");
 	if(!h->f_out_ESA) perror("heap_alloc_induced(h->f_out_ESA)");
 	
 	fseek(h->f_out_ESA , 0 , SEEK_SET);	
 
-	#if BWT
-		#if BWT_OUTPUT
+	if(COMPUTE_BWT){
 		char c_out_bwt[FILE_NAME];
-		sprintf(c_out_bwt, "%s.%d.bwt", c_file, total);
+    
+    if(total) sprintf(c_out_bwt, "%s.%d.bwt", c_file, total);
+    else sprintf(c_out_bwt, "%s.bwt", c_file);
 
 		h->f_out_BWT = fopen(c_out_bwt, "w");
 	        if(!h->f_out_BWT) perror("heap_alloc_induced(h->f_out_BWT)");
 	
 	        fseek(h->f_out_BWT, 0 , SEEK_SET);
-		#endif
-	#endif
+  }
 	
 return h;
 }
@@ -106,14 +115,13 @@ int heap_free(heap *h) {
 	
 	#if _OUTPUT_BUFFER
 		free(h->out_buffer);
+    if(h->compute_bwt){
+      free(h->out_buffer_bwt);
+      fclose(h->f_out_BWT);
+    }
 	#endif
 	
 	fclose(h->f_out_ESA);
-	#if BWT
-		#if BWT_OUTPUT
-		fclose(h->f_out_BWT);
-		#endif
-	#endif	
 
 	#if _INDUCING
 		#if INDUCED_BUFFER	

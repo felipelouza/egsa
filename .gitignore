@@ -1,6 +1,6 @@
 # ignore objects and archives, anywhere in the tree.
 *.[oa]
-egsa-1.*
+egsa
 esais_input
 *.bin
 *.esa

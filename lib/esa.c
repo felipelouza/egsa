@@ -150,6 +150,13 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 			#if IO_VOLUME
 				node->io_write+=OUTPUT_SIZE*sizeof(t_GSA);
 			#endif
+      
+      if(h->compute_bwt){
+        fwrite(h->out_buffer_bwt, sizeof(int8), OUTPUT_SIZE, h->f_out_BWT);
+        #if IO_VOLUME
+          node->io_write+=sizeof(int8);
+        #endif
+      }
 		}	
 		
 		h->out_buffer[h->size_out_buffer].text = node->ESA[node->u_idx].text;
@@ -157,13 +164,11 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 				
 		#if BWT
 			h->out_buffer[h->size_out_buffer].bwt = node->ESA[node->u_idx].bwt;
-			#if BWT_OUTPUT
-				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
-				#if IO_VOLUME
-					node->io_write+=sizeof(int8);
-				#endif
-			#endif
 		#endif
+    
+    if(h->compute_bwt){
+      h->out_buffer_bwt[h->size_out_buffer] = node->ESA[node->u_idx].bwt;
+    }
 		
 		h->out_buffer[h->size_out_buffer++].lcp = lcp;
 	
@@ -187,14 +192,15 @@ void esa_write_induced(heap *h, heap_node *node, int8 alfa, int_lcp lcp) {
 			#if IO_VOLUME
 				node->io_write+=sizeof(int8);
 			#endif
-			#if BWT_OUTPUT
-				fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
-				#if IO_VOLUME
-					node->io_write+=sizeof(int8);
-				#endif
-			#endif
 		#endif
-	
+    
+    if(h->compute_bwt){
+      fwrite(&node->ESA[node->u_idx].bwt, sizeof(int8), 1, h->f_out_BWT);
+      #if IO_VOLUME
+        node->io_write+=sizeof(int8);
+      #endif
+    }	
+
 	#endif //_OUTPUT_BUFFER
 
 
@@ -451,12 +457,12 @@ return 0;
 
 /**********************************************************************/
 
-int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n){
+int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text total, int_suff* COUNT, size_t n, unsigned VERBOSE, unsigned COMPUTE_BWT){
 	
 	*size = 0;
 	
 	//load all partition (beginning)
-	heap *H = heap_alloc_induced(k, c_file, total, COUNT, n);
+	heap *H = heap_alloc_induced(k, c_file, total, COUNT, n, COMPUTE_BWT);
 	int_text j = 0;
 	for(; j < k; j++){
 		
@@ -556,6 +562,7 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	
 	#if _OUTPUT_BUFFER
 		fwrite(H->out_buffer, sizeof(t_GSA), H->size_out_buffer, H->f_out_ESA);//fflush out_buffer
+    fwrite(H->out_buffer_bwt, sizeof(int8), H->size_out_buffer, H->f_out_BWT);//fflush out_buffer
 		#if IO_VOLUME
 			Text[0].io_write+=sizeof(t_GSA)*H->size_out_buffer;
 		#endif
@@ -570,9 +577,11 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 		}
 		size_t io_sum=io_write_sum+io_read_sum;
 		
-		printf("I/O)\t%zu\n", io_sum);
-		printf("read\t%zu\n", io_read_sum);
-		printf("write\t%zu\n", io_write_sum);
+    if(VERBOSE){
+      printf("I/O)\t%zu\n", io_sum);
+      printf("read\t%zu\n", io_read_sum);
+      printf("write\t%zu\n", io_write_sum);
+    }
 	#endif 
 
 	i = 0;

@@ -1,11 +1,11 @@
 #include "egsa.h"
 
 /**********************************************************************/
-int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE){
+int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE, unsigned VERBOSE, unsigned COMPUTE_BWT){
 
 	time_t t_start, t_total;
 	clock_t c_start, c_total;
-	
+
 	int_text total;
 	size_t n=1;
 
@@ -47,7 +47,7 @@ int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE){
 	c_start =  clock();
 	
 	printf("\n### PHASE 2 ###\n");	
-	esa_merge(Text, K, &size, c_file, total, COUNT, n);
+	esa_merge(Text, K, &size, c_file, total, COUNT, n, VERBOSE, COMPUTE_BWT);
 	
 	time_stop(t_start, c_start);
 
