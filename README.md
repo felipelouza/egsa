@@ -1,12 +1,12 @@
 # egsa tool
 
-This software is the implementation of eGSA \[1,2\] [link](https://doi.org/10.1186/s13015-017-0117-9), an external memory algorithm to construct generalized enhanced suffix arrays.
+This software is the implementation of eGSA \[1,2\] [ALMOB](https://doi.org/10.1186/s13015-017-0117-9), an external memory algorithm to construct generalized enhanced suffix arrays.
 
 Given a collection of K strings, eGSA outputs the:
 
 * Generalized suffix array 
 * LCP-array 
-* Burrows-Wheeler transform (optional)
+* Burrows-Wheeler transform.
 
 ## install
 
@@ -18,22 +18,19 @@ make
 
 ## run
 
-Given a collection of K strings concatenated in a single file FILE, type:
+Given a collection of K strings concatenated in a single file INPUT in the directory DIR.
 
 ```sh
 ./egsa [options] FILE K
-```
 
 Available options:
-
-```sh
--h	this help message
--b	output BWT (ext: .bwt)
--c	check GSA and LCP
--v	verbose output (more v's for more verbose)
+	-h    this help message
+  -b    output BWT (ext: .bwt)
+	-c    check SA and LCP
+	-v    verbose output (more v's for more verbose)
 ```
 
-_Notes_
+_notes_
 
 * K=0 gives all strings as input.
 * Supported extensions are: _.txt_, _.fasta_ and _.fastq_.
@@ -59,9 +56,6 @@ Temporary files are stored in subfolders:
 partition/
 tmp/
 ```
-**Examples**
-
-One could find examples in _dataset_ folder, at least one for each setting mode.
 
 ## options
 
@@ -81,7 +75,7 @@ make compile MEMLIMIT=10
 
 ```
 
-**debug**
+## debug
 
 To see a more detailed execution output use:
 
@@ -90,16 +84,24 @@ make clean
 make compile DEBUG=1
 ```
 
-## external resources:
+
+One can check if the output produced by egsa is correct:
+
+```sh
+make clean
+make run CHECK=1
+```
+
+## external resources
 
 We have included the source codes of the following algorithms: 
 
 * gsaca-k: generalized suffix array construction algorithm \[3\]
 * lcp-PHI: LCP-array construction algorithm given the suffix array \[4\]
 
-# Citation
+## citation
 
-Please, if you use egsa tool in an academic setting cite the following paper [1](http://dblp.uni-trier.de/rec/bibtex/journals/almob/LouzaTHC17):
+Please, if you use egsa tool in an academic setting cite the following paper \[1\]:
 
 	@article{Louza2017d,
 		author = {Louza, Felipe A. and Telles, Guilherme P. and Hoffmann, Steve and Ciferri, Cristina D. A.},
@@ -110,18 +112,17 @@ Please, if you use egsa tool in an academic setting cite the following paper [1]
 		doi = {10.1186/s13015-017-0117-9}
 	}
 
-## References
-
+## references
 
 \[1\] Louza, F. A., Telles, G. P., Hoffmann, S., Ciferri, C. D. A. (2017). Generalized enhanced suffix array construction in external memory. Algorithms for Molecular Biology 12(1): 26:1-26:16. [link](https://almob.biomedcentral.com/articles/10.1186/s13015-017-0117-9)  
 
-\[2\] Louza, F. A., Telles, G. P., Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201-210). [link](https://doi.org/10.1007/978-3-642-38905-4_20)
+\[2\] Louza, F. A., Telles, G. P., Ciferri, C. D. A. (2013). External Memory Generalized Suffix and LCP Arrays Construction. In Proc. CPM  (pp. 201-210).
 
-\[3\] Louza, F. A., Gog, S., Telles, G. P. (2016). Inducing enhanced suffix arrays for string collections. Theor. Comput. Sci. 678: 22-39, [github](https://github.com/felipelouza/gsa-is).
+\[3\] Louza, F. A., Gog, S., Telles, G. P. (2016). Inducing enhanced suffix arrays for string collections. Theor. Comput. Sci. 678: 22-39, [github](https://github.com/felipelouza/gsa-is)
 
 \[4\] Kärkkäinen, J., Manzini, G., & Puglisi, S. J. (2009). Permuted Longest-Common-Prefix Array. In G. Kucherov & E. Ukkonen (Eds.), Proc. CPM (Vol. 5577, pp. 181–192).
 
-## Thanks:
+## thanks
 
 Thanks to Fabio Garofalo, [Giovanna Rosone](https://github.com/giovannarosone), [Giovanni Manzini](https://github.com/giovmanz) and Guilherme P. Telles by helpful suggestions and debugging.
 
