@@ -1,6 +1,6 @@
 # egsa tool
 
-This software is the implementation of eGSA \[[1](https://doi.org/10.1186/s13015-017-0117-9), [2](https://doi.org/10.1007/978-3-642-38905-4_20)\], an external memory algorithm to construct generalized enhanced suffix arrays.
+This software is the implementation of **eGSA** \[[1](https://doi.org/10.1186/s13015-017-0117-9), [2](https://doi.org/10.1007/978-3-642-38905-4_20)\], an **external memory** algorithm to construct **generalized enhanced suffix arrays**.
 
 Given a collection of K strings, eGSA outputs the:
 
@@ -54,10 +54,9 @@ FILE.K.bwt
 
 _Notes_
 
-The output binary FILE.K.gesa can be read as a **struct type** according to the typedef in: [lib/utils.h](https://github.com/felipelouza/egsa/blob/master/lib/utils.h#L45)
+* The output binary FILE.K.gesa can be read as a **struct type** according to the typedef in: [lib/utils.h](https://github.com/felipelouza/egsa/blob/master/lib/utils.h#L45)
 
-
-Temporary files are stored in subfolders:
+* Temporary files are stored in subfolders:
 
 ```sh
 partition/
