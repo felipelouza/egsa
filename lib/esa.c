@@ -562,7 +562,9 @@ int esa_merge(t_TEXT *Text, int_text k, size_t *size, char* c_file, int_text tot
 	
 	#if _OUTPUT_BUFFER
 		fwrite(H->out_buffer, sizeof(t_GSA), H->size_out_buffer, H->f_out_ESA);//fflush out_buffer
-    fwrite(H->out_buffer_bwt, sizeof(int8), H->size_out_buffer, H->f_out_BWT);//fflush out_buffer
+    if(H->compute_bwt){
+			fwrite(H->out_buffer_bwt, sizeof(int8), H->size_out_buffer, H->f_out_BWT);//fflush out_buffer
+		}
 		#if IO_VOLUME
 			Text[0].io_write+=sizeof(t_GSA)*H->size_out_buffer;
 		#endif

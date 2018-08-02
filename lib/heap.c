@@ -83,16 +83,16 @@ heap* heap_alloc_induced(int k, char *c_file, int_text total, int_suff* COUNT, s
 	
 	fseek(h->f_out_ESA , 0 , SEEK_SET);	
 
-	if(COMPUTE_BWT){
+	if(h->compute_bwt){
 		char c_out_bwt[FILE_NAME];
     
     if(total) sprintf(c_out_bwt, "%s.%d.bwt", c_file, total);
     else sprintf(c_out_bwt, "%s.bwt", c_file);
 
 		h->f_out_BWT = fopen(c_out_bwt, "w");
-	        if(!h->f_out_BWT) perror("heap_alloc_induced(h->f_out_BWT)");
+	  if(!h->f_out_BWT) perror("heap_alloc_induced(h->f_out_BWT)");
 	
-	        fseek(h->f_out_BWT, 0 , SEEK_SET);
+	  fseek(h->f_out_BWT, 0 , SEEK_SET);
   }
 	
 return h;
