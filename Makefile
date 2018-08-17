@@ -72,7 +72,7 @@ $(LIB_DIR)/lcp.o	: $(LIBH)
 ##
 
 compile: main.c ${LIBOBJ} $(LIB_DIR)/defines.h $(LIB_DIR)/utils.h
-	$(CC) $(LIBOBJ) $(CFLAGS) main.c -o egsa
+	$(CC) $(LIBOBJ) main.c -o egsa $(CFLAGS) 
 
 run: egsa
 	./egsa $(DIR)$(INPUT) $(K) -c 
