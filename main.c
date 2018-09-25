@@ -1,3 +1,4 @@
+// vim: noai:ts=2:sw=2
 /***********************************************************************
 
 egsa: External Generalized Suffix Array Construction Algorithm 

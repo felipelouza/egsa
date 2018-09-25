@@ -120,5 +120,5 @@ Please, if you use egsa tool in an academic setting cite the following paper \[1
 
 ## thanks
 
-Thanks to Fabio Garofalo, [Giovanna Rosone](https://github.com/giovannarosone), [Giovanni Manzini](https://github.com/giovmanz) and Guilherme P. Telles by helpful suggestions and debugging.
+Thanks to Fabio Garofalo, [Giovanna Rosone](https://github.com/giovannarosone), [Giovanni Manzini](https://github.com/giovmanz), [Nicola Prezza](https://github.com/nicolaprezza) and Guilherme P. Telles by helpful suggestions and debugging.
 
