@@ -85,8 +85,15 @@ int main(int argc, char **argv) {
   }
   else  usage(argv[0]);
   
-  c_file= strrchr(c_input, '/')+1;
-  c_dir = strndup(c_input, strlen(c_input)-strlen(c_file));
+  c_file= strrchr(c_input, '/');
+	if(c_file){
+		c_file++;
+		c_dir = strndup(c_input, strlen(c_input)-strlen(c_file));
+	}
+	else{
+		c_file = c_input;
+		c_dir = "./";
+	}
   
   printf("SIGMA = %d\n", SIGMA);
   printf("DIR = %s\n", c_dir);
