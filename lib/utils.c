@@ -114,7 +114,8 @@ void check(t_TEXT *Text, int_text n, char* c_file, int_text total){
 	t_TEXT *t_Aux = (t_TEXT*) malloc(sizeof(t_TEXT));
 	
 	t_Aux->c_file = (char*) malloc(sizeof(char)*FILE_NAME);
-	sprintf(t_Aux->c_file, "%s.%d", c_file, total);
+	if(total)	sprintf(t_Aux->c_file, "%s.%d", c_file, total);
+	else sprintf(t_Aux->c_file, "%s", c_file);
 	
 	t_Aux->block_esa_size = BLOCK_ESA_SIZE;
 	

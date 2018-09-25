@@ -66,6 +66,7 @@ int egsa(char *c_dir, char* c_file, int_text K, unsigned VALIDATE, unsigned VERB
 		c_start =  clock();
 		
 		printf("\n### VALIDATION ###\n");
+
 		check(Text, K, c_file, total);
 
 		time_stop(t_start, c_start);
