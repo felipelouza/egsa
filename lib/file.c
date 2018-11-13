@@ -21,8 +21,8 @@ int file_chdir(char* dir){
 	//printf("change to: %s\n", dir);
 	
 	//char* oldwd = getcwd(NULL,0);
-	char *tmp = malloc(sizeof(char)*max_path_len);
-	char* oldwd = getcwd(tmp,max_path_len);
+	char *tmp = malloc(sizeof(char)*4096);
+	char* oldwd = getcwd(tmp,4096);
 	if (!oldwd) die(__func__);
 	if (chdir(dir) == -1) die(__func__);
 
