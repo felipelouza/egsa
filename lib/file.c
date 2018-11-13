@@ -20,7 +20,9 @@ int file_chdir(char* dir){
 
 	//printf("change to: %s\n", dir);
 	
-	char* oldwd = getcwd(NULL,0);
+	//char* oldwd = getcwd(NULL,0);
+	char *tmp = malloc(sizeof(char)*max_path_len);
+	char* oldwd = getcwd(tmp,max_path_len);
 	if (!oldwd) die(__func__);
 	if (chdir(dir) == -1) die(__func__);
 
