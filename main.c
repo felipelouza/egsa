@@ -104,6 +104,9 @@ int main(int argc, char **argv) {
   printf("CHECK = %d\n", VALIDATE);
   printf("COMPUTE_BWT = %d\n", COMPUTE_BWT);
   printf("WORKSPACE = %d.n bytes\n", WORKSPACE);
+  #if MAC_OS
+    printf("MAC_OS == %d\n", MAC_OS);
+  #endif
     
   if(VERBOSE){
     print_config();

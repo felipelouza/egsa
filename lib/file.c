@@ -1,5 +1,11 @@
 #include "file.h"
 
+#define BUFFER_SIZE 4098
+
+#ifndef MAC_OS
+  #define MAC_OS 0
+#endif
+
 /**********************************************************************/
 
 /* Returns the file extension
@@ -80,16 +86,28 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text *k) {
 			break;		
 		}
 		
-		size_t len = 0;
-
-		/**/
-		unsigned char *c_buffer = NULL; len=0;
-		size = getline((char **)&c_buffer, &len, f_in); // read line
-		if(size<=1){
-			i--;
-			free(c_buffer);		
-			continue;
-		}
+    #if MAC_OS
+  		char c_buffer[BUFFER_SIZE];
+      fgets(c_buffer, BUFFER_SIZE, f_in);
+      size=strlen(c_buffer);
+		  if(feof(f_in)){
+			  i--;
+			  continue;
+      }
+    #else
+		  size_t len = 0;
+  		unsigned char *c_buffer = NULL; len=0;
+	  	size = getline((char **)&c_buffer, &len, f_in); // read line  
+		  if(size<=1){
+		  	i--;
+		  	free(c_buffer);		
+		  	continue;
+		  }
+    #endif
+    
+    #if DEBUG
+    printf("==> %s", c_buffer);
+    #endif
 		
 		c_buffer[size-1] = 0;
 		sum += size;
@@ -117,7 +135,9 @@ int_text load_multiple_txt(FILE* f_in, char *c_file, int_text *k) {
 
 		//fwrite(c_buffer, sizeof(int8), size, f_out);
 
-		free(c_buffer);		
+    #if MAC_OS==0
+		  free(c_buffer);
+    #endif
 		
 		if (feof(f_in)){
 			//return 0;
@@ -157,21 +177,40 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text *k){
 			break;		
 		}
 		
-		size_t len = 0;
-		char *buf = NULL;
 
-		size = getline(&buf, &len, f_in); // @'s line
-    if (size <= 1){ //number of strings less than k
-			free(buf);
-			*k = i;
-			break;		
-		}
-		free(buf);
+    #if MAC_OS
+  		char buf[BUFFER_SIZE];
+      fgets(buf, BUFFER_SIZE, f_in);
+		  if(feof(f_in)){
+		  	*k = i;
+		  	break;		
+      }
+    #else
+		  size_t len = 0;
+		  char *buf = NULL;
+		  size = getline(&buf, &len, f_in); // @'s line
+      if (size <= 1){ //number of strings less than k
+		  	free(buf);
+		  	*k = i;
+		  	break;		
+		  }
+		  free(buf);
+    #endif
 
 		/**/
-    char *c_buffer = NULL; len=0;
-		size = getline(&c_buffer, &len, f_in); // read line
+    #if MAC_OS
+      char c_buffer[BUFFER_SIZE];
+      fgets(c_buffer, BUFFER_SIZE, f_in);
+      size=strlen(c_buffer);
+    #else
+      char *c_buffer = NULL; len=0;
+		  size = getline(&c_buffer, &len, f_in); // read line
+    #endif
 	  c_buffer[size-1] = 0;
+
+    #if DEBUG
+    printf("==> %s\n", c_buffer);
+    #endif
 
     sum += size;
 
@@ -188,18 +227,22 @@ int_text load_multiple_fastq(FILE* f_in, char *c_file, int_text *k){
 			f_out = fopen(c_aux, "wb");		
 			if (!f_out) perror ("write_sequence");
 		}
-	
-	
+		
 		fwrite(c_buffer, sizeof(int8), size, f_out);
 
-		buf=NULL; len=0;
-		getline(&buf, &len, f_in); // +'s line
-		free(buf);
-		buf=NULL; len=0;
-		getline(&buf, &len, f_in); // @'s line
+    #if MAC_OS
+      fgets(buf, BUFFER_SIZE, f_in);
+      fgets(buf, BUFFER_SIZE, f_in);
+    #else
+		  buf=NULL; len=0;
+		  getline(&buf, &len, f_in); // +'s line
+		  free(buf);
+		  buf=NULL; len=0;
+		  getline(&buf, &len, f_in); // @'s line
 
-		free(buf);
-		free(c_buffer);	
+		  free(buf);
+		  free(c_buffer);	
+    #endif
 	}
 
 	r++;
@@ -224,11 +267,16 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 	f_out = fopen(c_aux, "wb");		
 	if (!f_out) perror ("write_sequence");
 	
-	char *buf = NULL;
-	size_t len = 0;
-	
-	getline(&buf, &len, f_in);// first sequence '>'
-	free(buf);
+  size_t len = 0;
+
+  #if MAC_OS
+    char buf[BUFFER_SIZE];
+    fgets(buf, BUFFER_SIZE, f_in);
+  #else
+  	char *buf = NULL;
+  	getline(&buf, &len, f_in);// first sequence '>'
+  	free(buf);
+  #endif
 
 	int i;
  	for(i=0; i<*k; i++){
@@ -238,38 +286,51 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 			break;		
 		}
 		
-		len = 0;
 		int nalloc = 2048;
 		char *c_buffer = (char*) malloc(nalloc*sizeof(char));
 
 		size_t p=0;
-		buf=NULL; len=0;
-		while(getline(&buf, &len, f_in)!=-1){
+    #if MAC_OS
+      char buf[BUFFER_SIZE];
+      while(fgets(buf, BUFFER_SIZE, f_in)!=NULL){
+      len = strlen(buf);
+    #else
+		  buf=NULL; len=0;
+  		while(getline(&buf, &len, f_in)!=-1){
+    #endif
 
-			if(buf[0] == '>'){
-				break;
-			}
+			  if(buf[0] == '>'){
+			  	break;
+			  }
 
-			if(p+len>nalloc){
-				nalloc += len+2048;
-				c_buffer= realloc(c_buffer, sizeof(char) * nalloc);
-			}
+			  if(p+len>nalloc){
+			  	nalloc += len+2048;
+			  	c_buffer= realloc(c_buffer, sizeof(char) * nalloc);
+			  }
 
-			strcpy(&c_buffer[p], buf);
-			p+=strlen(buf)-1;
+			  strcpy(&c_buffer[p], buf);
+			  p+=strlen(buf)-1;
 
-			//breaks the string larger than the available memory
-			if(p>RAM_USE/WORKSPACE){
-			//printf("%d\t%zu: pruned string\n", i, p);
-				buf=NULL; len=0;
-				while(getline(&buf, &len, f_in)!=-1){
-				        if(buf[0] == '>') break;
-				}
-			break;
-			}
-		}
+			  //breaks the string larger than the available memory
+			  if(p>RAM_USE/WORKSPACE){
+			  //printf("%d\t%zu: pruned string\n", i, p);
+          #if MAC_OS
+  			    char buf[BUFFER_SIZE];	
+	  		  	while(fgets(buf, BUFFER_SIZE, f_in)!=NULL){
+          #else
+  			  	buf=NULL; len=0;
+	  		  	while(getline(&buf, &len, f_in)!=-1){
+          #endif
+			  	        if(buf[0] == '>') break;
+		  	  	}
+			  break;
+			  }
+		}//end while
 
-		free(buf);
+    #if MAC_OS == 0
+  		free(buf);
+    #endif
+
 		c_buffer[p++] = 0;
 		sum += p;
 
@@ -295,6 +356,9 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 			if(c_buffer[j]!='N') fwrite(&c_buffer[j], sizeof(int8), 1, f_out);
 			else sum--;
 */
+	  #if DEBUG
+      printf("==> %s\n", c_buffer);
+    #endif
 		fwrite(c_buffer, sizeof(int8), p, f_out);
 		free(c_buffer);
 	}

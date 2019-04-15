@@ -8,7 +8,7 @@ MY_CXX_OPT_FLAGS= -O3 -m64 -D_FILE_OFFSET_BITS=64
 
 LFLAGS = -lm -ldl
 
-LIBOBJ = external/malloc_count/malloc_count.o\
+LIBOBJ =	external/malloc_count/malloc_count.o\
 		external/gsaca-k.o\
 		$(LIB_DIR)/utils.o\
 		$(LIB_DIR)/file.o\
@@ -23,6 +23,10 @@ MEMLIMIT = 2048
 ##
 
 DEFINES = -DDEBUG=$(DEBUG) -DBWT=$(BWT) -DMEMLIMIT=$(MEMLIMIT) 
+
+ifeq ($(mac_os),1)
+DEFINES+=-DMAC_OS
+endif
 
 CFLAGS = $(MY_CXX_OPT_FLAGS) $(CWARNING) $(LFLAGS) $(VLIB) $(DEFINES)
 
