@@ -6,7 +6,7 @@ CWARNING =  -Wall -Wno-implicit-function-declaration -Wno-unused-result
 MY_CXX_OPT_FLAGS= -O3 -m64 -D_FILE_OFFSET_BITS=64
 #-fomit-frame-pointer -ffast-math -funroll-loops 
 
-LFLAGS = -lm -ldl
+LFLAGS = -lm -ldl -g
 
 LIBOBJ =	external/malloc_count/malloc_count.o\
 		external/gsaca-k.o\
