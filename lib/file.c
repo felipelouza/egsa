@@ -3,7 +3,7 @@
 #define BUFFER_SIZE 4098
 
 #ifndef MAC_OS
-  #define MAC_OS 0
+  #define MAC_OS 1
 #endif
 
 /**********************************************************************/

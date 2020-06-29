@@ -15,3 +15,5 @@ dataset/reads-10000.fastq
 tests/
 scripts/tmp/
 scripts/convert_fasta
+.vscode/
+egsa.dSYM/
