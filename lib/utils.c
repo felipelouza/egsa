@@ -451,7 +451,7 @@ return 1;
 int check_sa(int_suff *SA, size_t length, t_TEXT *Text) {
 
 	unsigned i;
-	char *b = (char*) malloc(length*sizeof(char));
+	char *b = (char*) malloc((length+1)*sizeof(char));
 	
 	for (i=0; i<length; i++) b[i]=0;
 	

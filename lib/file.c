@@ -3,7 +3,7 @@
 #define BUFFER_SIZE 4098
 
 #ifndef MAC_OS
-  #define MAC_OS 1
+  #define MAC_OS 0
 #endif
 
 /**********************************************************************/
@@ -286,12 +286,12 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 			break;		
 		}
 		
-		int nalloc = 2048;
+		size_t nalloc = BUFFER_SIZE;
 		char *c_buffer = (char*) malloc(nalloc*sizeof(char));
 
 		size_t p=0;
     #if MAC_OS
-      char buf[BUFFER_SIZE];
+      char buf[BUFFER_SIZE+1];
       while(fgets(buf, BUFFER_SIZE, f_in)!=NULL){
       len = strlen(buf);
     #else
@@ -304,12 +304,17 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
 			  }
 
 			  if(p+len>nalloc){
-			  	nalloc += len+2048;
-			  	c_buffer= realloc(c_buffer, sizeof(char) * nalloc);
+			  	nalloc += len+128;
+			  	c_buffer= (char*) realloc(c_buffer, sizeof(char) * nalloc);
 			  }
 
 			  strcpy(&c_buffer[p], buf);
-			  p+=strlen(buf)-1;
+        #if MAC_OS
+			    p+=strlen(buf);
+        #else
+			    p+=strlen(buf)-1;
+        #endif
+
 
 			  //breaks the string larger than the available memory
 			  if(p>RAM_USE/WORKSPACE){
@@ -321,13 +326,15 @@ int_text load_multiple_fasta(FILE* f_in, char *c_file, int_text *k){
   			  	buf=NULL; len=0;
 	  		  	while(getline(&buf, &len, f_in)!=-1){
           #endif
-			  	        if(buf[0] == '>') break;
+			  	    if(buf[0] == '>') break;
 		  	  	}
 			  break;
 			  }
 		}//end while
 
-    #if MAC_OS == 0
+    #if MAC_OS
+      p--;
+    #else
   		free(buf);
     #endif
 
